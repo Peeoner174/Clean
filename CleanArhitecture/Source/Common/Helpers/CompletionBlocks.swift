@@ -12,4 +12,3 @@ typealias EmptyCompletion = (() -> Void)?
 
 typealias ResultHandlerCompletion<T> = ((Result<T, Error>) -> Void)
 
-//
