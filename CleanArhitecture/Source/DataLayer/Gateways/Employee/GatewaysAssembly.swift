@@ -12,7 +12,7 @@ final class GatewaysAssembly: Assembly {
     
     var employeeListGateway: EmployeeListGateway {
         return define(
-            scope: .prototype,
+            scope: .prototype,      
             init: EmployeeListGatewayImp()
         )
     }

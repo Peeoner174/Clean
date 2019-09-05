@@ -14,6 +14,13 @@
 		6E17A9A8231F6BB8009FC993 /* Employee2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6E17A9A5231F6BB8009FC993 /* Employee2.jpg */; };
 		6E17A9A9231F6BB8009FC993 /* Employee1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6E17A9A6231F6BB8009FC993 /* Employee1.jpg */; };
 		6E17A9AB231F6E84009FC993 /* Employee0.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6E17A9AA231F6E84009FC993 /* Employee0.jpg */; };
+		6E5C058B2321678D00A3C9F4 /* DeviceServicesAccessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5C058A2321678D00A3C9F4 /* DeviceServicesAccessor.swift */; };
+		6E5C058D232167D400A3C9F4 /* DeviceServicesAccessorImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5C058C232167D400A3C9F4 /* DeviceServicesAccessorImpl.swift */; };
+		6E5C059023216E6E00A3C9F4 /* PopOverPresentationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5C058F23216E6E00A3C9F4 /* PopOverPresentationDelegate.swift */; };
+		6E5C059223216E8700A3C9F4 /* PopOverPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5C059123216E8700A3C9F4 /* PopOverPresentationController.swift */; };
+		6E5C059423216EA100A3C9F4 /* PopOverAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5C059323216EA000A3C9F4 /* PopOverAnimator.swift */; };
+		6E5C059923217E1800A3C9F4 /* PopOverContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5C059823217E1800A3C9F4 /* PopOverContainerView.swift */; };
+		6E5C059F23218AAD00A3C9F4 /* PopOverPresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5C059E23218AAD00A3C9F4 /* PopOverPresentable.swift */; };
 		6E6185E5231DC553003B002A /* RealmDBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6185E4231DC553003B002A /* RealmDBManager.swift */; };
 		6E6185E9231DCB81003B002A /* UseCasesAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6185E8231DCB81003B002A /* UseCasesAssembly.swift */; };
 		6E8B3CDF231BA7F4009EEF59 /* AppDelegateFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B3CDE231BA7F4009EEF59 /* AppDelegateFactory.swift */; };
@@ -60,6 +67,13 @@
 		6E17A9A5231F6BB8009FC993 /* Employee2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Employee2.jpg; sourceTree = "<group>"; };
 		6E17A9A6231F6BB8009FC993 /* Employee1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Employee1.jpg; sourceTree = "<group>"; };
 		6E17A9AA231F6E84009FC993 /* Employee0.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Employee0.jpg; sourceTree = "<group>"; };
+		6E5C058A2321678D00A3C9F4 /* DeviceServicesAccessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceServicesAccessor.swift; sourceTree = "<group>"; };
+		6E5C058C232167D400A3C9F4 /* DeviceServicesAccessorImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceServicesAccessorImpl.swift; sourceTree = "<group>"; };
+		6E5C058F23216E6E00A3C9F4 /* PopOverPresentationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopOverPresentationDelegate.swift; sourceTree = "<group>"; };
+		6E5C059123216E8700A3C9F4 /* PopOverPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopOverPresentationController.swift; sourceTree = "<group>"; };
+		6E5C059323216EA000A3C9F4 /* PopOverAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopOverAnimator.swift; sourceTree = "<group>"; };
+		6E5C059823217E1800A3C9F4 /* PopOverContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopOverContainerView.swift; sourceTree = "<group>"; };
+		6E5C059E23218AAD00A3C9F4 /* PopOverPresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopOverPresentable.swift; sourceTree = "<group>"; };
 		6E6185E4231DC553003B002A /* RealmDBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmDBManager.swift; sourceTree = "<group>"; };
 		6E6185E8231DCB81003B002A /* UseCasesAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCasesAssembly.swift; sourceTree = "<group>"; };
 		6E8B3CDE231BA7F4009EEF59 /* AppDelegateFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateFactory.swift; sourceTree = "<group>"; };
@@ -151,6 +165,67 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		6E5C05892321676200A3C9F4 /* DeviceServicesAccessor */ = {
+			isa = PBXGroup;
+			children = (
+				6E5C058A2321678D00A3C9F4 /* DeviceServicesAccessor.swift */,
+				6E5C058C232167D400A3C9F4 /* DeviceServicesAccessorImpl.swift */,
+			);
+			path = DeviceServicesAccessor;
+			sourceTree = "<group>";
+		};
+		6E5C058E23216DE300A3C9F4 /* PopOver */ = {
+			isa = PBXGroup;
+			children = (
+				6E5C059C23218A8700A3C9F4 /* Presentable */,
+				6E5C059B23218A3B00A3C9F4 /* Delegate */,
+				6E5C059A23218A2200A3C9F4 /* Controller */,
+				6E5C059723217DF400A3C9F4 /* View */,
+				6E5C059623217DE900A3C9F4 /* Animator */,
+			);
+			path = PopOver;
+			sourceTree = "<group>";
+		};
+		6E5C059623217DE900A3C9F4 /* Animator */ = {
+			isa = PBXGroup;
+			children = (
+				6E5C059323216EA000A3C9F4 /* PopOverAnimator.swift */,
+			);
+			path = Animator;
+			sourceTree = "<group>";
+		};
+		6E5C059723217DF400A3C9F4 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				6E5C059823217E1800A3C9F4 /* PopOverContainerView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		6E5C059A23218A2200A3C9F4 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				6E5C059123216E8700A3C9F4 /* PopOverPresentationController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		6E5C059B23218A3B00A3C9F4 /* Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				6E5C058F23216E6E00A3C9F4 /* PopOverPresentationDelegate.swift */,
+			);
+			path = Delegate;
+			sourceTree = "<group>";
+		};
+		6E5C059C23218A8700A3C9F4 /* Presentable */ = {
+			isa = PBXGroup;
+			children = (
+				6E5C059E23218AAD00A3C9F4 /* PopOverPresentable.swift */,
+			);
+			path = Presentable;
+			sourceTree = "<group>";
+		};
 		6E6185D8231DBA3C003B002A /* Employee */ = {
 			isa = PBXGroup;
 			children = (
@@ -203,6 +278,8 @@
 		6E6185DF231DC1A6003B002A /* CoreLayer */ = {
 			isa = PBXGroup;
 			children = (
+				6E5C058E23216DE300A3C9F4 /* PopOver */,
+				6E5C05892321676200A3C9F4 /* DeviceServicesAccessor */,
 				6E6185E6231DC879003B002A /* DataManager */,
 			);
 			path = CoreLayer;
@@ -683,6 +760,7 @@
 				6ED7C380231E49D300662C6A /* EmployeeListUsecaseImp.swift in Sources */,
 				CE8F041B2013C2A30061F034 /* AppDelegate.swift in Sources */,
 				6ED7C379231E337C00662C6A /* EmployeeListUsecase.swift in Sources */,
+				6E5C058B2321678D00A3C9F4 /* DeviceServicesAccessor.swift in Sources */,
 				6E8B3CEC231C17E0009EEF59 /* Constants.swift in Sources */,
 				CE3CBA0B2013DFAB00D4DF0E /* Employee.swift in Sources */,
 				A7A3687996D31F37023DB15D /* EmployeeListViewInput.swift in Sources */,
@@ -691,14 +769,18 @@
 				CE3CBA252014868100D4DF0E /* EmployeeBaseInfoCell.swift in Sources */,
 				6E8B3CE3231BAA12009EEF59 /* StartupConfiguratorAppDelegate.swift in Sources */,
 				6E8B3CDF231BA7F4009EEF59 /* AppDelegateFactory.swift in Sources */,
+				6E5C059023216E6E00A3C9F4 /* PopOverPresentationDelegate.swift in Sources */,
 				6E8B3CE1231BA846009EEF59 /* CompositeAppDelegate.swift in Sources */,
+				6E5C059923217E1800A3C9F4 /* PopOverContainerView.swift in Sources */,
 				0A0BF14C799C3A3BC4C4BBE4 /* EmployeeListViewController.swift in Sources */,
 				CE3CBA1E2014769E00D4DF0E /* EmployeeBaseCellModel.swift in Sources */,
 				CE3CBA062013DF3500D4DF0E /* EmployeeListGateway.swift in Sources */,
 				6ED7C38A231E67B400662C6A /* EmployeeListPresenter.swift in Sources */,
 				6ED7C382231E536B00662C6A /* CompletionBlocks.swift in Sources */,
+				6E5C058D232167D400A3C9F4 /* DeviceServicesAccessorImpl.swift in Sources */,
 				260504EC37ED20E04CBCB3A0 /* EmployeeListPresenterImpl.swift in Sources */,
 				CE3CBA162013E4FE00D4DF0E /* ModelRepresentable.swift in Sources */,
+				6E5C059423216EA100A3C9F4 /* PopOverAnimator.swift in Sources */,
 				CE3CBA29201487ED00D4DF0E /* EmployeeWorkplaceCell.swift in Sources */,
 				CE3CBA1C2014759900D4DF0E /* EmployeeBaseInfoCellModel.swift in Sources */,
 				CE3CBA2D201488E900D4DF0E /* EmployeeSectionModel.swift in Sources */,
@@ -714,8 +796,10 @@
 				CE3CBA22201485BC00D4DF0E /* ButtonCellModel.swift in Sources */,
 				CE3CBA082013DF8A00D4DF0E /* EmployeeListGatewayImp.swift in Sources */,
 				6E6185E9231DCB81003B002A /* UseCasesAssembly.swift in Sources */,
+				6E5C059F23218AAD00A3C9F4 /* PopOverPresentable.swift in Sources */,
 				CE3CBA272014868F00D4DF0E /* EmployeeBaseCell.swift in Sources */,
 				D5999091E141199DB95EEC2F /* EmployeeListInitializer.swift in Sources */,
+				6E5C059223216E8700A3C9F4 /* PopOverPresentationController.swift in Sources */,
 				CE3CBA2B2014883E00D4DF0E /* ButtonCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
