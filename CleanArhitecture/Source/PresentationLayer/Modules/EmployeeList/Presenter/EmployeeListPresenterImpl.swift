@@ -6,6 +6,8 @@
 //  Copyright © 2019 IA. All rights reserved.
 //
 
+import UIKit
+
 class EmployeeListPresenterImpl {
 
     weak var view: EmployeeListViewInput!
@@ -26,6 +28,16 @@ extension EmployeeListPresenterImpl: EmployeeSectionModelDelegate {
     }
     
     func didTapCall(withPhone phoneNumber: String) {
+        let presentedVC = EmployeeListViewController.instantiate()
+        let presentation = SlidePresentation(direction: .bottom, uiConfiguration: PresentationUIConfiguration())
+        
+        PopOverManager.present(
+            vc: presentedVC,
+            in: self.view as! UIViewController,
+            presentation: presentation,
+            frameOfPresentedView: nil
+        )
+
         print("Will call to \(phoneNumber)")
     }
 }

@@ -8,15 +8,24 @@
 
 import UIKit
 
-typealias Presentation = PresentationUIConfigurationProvider & PresentationAnimatorProvider
+@objc
+public protocol PopOverPresentationDelegate: UIViewControllerTransitioningDelegate {
+    func frameOfPresentedView(in containerViewFrame: CGRect) -> CGRect
+    @objc optional func didDismiss()
+}
 
-final class PopOverPresentationDelegate: NSObject {
+typealias Presentation = PresentationUIConfigurationProvider & PresentationAnimatorProvider
+typealias FrameOfPresentedViewClosure = ((_ containerViewFrame: CGRect) -> CGRect)?
+
+final class PopOverPresentationDelegateImpl: NSObject {
     private var presentation: Presentation
     private var currentPresentationController: PopOverPresentationController!
     private weak var presentedViewController: UIViewController!
+    private var frameOfPresentedView: FrameOfPresentedViewClosure
 
-    public init(presentation: Presentation) {
+    public init(presentation: Presentation, frameOfPresentedView: FrameOfPresentedViewClosure) {
         self.presentation = presentation
+        self.frameOfPresentedView = frameOfPresentedView
         super.init()
     }
     
@@ -25,10 +34,12 @@ final class PopOverPresentationDelegate: NSObject {
         presentedViewController.transitioningDelegate = self
         self.presentedViewController = presentedViewController
     }
-    
 }
 
-extension PopOverPresentationDelegate: UIViewControllerTransitioningDelegate {
+extension PopOverPresentationDelegateImpl: PopOverPresentationDelegate {
+    func frameOfPresentedView(in containerViewFrame: CGRect) -> CGRect {
+        return frameOfPresentedView?(containerViewFrame) ?? containerViewFrame
+    }
     
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         let presentationController = PopOverPresentationController(presentedVС: presented, presentingVC: presenting, presentation: presentation)
@@ -43,7 +54,6 @@ extension PopOverPresentationDelegate: UIViewControllerTransitioningDelegate {
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return presentation.dismissAnimator
     }
-    
 }
 
 

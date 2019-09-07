@@ -10,6 +10,7 @@ import UIKit
 
 final class PopOverPresentationController: UIPresentationController {
     private let presentation: Presentation
+    //weak public var sizeDelegate:
     
     // MARK: - Views
     var backgroundView: BackgroundDesignable {
@@ -19,11 +20,15 @@ final class PopOverPresentationController: UIPresentationController {
             view = DimmedView(dimAlpha: alpha)
         case .blurred(effectStyle: let effectStyle):
             view = BluredView(effectStyle: effectStyle)
+        case .clear(shouldPassthrough: let shouldPassthrough):
+            view = PassthroughBackgroundView(shouldPassthrough: shouldPassthrough)
         }
         
         view.didTap = { [weak self] _ in
             self?.dismissPresentedViewController()
         }
+        
+        return view
     }
     
     func dismissPresentedViewController() {
@@ -72,9 +77,9 @@ final class PopOverPresentationController: UIPresentationController {
         }
         
         coordinator.animate(alongsideTransition: { [weak self] _ in
-            
+            self?.backgroundView.onPresent()
+            self?.presentedViewController.setNeedsStatusBarAppearanceUpdate()
         })
-        
     }
     
     override func dismissalTransitionWillBegin() {
@@ -83,26 +88,33 @@ final class PopOverPresentationController: UIPresentationController {
         }
         
         coordinator.animate(alongsideTransition: { [weak self] _ in
-            
+            self?.backgroundView.onDissmis()
+            self?.presentedViewController.setNeedsStatusBarAppearanceUpdate()
         })
     }
     
+    override var frameOfPresentedViewInContainerView: CGRect {
+        //return (sizeDelegate ?? self).frameOfPresentedView(in: containerView!.frame)
+        return CGRect(x: 0.0, y: 0.0, width: 0.0, height: 0.0)
+    }
 }
-
-
 
 extension PopOverPresentationController {
     
     func layoutBackgroundView(in containerView: UIView) {
-        containerView.addSubview(<#T##view: UIView##UIView#>)
+        containerView.insertSubview(backgroundView, at: 0)
+        // backgroundView.fillSuperview()
+        containerView.subviews.first?.fillView(containerView)
     }
     
     func layoutPresentedView(in: UIView) {
-     
+        containerView?.addSubview(presentedView)
+        presentedView.frame = frameOfPresentedViewInContainerView
     }
     
     func configureViewLayout() {
-        
+        let corners = presentation.presentationUIConfiguration.corners
+        let radius = presentation.presentationUIConfiguration.cornerRadius
+        presentedView.roundCorners(corners, radius: radius)
     }
-    
 }
