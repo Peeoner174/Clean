@@ -20,7 +20,6 @@
 		6E5C059223216E8700A3C9F4 /* PopOverPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5C059123216E8700A3C9F4 /* PopOverPresentationController.swift */; };
 		6E5C059423216EA100A3C9F4 /* PopOverAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5C059323216EA000A3C9F4 /* PopOverAnimator.swift */; };
 		6E5C059923217E1800A3C9F4 /* PopOverContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5C059823217E1800A3C9F4 /* PopOverContainerView.swift */; };
-		6E5C059F23218AAD00A3C9F4 /* PopOverPresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5C059E23218AAD00A3C9F4 /* PopOverPresentable.swift */; };
 		6E6185E5231DC553003B002A /* RealmDBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6185E4231DC553003B002A /* RealmDBManager.swift */; };
 		6E6185E9231DCB81003B002A /* UseCasesAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6185E8231DCB81003B002A /* UseCasesAssembly.swift */; };
 		6E8B3CDF231BA7F4009EEF59 /* AppDelegateFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B3CDE231BA7F4009EEF59 /* AppDelegateFactory.swift */; };
@@ -85,7 +84,6 @@
 		6E5C059123216E8700A3C9F4 /* PopOverPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopOverPresentationController.swift; sourceTree = "<group>"; };
 		6E5C059323216EA000A3C9F4 /* PopOverAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopOverAnimator.swift; sourceTree = "<group>"; };
 		6E5C059823217E1800A3C9F4 /* PopOverContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopOverContainerView.swift; sourceTree = "<group>"; };
-		6E5C059E23218AAD00A3C9F4 /* PopOverPresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopOverPresentable.swift; sourceTree = "<group>"; };
 		6E6185E4231DC553003B002A /* RealmDBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmDBManager.swift; sourceTree = "<group>"; };
 		6E6185E8231DCB81003B002A /* UseCasesAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCasesAssembly.swift; sourceTree = "<group>"; };
 		6E8B3CDE231BA7F4009EEF59 /* AppDelegateFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateFactory.swift; sourceTree = "<group>"; };
@@ -201,6 +199,7 @@
 		6E5C058E23216DE300A3C9F4 /* PopOver */ = {
 			isa = PBXGroup;
 			children = (
+				6EC82BF2232255C500DE156C /* Presentation */,
 				6EC82BF0232252BB00DE156C /* Model */,
 				6E5C059B23218A3B00A3C9F4 /* Delegate */,
 				6E5C059A23218A2200A3C9F4 /* Controller */,
@@ -241,14 +240,6 @@
 				6E5C058F23216E6E00A3C9F4 /* PopOverPresentationDelegate.swift */,
 			);
 			path = Delegate;
-			sourceTree = "<group>";
-		};
-		6E5C059C23218A8700A3C9F4 /* Presentable */ = {
-			isa = PBXGroup;
-			children = (
-				6E5C059E23218AAD00A3C9F4 /* PopOverPresentable.swift */,
-			);
-			path = Presentable;
 			sourceTree = "<group>";
 		};
 		6E6185D8231DBA3C003B002A /* Employee */ = {
@@ -358,21 +349,14 @@
 		6EC82BF0232252BB00DE156C /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				6EC82BF2232255C500DE156C /* Presentation */,
-				6EC82BF1232255A900DE156C /* Configutation */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		6EC82BF1232255A900DE156C /* Configutation */ = {
-			isa = PBXGroup;
-			children = (
-				6E5C059C23218A8700A3C9F4 /* Presentable */,
-				6EC82BFD232265E700DE156C /* Direction.swift */,
 				6EC82BFF2322660F00DE156C /* Duration.swift */,
 				6EC82C122322C29100DE156C /* TransitionType.swift */,
+				6EC82BFD232265E700DE156C /* Direction.swift */,
+				6EC82C0C232270AF00DE156C /* BackgroundStyle.swift */,
+				6EC82C0A2322705D00DE156C /* PresentationUIConfiguration.swift */,
+				6EC82BFB2322658E00DE156C /* PresentationTiming.swift */,
 			);
-			path = Configutation;
+			path = Model;
 			sourceTree = "<group>";
 		};
 		6EC82BF2232255C500DE156C /* Presentation */ = {
@@ -387,31 +371,12 @@
 		6EC82BF5232256B100DE156C /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				6EC82C092322703100DE156C /* Configuration */,
-				6EC82C082322702300DE156C /* Protocol */,
-			);
-			path = Common;
-			sourceTree = "<group>";
-		};
-		6EC82C082322702300DE156C /* Protocol */ = {
-			isa = PBXGroup;
-			children = (
 				6EC82BF6232256CD00DE156C /* PresentationAnimatorProvider.swift */,
 				6EC82C0423226E4A00DE156C /* PresentationTimingInformationProvider.swift */,
 				6EC82C0623226EFB00DE156C /* PresentationUIConfigurationProvider.swift */,
 				6EC82C0E2322719F00DE156C /* PresentationShowDirectionProvider.swift */,
 			);
-			path = Protocol;
-			sourceTree = "<group>";
-		};
-		6EC82C092322703100DE156C /* Configuration */ = {
-			isa = PBXGroup;
-			children = (
-				6EC82BFB2322658E00DE156C /* PresentationTiming.swift */,
-				6EC82C0A2322705D00DE156C /* PresentationUIConfiguration.swift */,
-				6EC82C0C232270AF00DE156C /* BackgroundStyle.swift */,
-			);
-			path = Configuration;
+			path = Common;
 			sourceTree = "<group>";
 		};
 		6ED7C37D231E47E900662C6A /* DataLayer */ = {
@@ -892,7 +857,6 @@
 				CE3CBA22201485BC00D4DF0E /* ButtonCellModel.swift in Sources */,
 				CE3CBA082013DF8A00D4DF0E /* EmployeeListGatewayImp.swift in Sources */,
 				6E6185E9231DCB81003B002A /* UseCasesAssembly.swift in Sources */,
-				6E5C059F23218AAD00A3C9F4 /* PopOverPresentable.swift in Sources */,
 				CE3CBA272014868F00D4DF0E /* EmployeeBaseCell.swift in Sources */,
 				D5999091E141199DB95EEC2F /* EmployeeListInitializer.swift in Sources */,
 				6E5C059223216E8700A3C9F4 /* PopOverPresentationController.swift in Sources */,

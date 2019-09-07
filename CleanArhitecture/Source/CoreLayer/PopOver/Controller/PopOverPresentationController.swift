@@ -9,20 +9,33 @@
 import UIKit
 
 final class PopOverPresentationController: UIPresentationController {
+    private let presentation: Presentation
     
     // MARK: - Views
-    
-    private lazy var backgroundView: UIView = {
+    var backgroundView: BackgroundDesignable {
+        let view: BackgroundDesignable
+        switch self.presentation.presentationUIConfiguration.backgroundStyle {
+        case .dimmed(alpha: let alpha):
+            view = DimmedView(dimAlpha: alpha)
+        case .blurred(effectStyle: let effectStyle):
+            view = BluredView(effectStyle: effectStyle)
+        }
         
-        return UIView(frame: .zero)
-    }()
+        view.didTap = { [weak self] _ in
+            self?.dismissPresentedViewController()
+        }
+    }
+    
+    func dismissPresentedViewController() {
+        presentedViewController.dismiss(animated: true, completion: nil)
+    }
     
     /**
      A wrapper around the presented view so that we can modify
      the presented view apperance without changing
      the presented view's properties
      */
-    private lazy var panContainerView: PopOverContainerView = {
+    private lazy var popOverContainerView: PopOverContainerView = {
         let frame = containerView?.frame ?? .zero
         return PopOverContainerView(presentedView: presentedViewController.view, frame: frame)
     }()
@@ -31,12 +44,13 @@ final class PopOverPresentationController: UIPresentationController {
      Override presented view to return the pan container wrapper
      */
     public override var presentedView: UIView {
-        return panContainerView
+        return popOverContainerView
     }
     
     // MARK: - Initializers
 
-    init(presentedVС: UIViewController, presentingVC: UIViewController?) {
+    init(presentedVС: UIViewController, presentingVC: UIViewController?, presentation: Presentation) {
+        self.presentation = presentation
         super.init(presentedViewController: presentedVС, presenting: presentingVC)
     }
     
@@ -79,8 +93,8 @@ final class PopOverPresentationController: UIPresentationController {
 
 extension PopOverPresentationController {
     
-    func  layoutBackgroundView(in: UIView) {
-        
+    func layoutBackgroundView(in containerView: UIView) {
+        containerView.addSubview(<#T##view: UIView##UIView#>)
     }
     
     func layoutPresentedView(in: UIView) {

@@ -28,10 +28,10 @@ public struct SlidePresentation: SlidePresentationParamsProvider {
 
 extension SlidePresentation: PresentationAnimatorProvider {
     public var showAnimator: UIViewControllerAnimatedTransitioning {
-        return SlideAnimator(presentationType: .show, presentation: self)
+        return SlideAnimator(transitionType: .presentation, presentation: self)
     }
     
     public var dismissAnimator: UIViewControllerAnimatedTransitioning {
-        return SlideAnimator(presentationType: .show, presentation: self)
+        return SlideAnimator(transitionType: .dismissal, presentation: self)
     }
 }

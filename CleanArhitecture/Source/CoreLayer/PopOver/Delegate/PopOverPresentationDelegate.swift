@@ -8,12 +8,22 @@
 
 import UIKit
 
+typealias Presentation = PresentationUIConfigurationProvider & PresentationAnimatorProvider
+
 final class PopOverPresentationDelegate: NSObject {
-    
-    var direction: PresentationDirection = .bottom
-    
-    override init() {
+    private var presentation: Presentation
+    private var currentPresentationController: PopOverPresentationController!
+    private weak var presentedViewController: UIViewController!
+
+    public init(presentation: Presentation) {
+        self.presentation = presentation
         super.init()
+    }
+    
+    public func prepare(presentedViewController: UIViewController) {
+        presentedViewController.modalPresentationStyle = .custom
+        presentedViewController.transitioningDelegate = self
+        self.presentedViewController = presentedViewController
     }
     
 }
@@ -21,15 +31,17 @@ final class PopOverPresentationDelegate: NSObject {
 extension PopOverPresentationDelegate: UIViewControllerTransitioningDelegate {
     
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-        return PopOverPresentationController(presentedVС: presented, presentingVC: presenting)
+        let presentationController = PopOverPresentationController(presentedVС: presented, presentingVC: presenting, presentation: presentation)
+        currentPresentationController = presentationController
+        return presentationController
     }
     
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return PopOverAnimator(transitionStyle: .presentation, direction: direction)
+        return presentation.showAnimator
     }
     
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return PopOverAnimator(transitionStyle: .dismissal, direction: direction)
+        return presentation.dismissAnimator
     }
     
 }
