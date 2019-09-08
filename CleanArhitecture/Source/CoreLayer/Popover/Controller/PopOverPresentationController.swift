@@ -10,10 +10,10 @@ import UIKit
 
 final class PopOverPresentationController: UIPresentationController {
     private let presentation: Presentation
-    //weak public var sizeDelegate:
+    private var popOverPresentationDelegate: PopOverPresentationDelegate?
     
     // MARK: - Views
-    var backgroundView: BackgroundDesignable {
+    private lazy var backgroundView: BackgroundDesignable = {
         let view: BackgroundDesignable
         switch self.presentation.presentationUIConfiguration.backgroundStyle {
         case .dimmed(alpha: let alpha):
@@ -21,7 +21,7 @@ final class PopOverPresentationController: UIPresentationController {
         case .blurred(effectStyle: let effectStyle):
             view = BluredView(effectStyle: effectStyle)
         case .clear(shouldPassthrough: let shouldPassthrough):
-            view = PassthroughBackgroundView(shouldPassthrough: shouldPassthrough)
+            view = PassthroughBackgroundView(shouldPassthrough: shouldPassthrough, presentingVC: presentingViewController)
         }
         
         view.didTap = { [weak self] _ in
@@ -29,7 +29,7 @@ final class PopOverPresentationController: UIPresentationController {
         }
         
         return view
-    }
+    }()
     
     func dismissPresentedViewController() {
         presentedViewController.dismiss(animated: true, completion: nil)
@@ -54,8 +54,9 @@ final class PopOverPresentationController: UIPresentationController {
     
     // MARK: - Initializers
 
-    init(presentedVС: UIViewController, presentingVC: UIViewController?, presentation: Presentation) {
+    init(presentedVС: UIViewController, presentingVC: UIViewController?, presentation: Presentation, delegate: PopOverPresentationDelegate?) {
         self.presentation = presentation
+        self.popOverPresentationDelegate = delegate
         super.init(presentedViewController: presentedVС, presenting: presentingVC)
     }
     
@@ -90,12 +91,13 @@ final class PopOverPresentationController: UIPresentationController {
         coordinator.animate(alongsideTransition: { [weak self] _ in
             self?.backgroundView.onDissmis()
             self?.presentedViewController.setNeedsStatusBarAppearanceUpdate()
+            }, completion: { [weak self] _ in
+                self?.popOverPresentationDelegate?.didDismiss?()
         })
     }
     
     override var frameOfPresentedViewInContainerView: CGRect {
-        //return (sizeDelegate ?? self).frameOfPresentedView(in: containerView!.frame)
-        return CGRect(x: 0.0, y: 0.0, width: 0.0, height: 0.0)
+        return popOverPresentationDelegate?.frameOfPresentedView(in: containerView!.frame) ?? containerView!.frame
     }
 }
 
@@ -103,8 +105,7 @@ extension PopOverPresentationController {
     
     func layoutBackgroundView(in containerView: UIView) {
         containerView.insertSubview(backgroundView, at: 0)
-        // backgroundView.fillSuperview()
-        containerView.subviews.first?.fillView(containerView)
+        backgroundView.fillSuperview()
     }
     
     func layoutPresentedView(in: UIView) {

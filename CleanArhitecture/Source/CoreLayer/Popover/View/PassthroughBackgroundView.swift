@@ -12,10 +12,11 @@ class PassthroughBackgroundView: UIView {
     var passthroughViews: [UIView] = []
     var shouldPassthrough = true
     
-    init(shouldPassthrough: Bool) {
+    init(shouldPassthrough: Bool, presentingVC: UIViewController) {
         self.shouldPassthrough = shouldPassthrough
+        self.passthroughViews = presentingVC.view.subviews
         super.init(frame: .zero)
-        if shouldPassthrough {
+        if !shouldPassthrough {
             addGestureRecognizer(tapGesture)
         }
     }

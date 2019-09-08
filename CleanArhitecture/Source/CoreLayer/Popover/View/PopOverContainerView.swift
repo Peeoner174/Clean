@@ -21,7 +21,6 @@ class PopOverContainerView: UIView {
         addSubview(presentedView)
     }
     
-    @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -34,7 +33,7 @@ extension UIView {
      Convenience property for retrieving a PanContainerView instance
      from the view hierachy
      */
-    var panContainerView: PopOverContainerView? {
+    var popOverContainerView: PopOverContainerView? {
         return subviews.first(where: { view -> Bool in
             view is PopOverContainerView
         }) as? PopOverContainerView

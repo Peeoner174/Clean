@@ -22,10 +22,12 @@ final class PopOverPresentationDelegateImpl: NSObject {
     private var currentPresentationController: PopOverPresentationController!
     private weak var presentedViewController: UIViewController!
     private var frameOfPresentedView: FrameOfPresentedViewClosure
+    private var dismissCompletion: EmptyCompletion
 
-    public init(presentation: Presentation, frameOfPresentedView: FrameOfPresentedViewClosure) {
+    public init(presentation: Presentation, frameOfPresentedView: FrameOfPresentedViewClosure, dismissCompletion: EmptyCompletion = nil) {
         self.presentation = presentation
         self.frameOfPresentedView = frameOfPresentedView
+        self.dismissCompletion = dismissCompletion
         super.init()
     }
     
@@ -41,8 +43,12 @@ extension PopOverPresentationDelegateImpl: PopOverPresentationDelegate {
         return frameOfPresentedView?(containerViewFrame) ?? containerViewFrame
     }
     
+    func didDismiss() {
+        dismissCompletion?()
+    }
+    
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-        let presentationController = PopOverPresentationController(presentedVС: presented, presentingVC: presenting, presentation: presentation)
+        let presentationController = PopOverPresentationController(presentedVС: presented, presentingVC: presenting, presentation: presentation, delegate: self)
         currentPresentationController = presentationController
         return presentationController
     }

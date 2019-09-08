@@ -31,12 +31,14 @@ extension EmployeeListPresenterImpl: EmployeeSectionModelDelegate {
         let presentedVC = EmployeeListViewController.instantiate()
         let presentation = SlidePresentation(direction: .bottom, uiConfiguration: PresentationUIConfiguration())
         
-        PopOverManager.present(
+        PopoverManager.present(
             vc: presentedVC,
             in: self.view as! UIViewController,
             presentation: presentation,
-            frameOfPresentedView: nil
-        )
+            frameOfPresentedView: { containerViewFrame in
+                let height = CGFloat(300)
+                return CGRect(origin: CGPoint(x: 0, y: containerViewFrame.height - height + 10), size: CGSize(width: containerViewFrame.width, height: height))
+        })
 
         print("Will call to \(phoneNumber)")
     }
