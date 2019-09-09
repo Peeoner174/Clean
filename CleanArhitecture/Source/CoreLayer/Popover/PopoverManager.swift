@@ -9,6 +9,7 @@
 import UIKit
 
 class PopoverManager {
+
     static func present(vc presentedVC: UIViewController,
                         in presentingVC: UIViewController,
                         animated: Bool = true,
@@ -22,10 +23,35 @@ class PopoverManager {
             frameOfPresentedView: frameOfPresentedView,
             dismissCompletion: dismissCompletion
         )
+        
+        let presentationController = PopOverPresentationController(
+            presentedVС: presentedVC,
+            presentingVC: presentingVC,
+            presentation: presentation,
+            delegate: popOverPresentationDelegate
+        )
+        
+        let presentInteractionController = InteractionController(
+            presentedViewController: presentedVC,
+            presentationController: presentationController,
+            transitionType: .presentation
+        )
+        
+        let dismissInteractionController = InteractionController(
+            presentedViewController: presentedVC,
+            presentationController: presentationController,
+            transitionType: .dismissal
+        )
+        
+        popOverPresentationDelegate.presentationController = presentationController
+        popOverPresentationDelegate.presentInteractionController = presentInteractionController
+        popOverPresentationDelegate.dismissInteractionController = dismissInteractionController
+        
         popOverPresentationDelegate.prepare(presentedViewController: presentedVC)
         
         if let rootVC = UIApplication.shared.keyWindow?.rootViewController {
             rootVC.present(presentedVC, animated: animated, completion: presentCompletion)
         }
     }
+    
 }

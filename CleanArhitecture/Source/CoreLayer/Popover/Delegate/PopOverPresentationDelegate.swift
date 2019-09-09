@@ -19,12 +19,21 @@ typealias FrameOfPresentedViewClosure = ((_ containerViewFrame: CGRect) -> CGRec
 
 final class PopOverPresentationDelegateImpl: NSObject {
     private var presentation: Presentation
-    private var currentPresentationController: PopOverPresentationController!
+    
+   // private var currentPresentationController: PopOverPresentationController!
     private weak var presentedViewController: UIViewController!
+    
     private var frameOfPresentedView: FrameOfPresentedViewClosure
     private var dismissCompletion: EmptyCompletion
 
-    public init(presentation: Presentation, frameOfPresentedView: FrameOfPresentedViewClosure, dismissCompletion: EmptyCompletion = nil) {
+    var presentInteractionController: InteractionController?
+    var dismissInteractionController: InteractionController?
+    var presentationController: PopOverPresentationController!
+    
+    public init(presentation: Presentation,
+                frameOfPresentedView: FrameOfPresentedViewClosure,
+                dismissCompletion: EmptyCompletion = nil) {
+        
         self.presentation = presentation
         self.frameOfPresentedView = frameOfPresentedView
         self.dismissCompletion = dismissCompletion
@@ -49,7 +58,6 @@ extension PopOverPresentationDelegateImpl: PopOverPresentationDelegate {
     
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         let presentationController = PopOverPresentationController(presentedVС: presented, presentingVC: presenting, presentation: presentation, delegate: self)
-        currentPresentationController = presentationController
         return presentationController
     }
     
@@ -59,6 +67,14 @@ extension PopOverPresentationDelegateImpl: PopOverPresentationDelegate {
     
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return presentation.dismissAnimator
+    }
+    
+    func interactionControllerForPresentation(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        return dismissInteractionController
+    }
+    
+    func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        return dismissInteractionController
     }
 }
 

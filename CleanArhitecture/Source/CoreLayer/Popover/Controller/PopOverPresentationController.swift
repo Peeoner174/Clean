@@ -13,7 +13,7 @@ final class PopOverPresentationController: UIPresentationController {
     private var popOverPresentationDelegate: PopOverPresentationDelegate?
     
     // MARK: - Views
-    private lazy var backgroundView: BackgroundDesignable = {
+     lazy var backgroundView: BackgroundDesignable = {
         let view: BackgroundDesignable
         switch self.presentation.presentationUIConfiguration.backgroundStyle {
         case .dimmed(alpha: let alpha):
@@ -99,6 +99,7 @@ final class PopOverPresentationController: UIPresentationController {
     override var frameOfPresentedViewInContainerView: CGRect {
         return popOverPresentationDelegate?.frameOfPresentedView(in: containerView!.frame) ?? containerView!.frame
     }
+    
 }
 
 extension PopOverPresentationController {
@@ -118,4 +119,8 @@ extension PopOverPresentationController {
         let radius = presentation.presentationUIConfiguration.cornerRadius
         presentedView.roundCorners(corners, radius: radius)
     }
+}
+
+extension PopOverPresentationController: UIGestureRecognizerDelegate {
+    
 }

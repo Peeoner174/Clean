@@ -38,7 +38,11 @@ extension EmployeeListPresenterImpl: EmployeeSectionModelDelegate {
             frameOfPresentedView: { containerViewFrame in
                 let height = CGFloat(300)
                 return CGRect(origin: CGPoint(x: 0, y: containerViewFrame.height - height + 10), size: CGSize(width: containerViewFrame.width, height: height))
-        })
+        },
+            presentCompletion: { print("present completion")},
+            dismissCompletion: { print("dismiss completion")})
+        
+        
 
         print("Will call to \(phoneNumber)")
     }
