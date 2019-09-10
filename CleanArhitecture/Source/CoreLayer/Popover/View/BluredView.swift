@@ -21,14 +21,8 @@ public class BluredView: UIVisualEffectView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    /**
-     The closure to be executed when a tap occurs
-     */
     public var didTap: ((_ recognizer: UIGestureRecognizer) -> Void)?
     
-    /**
-     Tap gesture recognizer
-     */
     private lazy var tapGesture: UIGestureRecognizer = {
         return UITapGestureRecognizer(target: self, action: #selector(didTapView))
     }()

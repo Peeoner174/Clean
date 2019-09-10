@@ -10,34 +10,34 @@ import UIKit
 
 class PopoverManager {
 
-    static func present(vc presentedVC: UIViewController,
+    static func presentSlidePopover(vc presentedVC: UIViewController,
                         in presentingVC: UIViewController,
                         animated: Bool = true,
-                        presentation: Presentation,
+                        presentation: SlidePresentation,
                         frameOfPresentedView: FrameOfPresentedViewClosure,
                         presentCompletion: EmptyCompletion = nil,
                         dismissCompletion: EmptyCompletion = nil) {
         
-        let popOverPresentationDelegate = PopOverPresentationDelegateImpl(
+        let popOverPresentationDelegate = PopoverPresentationDelegateImpl(
             presentation: presentation,
             frameOfPresentedView: frameOfPresentedView,
             dismissCompletion: dismissCompletion
         )
         
-        let presentationController = PopOverPresentationController(
+        let presentationController = PopoverPresentationController(
             presentedVС: presentedVC,
             presentingVC: presentingVC,
             presentation: presentation,
             delegate: popOverPresentationDelegate
         )
         
-        let presentInteractionController = InteractionController(
+        let presentInteractionController = SlideInteractionController(
             presentedViewController: presentedVC,
             presentationController: presentationController,
             transitionType: .presentation
         )
         
-        let dismissInteractionController = InteractionController(
+        let dismissInteractionController = SlideInteractionController(
             presentedViewController: presentedVC,
             presentationController: presentationController,
             transitionType: .dismissal

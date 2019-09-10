@@ -8,12 +8,16 @@
 
 import UIKit
 
-final class PopOverPresentationController: UIPresentationController {
+protocol PopoverPresentationControllerProtocol: UIPresentationController, UIGestureRecognizerDelegate {
+    var didTapBackgroundView: EmptyCompletion { get set }
+}
+
+final class PopoverPresentationController: UIPresentationController, PopoverPresentationControllerProtocol {
     private let presentation: Presentation
-    private var popOverPresentationDelegate: PopOverPresentationDelegate?
+    private var popOverPresentationDelegate: PopoverPresentationDelegate?
     
     // MARK: - Views
-     lazy var backgroundView: BackgroundDesignable = {
+    private lazy var backgroundView: BackgroundDesignable = {
         let view: BackgroundDesignable
         switch self.presentation.presentationUIConfiguration.backgroundStyle {
         case .dimmed(alpha: let alpha):
@@ -25,36 +29,26 @@ final class PopOverPresentationController: UIPresentationController {
         }
         
         view.didTap = { [weak self] _ in
-            self?.dismissPresentedViewController()
+            self?.didTapBackgroundView?()
         }
         
         return view
     }()
     
-    func dismissPresentedViewController() {
-        presentedViewController.dismiss(animated: true, completion: nil)
-    }
+    var didTapBackgroundView: EmptyCompletion = nil
     
-    /**
-     A wrapper around the presented view so that we can modify
-     the presented view apperance without changing
-     the presented view's properties
-     */
-    private lazy var popOverContainerView: PopOverContainerView = {
+    private lazy var popOverContainerView: PopoverContainerView = {
         let frame = containerView?.frame ?? .zero
-        return PopOverContainerView(presentedView: presentedViewController.view, frame: frame)
+        return PopoverContainerView(presentedView: presentedViewController.view, frame: frame)
     }()
     
-    /**
-     Override presented view to return the pan container wrapper
-     */
     public override var presentedView: UIView {
         return popOverContainerView
     }
     
     // MARK: - Initializers
 
-    init(presentedVС: UIViewController, presentingVC: UIViewController?, presentation: Presentation, delegate: PopOverPresentationDelegate?) {
+    init(presentedVС: UIViewController, presentingVC: UIViewController?, presentation: Presentation, delegate: PopoverPresentationDelegate?) {
         self.presentation = presentation
         self.popOverPresentationDelegate = delegate
         super.init(presentedViewController: presentedVС, presenting: presentingVC)
@@ -99,10 +93,9 @@ final class PopOverPresentationController: UIPresentationController {
     override var frameOfPresentedViewInContainerView: CGRect {
         return popOverPresentationDelegate?.frameOfPresentedView(in: containerView!.frame) ?? containerView!.frame
     }
-    
 }
 
-extension PopOverPresentationController {
+extension PopoverPresentationController {
     
     func layoutBackgroundView(in containerView: UIView) {
         containerView.insertSubview(backgroundView, at: 0)
@@ -119,8 +112,4 @@ extension PopOverPresentationController {
         let radius = presentation.presentationUIConfiguration.cornerRadius
         presentedView.roundCorners(corners, radius: radius)
     }
-}
-
-extension PopOverPresentationController: UIGestureRecognizerDelegate {
-    
 }

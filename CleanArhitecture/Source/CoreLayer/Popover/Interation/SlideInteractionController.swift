@@ -8,11 +8,11 @@
 
 import UIKit
 
-class InteractionController: UIPercentDrivenInteractiveTransition {
+class SlideInteractionController: UIPercentDrivenInteractiveTransition {
     private var shouldCompleteTransition = false
     
-    private var presentedViewController: UIViewController
-    private var presentationController: UIPresentationController & UIGestureRecognizerDelegate
+    weak private var presentedViewController: UIViewController?
+    weak private var presentationController: PopoverPresentationControllerProtocol?
     
     private let transitionType: TransitionType
     
@@ -25,7 +25,7 @@ class InteractionController: UIPercentDrivenInteractiveTransition {
     }()
     
     init(presentedViewController: UIViewController,
-         presentationController: UIPresentationController & UIGestureRecognizerDelegate,
+         presentationController: PopoverPresentationControllerProtocol,
          transitionType: TransitionType) {
 
         self.presentedViewController = presentedViewController
@@ -39,6 +39,10 @@ class InteractionController: UIPercentDrivenInteractiveTransition {
         super.startInteractiveTransition(transitionContext)
         let containerView = transitionContext.containerView
         containerView.addGestureRecognizer(panGestureRecognizer)
+        
+        presentationController?.didTapBackgroundView = {
+            self.presentedViewController?.dismiss(animated: true, completion: nil)
+        }
     }
 
     @objc func didPanOnPresentedView(_ recognizer: UIPanGestureRecognizer) {
@@ -47,18 +51,18 @@ class InteractionController: UIPercentDrivenInteractiveTransition {
             
             break
         case .changed:
-            let translationOffset = recognizer.translation(in: presentedViewController.view).y
-            self.presentedViewController.view.transform = CGAffineTransform(translationX: 0,
+            let translationOffset = recognizer.translation(in: presentedViewController?.view).y
+            self.presentedViewController?.view.transform = CGAffineTransform(translationX: 0,
                                                                             y: translationOffset < 0 ? calculateLogarithmicOffset(forOffset: translationOffset) : translationOffset
             )
             break
         case .ended:
-            let translation = recognizer.translation(in: presentedViewController.view).y
+            let translation = recognizer.translation(in: presentedViewController?.view).y
             if translation >= 25 {
-                self.presentedViewController.dismiss(animated: true, completion: nil)
+                self.presentedViewController?.dismiss(animated: true, completion: nil)
             } else {
                 UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 10.0, options: [.allowUserInteraction, .beginFromCurrentState], animations: {
-                    self.presentedViewController.view.transform = CGAffineTransform.identity
+                    self.presentedViewController?.view.transform = CGAffineTransform.identity
                 }, completion: {(true) in
                 })
             }

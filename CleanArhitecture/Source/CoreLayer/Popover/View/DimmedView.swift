@@ -23,14 +23,8 @@ public class DimmedView: UIView {
         fatalError()
     }
     
-    /**
-     The closure to be executed when a tap occurs
-     */
     public var didTap: ((_ recognizer: UIGestureRecognizer) -> Void)?
     
-    /**
-     Tap gesture recognizer
-     */
     private lazy var tapGesture: UIGestureRecognizer = {
         return UITapGestureRecognizer(target: self, action: #selector(didTapView))
     }()

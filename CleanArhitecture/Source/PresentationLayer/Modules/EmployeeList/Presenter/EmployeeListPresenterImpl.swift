@@ -31,7 +31,7 @@ extension EmployeeListPresenterImpl: EmployeeSectionModelDelegate {
         let presentedVC = EmployeeListViewController.instantiate()
         let presentation = SlidePresentation(direction: .bottom, uiConfiguration: PresentationUIConfiguration())
         
-        PopoverManager.present(
+        PopoverManager.presentSlidePopover(
             vc: presentedVC,
             in: self.view as! UIViewController,
             presentation: presentation,

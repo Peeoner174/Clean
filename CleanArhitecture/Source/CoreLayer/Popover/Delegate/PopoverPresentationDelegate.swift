@@ -9,7 +9,7 @@
 import UIKit
 
 @objc
-public protocol PopOverPresentationDelegate: UIViewControllerTransitioningDelegate {
+public protocol PopoverPresentationDelegate: UIViewControllerTransitioningDelegate {
     func frameOfPresentedView(in containerViewFrame: CGRect) -> CGRect
     @objc optional func didDismiss()
 }
@@ -17,18 +17,16 @@ public protocol PopOverPresentationDelegate: UIViewControllerTransitioningDelega
 typealias Presentation = PresentationUIConfigurationProvider & PresentationAnimatorProvider
 typealias FrameOfPresentedViewClosure = ((_ containerViewFrame: CGRect) -> CGRect)?
 
-final class PopOverPresentationDelegateImpl: NSObject {
+final class PopoverPresentationDelegateImpl: NSObject {
     private var presentation: Presentation
-    
-   // private var currentPresentationController: PopOverPresentationController!
-    private weak var presentedViewController: UIViewController!
     
     private var frameOfPresentedView: FrameOfPresentedViewClosure
     private var dismissCompletion: EmptyCompletion
 
-    var presentInteractionController: InteractionController?
-    var dismissInteractionController: InteractionController?
-    var presentationController: PopOverPresentationController!
+    var presentInteractionController: UIPercentDrivenInteractiveTransition?
+    var dismissInteractionController: UIPercentDrivenInteractiveTransition?
+    weak var presentationController: PopoverPresentationControllerProtocol!
+    private weak var presentedViewController: UIViewController!
     
     public init(presentation: Presentation,
                 frameOfPresentedView: FrameOfPresentedViewClosure,
@@ -47,7 +45,7 @@ final class PopOverPresentationDelegateImpl: NSObject {
     }
 }
 
-extension PopOverPresentationDelegateImpl: PopOverPresentationDelegate {
+extension PopoverPresentationDelegateImpl: PopoverPresentationDelegate {
     func frameOfPresentedView(in containerViewFrame: CGRect) -> CGRect {
         return frameOfPresentedView?(containerViewFrame) ?? containerViewFrame
     }
@@ -57,7 +55,6 @@ extension PopOverPresentationDelegateImpl: PopOverPresentationDelegate {
     }
     
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-        let presentationController = PopOverPresentationController(presentedVС: presented, presentingVC: presenting, presentation: presentation, delegate: self)
         return presentationController
     }
     
@@ -70,7 +67,7 @@ extension PopOverPresentationDelegateImpl: PopOverPresentationDelegate {
     }
     
     func interactionControllerForPresentation(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        return dismissInteractionController
+        return presentInteractionController
     }
     
     func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
