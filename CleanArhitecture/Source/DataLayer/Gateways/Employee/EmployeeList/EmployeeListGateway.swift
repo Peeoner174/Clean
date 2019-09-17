@@ -9,12 +9,12 @@
 import Foundation
 
 protocol EmployeeListGateway {
-    func loadEmployees(completion: @escaping ResultHandlerCompletion<[Employee]>)
+    func loadEmployees(completion: @escaping ResultCompletion<[Employee]>)
 }
 
 class EmployeeListGatewayImp: EmployeeListGateway {
     
-    func loadEmployees(completion: @escaping ResultHandlerCompletion<[Employee]>) {
+    func loadEmployees(completion: @escaping ResultCompletion<[Employee]>) {
         let names = ["Sergei", "Dmitriy", "Ruslan"]
         let specializations = ["Network Administrator", "Data Scientist", "Android-Developer"]
         let emails = ["sergei@mail.com", "dima@mail.com", "ruslan@mail.com"]

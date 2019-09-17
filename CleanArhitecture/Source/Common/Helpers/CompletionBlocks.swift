@@ -10,5 +10,5 @@ import Foundation
 
 typealias EmptyCompletion = (() -> Void)?
 
-typealias ResultHandlerCompletion<T> = ((Result<T, Error>) -> Void)
+typealias ResultCompletion<T> = ((Result<T, Error>) -> Void)
 

@@ -9,7 +9,7 @@
 import Foundation
 
 protocol EmployeeListUsecase {
-    func getEmployees(completion: @escaping ResultHandlerCompletion<[Employee]>)
+    func getEmployees(completion: @escaping ResultCompletion<[Employee]>)
 }
 
 final class EmployeeListUsecaseImp: EmployeeListUsecase {
@@ -19,7 +19,7 @@ final class EmployeeListUsecaseImp: EmployeeListUsecase {
         self.employeeListGateway = employeeListGateway
     }
     
-    func getEmployees(completion: @escaping ResultHandlerCompletion<[Employee]>) {
+    func getEmployees(completion: @escaping ResultCompletion<[Employee]>) {
         employeeListGateway.loadEmployees(completion: completion)
     }
     

@@ -52,7 +52,7 @@ extension EmployeeListPresenterImpl: EmployeeListPresenter {
     
     func viewIsReady() {
         employeeListUsecase.getEmployees { (result) in
-            try! self.employeesDidReceive(result.get())
+            result.handle(onFail: Unimplemented(), onSuccess: self.employeesDidReceive(_:))
         }
     }
     
