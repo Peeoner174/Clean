@@ -12,4 +12,15 @@ protocol EmployeeListUsecase {
     func getEmployees(completion: @escaping ResultHandlerCompletion<[Employee]>)
 }
 
-
+final class EmployeeListUsecaseImp: EmployeeListUsecase {
+    let employeeListGateway: EmployeeListGateway
+    
+    init(employeeListGateway: EmployeeListGateway) {
+        self.employeeListGateway = employeeListGateway
+    }
+    
+    func getEmployees(completion: @escaping ResultHandlerCompletion<[Employee]>) {
+        employeeListGateway.loadEmployees(completion: completion)
+    }
+    
+}
