@@ -20,8 +20,10 @@ class EmployeeBaseInfoCell: EmployeeBaseCell {
         
         nameLabel.text = model.name
         specializationLabel.text = model.specialization
-        if let imagePath = model.imageURL?.path {
-            photoImageView.image = UIImage(contentsOfFile: imagePath)
-        }
+        photoImageView.af_setImage(withURL: model.imageURL)
     }
 }
+
+
+
+

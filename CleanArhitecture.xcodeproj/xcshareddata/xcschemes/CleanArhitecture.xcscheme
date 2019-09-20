@@ -28,6 +28,16 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "6E51EAED2334D78300917839"
+               BuildableName = "CleanArhitectureUITests.xctest"
+               BlueprintName = "CleanArhitectureUITests"
+               ReferencedContainer = "container:CleanArhitecture.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
@@ -35,7 +45,7 @@
             BlueprintIdentifier = "CE8F04162013C2A30061F034"
             BuildableName = "CleanArhitecture.app"
             BlueprintName = "CleanArhitecture"
-            ReferencedContainer = "container:TableViper.xcodeproj">
+            ReferencedContainer = "container:CleanArhitecture.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -70,6 +80,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "CE8F04162013C2A30061F034"
+            BuildableName = "CleanArhitecture.app"
+            BlueprintName = "CleanArhitecture"
+            ReferencedContainer = "container:CleanArhitecture.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

@@ -1,16 +1,50 @@
 PODS:
+  - Alamofire (5.0.0-beta.7)
+  - AlamofireImage (4.0.0-beta.4):
+    - Alamofire (~> 5.0.0-beta.7)
   - EasyDi (1.5.0)
+  - Moya (14.0.0-alpha.2):
+    - Moya/Core (= 14.0.0-alpha.2)
+  - Moya/Core (14.0.0-alpha.2):
+    - Alamofire (= 5.0.0-beta.7)
+  - MoyaNetworkClient (0.4.2):
+    - Moya
 
 DEPENDENCIES:
+  - AlamofireImage (from `https://github.com/Alamofire/AlamofireImage`, commit `7cce2ed21994f70fda38c1c6f6ebdaf287f6b318`)
   - EasyDi
+  - Moya (from `https://github.com/Moya/Moya`, commit `49de035c7c469acc2233db9f9c8f1db80fdfbba1`)
+  - MoyaNetworkClient
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - Alamofire
     - EasyDi
+    - MoyaNetworkClient
+
+EXTERNAL SOURCES:
+  AlamofireImage:
+    :commit: 7cce2ed21994f70fda38c1c6f6ebdaf287f6b318
+    :git: https://github.com/Alamofire/AlamofireImage
+  Moya:
+    :commit: 49de035c7c469acc2233db9f9c8f1db80fdfbba1
+    :git: https://github.com/Moya/Moya
+
+CHECKOUT OPTIONS:
+  AlamofireImage:
+    :commit: 7cce2ed21994f70fda38c1c6f6ebdaf287f6b318
+    :git: https://github.com/Alamofire/AlamofireImage
+  Moya:
+    :commit: 49de035c7c469acc2233db9f9c8f1db80fdfbba1
+    :git: https://github.com/Moya/Moya
 
 SPEC CHECKSUMS:
+  Alamofire: bd07938ceecad59d2492aeecb1f785a8f2721160
+  AlamofireImage: 7eaf65bbb346d299515ba3daba4f723c12e01d5e
   EasyDi: 69f886c8911504d33cb55db4a47648f434feeddd
+  Moya: a6f1894cf6baec301aa02b0ecf10e5d8ade556ae
+  MoyaNetworkClient: 139889f83e84e935594c489888af320bb9586e17
 
-PODFILE CHECKSUM: 1a0a012e60bd364b915b4f6500b255fcc53ab8a3
+PODFILE CHECKSUM: 825c01c7c24a1cee9b62e59f7897e67db0578d9c
 
 COCOAPODS: 1.7.5

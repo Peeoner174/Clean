@@ -7,6 +7,7 @@
 //
 
 import EasyDi
+import MoyaNetworkClient
 
 final class GatewaysAssembly: Assembly {
     

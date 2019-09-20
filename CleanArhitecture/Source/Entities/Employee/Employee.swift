@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Employee {
+struct Employee: Codable {
     var name: String
     var specialization: String
     var imageURL: URL?

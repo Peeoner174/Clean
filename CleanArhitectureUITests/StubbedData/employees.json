@@ -1,0 +1,35 @@
+[
+    {
+        "name": "Sergei",
+        "specialization": "Network Administrator",
+        "email": "sergei@mail.com",
+        "phone": "+7 (926) 000-00-76",
+        "workplaces": [
+            "NapoleonIT",
+            "ООО «НОВАТЭК-АЗК»",
+            "ООО «Урал-НЭТ»"
+        ],
+        "imageURL": "https://github.com/Peeoner174/demo/raw/master/Employee0.jpg"
+    },
+    {
+        "name": "Dmitriy",
+        "specialization": "Data Scientist",
+        "email": "dima@mail.com",
+        "phone": "+7 (999) 999-99-99",
+        "workplaces": [
+            "SNAFU"
+        ],
+        "imageURL": "https://github.com/Peeoner174/demo/raw/master/Employee1.jpg"
+    },
+    {
+        "name": "Ruslan",
+        "specialization": "Android-Developer",
+        "email": "ruslan@mail.com",
+        "phone": "+7 (909) 000-00-00",
+        "workplaces": [
+            "Rutube",
+            "NapoleonIT"
+        ],
+        "imageURL": "https://github.com/Peeoner174/demo/raw/master/Employee2.jpg"
+    }
+]
