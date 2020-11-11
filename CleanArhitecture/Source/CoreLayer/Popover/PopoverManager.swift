@@ -9,8 +9,7 @@
 import UIKit
 
 class PopoverManager {
-
-    static func presentSlidePopover(vc presentedVC: UIViewController,
+    static func presentSlidePopover(vc presentedVC: PopoverViewController,
                         in presentingVC: UIViewController,
                         animated: Bool = true,
                         presentation: SlidePresentation,
@@ -37,11 +36,14 @@ class PopoverManager {
             transitionType: .presentation
         )
         
-        let dismissInteractionController = SlideInteractionController(
+        let dismissInteractionController = ExpandableSlideInteractionController(
             presentedViewController: presentedVC,
             presentationController: presentationController,
-            transitionType: .dismissal
+            transitionType: .presentation,
+            frameOfPresentedView: frameOfPresentedView
         )
+        
+        presentedVC.popoverDelegate = dismissInteractionController
         
         popOverPresentationDelegate.presentationController = presentationController
         popOverPresentationDelegate.presentInteractionController = presentInteractionController
@@ -53,5 +55,4 @@ class PopoverManager {
             rootVC.present(presentedVC, animated: animated, completion: presentCompletion)
         }
     }
-    
 }

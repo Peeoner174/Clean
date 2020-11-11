@@ -8,10 +8,11 @@
 
 import UIKit
 
-class EmployeeListViewController: UITableViewController, EmployeeListViewInput {
+class EmployeeListViewController: UITableViewController, EmployeeListViewInput, PopoverViewController {
     
     var presenter: EmployeeListPresenter!
     var sections = [EmployeeSectionModel]()
+    weak var popoverDelegate: PopoverViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +23,10 @@ class EmployeeListViewController: UITableViewController, EmployeeListViewInput {
         self.sections = sections
 
         tableView.reloadData()
+    }
+    
+    override func preferredContentSizeDidChange(forChildContentContainer container: UIContentContainer) {
+        super.preferredContentSizeDidChange(forChildContentContainer: container)
     }
 }
 
@@ -45,4 +50,18 @@ extension EmployeeListViewController {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return CGFloat(sections[indexPath.section].rows[indexPath.row].cellHeight)
     }
+    
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        self.popoverDelegate?.popoverVC_scrollViewDidScroll(scrollView)
+    }
 }
+
+protocol PopoverViewController: UIViewController {
+    var popoverDelegate: PopoverViewControllerDelegate? { get set }
+}
+
+protocol PopoverViewControllerDelegate: class {
+    func popoverVC_scrollViewDidScroll(_ scrollView: UIScrollView)
+//    var contentFrame: CGRect? { get set }
+}
+

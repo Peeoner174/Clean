@@ -36,8 +36,8 @@ extension EmployeeListPresenterImpl: EmployeeSectionModelDelegate {
             in: self.view as! UIViewController,
             presentation: presentation,
             frameOfPresentedView: { containerViewFrame in
-                let height = CGFloat(300)
-                return CGRect(origin: CGPoint(x: 0, y: containerViewFrame.height - height + 10), size: CGSize(width: containerViewFrame.width, height: height))
+//                let height = CGFloat(300)
+                return CGRect(origin: CGPoint(x: 0, y: 310), size: CGSize(width: containerViewFrame.width, height: containerViewFrame.height - 300))
         },
             presentCompletion: { print("present completion")},
             dismissCompletion: { print("dismiss completion")})

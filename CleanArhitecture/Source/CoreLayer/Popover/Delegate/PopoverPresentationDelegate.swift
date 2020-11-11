@@ -31,7 +31,6 @@ final class PopoverPresentationDelegateImpl: NSObject {
     public init(presentation: Presentation,
                 frameOfPresentedView: FrameOfPresentedViewClosure,
                 dismissCompletion: EmptyCompletion = nil) {
-        
         self.presentation = presentation
         self.frameOfPresentedView = frameOfPresentedView
         self.dismissCompletion = dismissCompletion

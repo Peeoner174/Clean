@@ -1,20 +1,21 @@
 //
-//  InteractionController.swift
+//  File.swift
 //  CleanArhitecture
 //
-//  Created by MSI on 09/09/2019.
-//  Copyright © 2019 IA. All rights reserved.
+//  Created by Pavel Kochenda on 11.11.2020.
+//  Copyright © 2020 IA. All rights reserved.
 //
 
 import UIKit
 
-class SlideInteractionController: UIPercentDrivenInteractiveTransition {
+class ExpandableSlideInteractionController: UIPercentDrivenInteractiveTransition {
     private var shouldCompleteTransition = false
     
     weak private var presentedViewController: UIViewController?
     weak private var presentationController: PopoverPresentationControllerProtocol?
     
     private let transitionType: TransitionType
+    private var frameOfPresentedView: FrameOfPresentedViewClosure
     
     private lazy var panGestureRecognizer: UIPanGestureRecognizer = {
         let gesture = UIPanGestureRecognizer(target: self, action: #selector(didPanOnPresentedView(_ :)))
@@ -26,11 +27,13 @@ class SlideInteractionController: UIPercentDrivenInteractiveTransition {
     
     init(presentedViewController: UIViewController,
          presentationController: PopoverPresentationControllerProtocol,
-         transitionType: TransitionType) {
+         transitionType: TransitionType,
+         frameOfPresentedView: FrameOfPresentedViewClosure) {
 
         self.presentedViewController = presentedViewController
         self.presentationController = presentationController
         self.transitionType = transitionType
+        self.frameOfPresentedView = frameOfPresentedView
 
         super.init()
     }
@@ -76,7 +79,7 @@ class SlideInteractionController: UIPercentDrivenInteractiveTransition {
     }
 }
 
-extension SlideInteractionController: PopoverViewControllerDelegate {
+extension ExpandableSlideInteractionController: PopoverViewControllerDelegate {
     func popoverVC_scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard let controller = UIView.controller(for: scrollView) else {
             return
@@ -93,7 +96,11 @@ extension SlideInteractionController: PopoverViewControllerDelegate {
                 }
             }
         } else {
-            
+            let newFrame: CGRect = {
+                var frame = controller.view.frame
+                return CGRect(x: frame.minX, y: frame.minY, width: frame.width, height: frame.height + 50)
+            }()
+            self.frameOfPresentedView?(newFrame)
         }
     }
 }
