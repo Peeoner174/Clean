@@ -19,7 +19,6 @@ class EmployeeListPresenterImpl {
         self.employeeListUsecase = employeeListUsecase
         self.router = router
     }
-    
 }
 
 extension EmployeeListPresenterImpl: EmployeeSectionModelDelegate {
@@ -67,5 +66,4 @@ extension EmployeeListPresenterImpl: EmployeeListPresenter {
         
         view.updateForSections(sections)
     }
-    
 }

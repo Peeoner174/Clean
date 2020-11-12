@@ -102,5 +102,11 @@ extension ExpandableSlideInteractionController: PopoverViewControllerDelegate {
             }()
             self.frameOfPresentedView?(newFrame)
         }
+
+
+class NavigationController: UINavigationController {
+    override func preferredContentSizeDidChange(forChildContentContainer container: UIContentContainer) {
+        super.preferredContentSizeDidChange(forChildContentContainer: container)
+        
     }
 }

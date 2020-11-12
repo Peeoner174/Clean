@@ -16,6 +16,7 @@ class EmployeeListViewController: UITableViewController, EmployeeListViewInput, 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         presenter.viewIsReady()
     }
     
@@ -53,6 +54,14 @@ extension EmployeeListViewController {
     
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         self.popoverDelegate?.popoverVC_scrollViewDidScroll(scrollView)
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            sections[indexPath.section].rows.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            preferredContentSize = tableView.contentSize
+        }
     }
 }
 

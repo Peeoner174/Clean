@@ -52,7 +52,7 @@ class PopoverManager {
         popOverPresentationDelegate.prepare(presentedViewController: presentedVC)
         
         if let rootVC = UIApplication.shared.keyWindow?.rootViewController {
-            rootVC.present(presentedVC, animated: animated, completion: presentCompletion)
+            presentingVC.present(presentedVC, animated: animated, completion: presentCompletion)
         }
     }
 }

@@ -17,7 +17,7 @@ DEPENDENCIES:
   - MoyaNetworkClient
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  trunk:
     - Alamofire
     - EasyDi
     - MoyaNetworkClient
@@ -47,4 +47,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 825c01c7c24a1cee9b62e59f7897e67db0578d9c
 
-COCOAPODS: 1.9.1
+COCOAPODS: 1.9.2
