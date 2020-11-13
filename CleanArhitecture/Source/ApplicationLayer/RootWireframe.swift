@@ -12,7 +12,7 @@ class RootWireframe {
     
     class func setupView<T: UIViewController>(ofType type: T.Type, with window: UIWindow) {
         let vc = type.self.instantiate()
-        let navigationController = NavigationController(rootViewController: vc)
+        let navigationController = UINavigationController(rootViewController: vc)
         
         window.rootViewController = navigationController
         window.makeKeyAndVisible()

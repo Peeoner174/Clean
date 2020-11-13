@@ -45,14 +45,18 @@ class PopoverManager {
         
         presentedVC.popoverDelegate = dismissInteractionController
         
+        
         popOverPresentationDelegate.presentationController = presentationController
         popOverPresentationDelegate.presentInteractionController = presentInteractionController
         popOverPresentationDelegate.dismissInteractionController = dismissInteractionController
+        dismissInteractionController.interactionAction = {
+            popOverPresentationDelegate.updateSize(.fullscreen, duration: .medium)
+        }
         
         popOverPresentationDelegate.prepare(presentedViewController: presentedVC)
         
-        if let rootVC = UIApplication.shared.keyWindow?.rootViewController {
+//        if let rootVC = UIApplication.shared.keyWindow?.rootViewController {
             presentingVC.present(presentedVC, animated: animated, completion: presentCompletion)
-        }
+//        }
     }
 }

@@ -10,10 +10,11 @@ import UIKit
 
 protocol PopoverPresentationControllerProtocol: UIPresentationController, UIGestureRecognizerDelegate {
     var didTapBackgroundView: EmptyCompletion { get set }
+    func updatePresentation(presentation: Presentation, duration: Duration)
 }
 
 final class PopoverPresentationController: UIPresentationController, PopoverPresentationControllerProtocol {
-    private let presentation: Presentation
+    private var presentation: Presentation
     private var popOverPresentationDelegate: PopoverPresentationDelegate?
     
     // MARK: - Views
@@ -29,6 +30,9 @@ final class PopoverPresentationController: UIPresentationController, PopoverPres
         }
         
         view.didTap = { [weak self] _ in
+            guard self?.presentation.presentationUIConfiguration.isTapBackgroundToDismissEnabled ?? false else {
+                return
+            }
             self?.didTapBackgroundView?()
         }
         
@@ -92,6 +96,18 @@ final class PopoverPresentationController: UIPresentationController, PopoverPres
     
     override var frameOfPresentedViewInContainerView: CGRect {
         return popOverPresentationDelegate?.frameOfPresentedView(in: containerView!.frame) ?? containerView!.frame
+    }
+    
+    func updatePresentation(presentation: Presentation, duration: Duration) {
+        self.presentation = presentation
+        containerView?.setNeedsLayout()
+        UIView.animate(withDuration: duration.timeInterval) {
+            self.containerView?.layoutIfNeeded()
+        }
+    }
+    
+    override func size(forChildContentContainer container: UIContentContainer, withParentContainerSize parentSize: CGSize) -> CGSize {
+        return CGSize.fullscreen
     }
 }
 

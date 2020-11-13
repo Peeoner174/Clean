@@ -17,6 +17,7 @@ class ExpandableSlideInteractionController: UIPercentDrivenInteractiveTransition
     private let transitionType: TransitionType
     private var frameOfPresentedView: FrameOfPresentedViewClosure
     
+    var interactionAction: (() -> ())?
     private lazy var panGestureRecognizer: UIPanGestureRecognizer = {
         let gesture = UIPanGestureRecognizer(target: self, action: #selector(didPanOnPresentedView(_ :)))
         gesture.minimumNumberOfTouches = 1
@@ -88,7 +89,7 @@ extension ExpandableSlideInteractionController: PopoverViewControllerDelegate {
         if translation >= 0 {
             if controller.isBeingPresented { return }
             controller.view.transform = CGAffineTransform(translationX: 0, y: translation)
-
+            
             if translation >= 25 {
                 if !scrollView.isTracking && !scrollView.isDragging {
                     controller.dismiss(animated: true, completion: nil)
@@ -96,17 +97,10 @@ extension ExpandableSlideInteractionController: PopoverViewControllerDelegate {
                 }
             }
         } else {
-            let newFrame: CGRect = {
-                var frame = controller.view.frame
-                return CGRect(x: frame.minX, y: frame.minY, width: frame.width, height: frame.height + 50)
-            }()
-            self.frameOfPresentedView?(newFrame)
+            self.interactionAction?()
         }
-
-
-class NavigationController: UINavigationController {
-    override func preferredContentSizeDidChange(forChildContentContainer container: UIContentContainer) {
-        super.preferredContentSizeDidChange(forChildContentContainer: container)
-        
     }
 }
+
+
+

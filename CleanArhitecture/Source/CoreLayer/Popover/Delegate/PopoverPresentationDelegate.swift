@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol LiveUpdatable {
+    func updateSize(_ size: CGSize, duration: Duration)
+}
+
 @objc
 public protocol PopoverPresentationDelegate: UIViewControllerTransitioningDelegate {
     func frameOfPresentedView(in containerViewFrame: CGRect) -> CGRect
@@ -74,4 +78,10 @@ extension PopoverPresentationDelegateImpl: PopoverPresentationDelegate {
     }
 }
 
-
+extension PopoverPresentationDelegateImpl: LiveUpdatable {
+    func updateSize(_ size: CGSize, duration: Duration) {
+        
+        presentation.presentationUIConfiguration.isTapBackgroundToDismissEnabled = false
+        self.presentationController.updatePresentation(presentation: presentation, duration: .medium)
+    }
+}

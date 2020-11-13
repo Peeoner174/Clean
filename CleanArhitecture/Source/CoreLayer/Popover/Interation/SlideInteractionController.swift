@@ -12,6 +12,7 @@ class SlideInteractionController: UIPercentDrivenInteractiveTransition {
     private var shouldCompleteTransition = false
     
     weak private var presentedViewController: UIViewController?
+//    weak private var presentingViewController: UIViewController?
     weak private var presentationController: PopoverPresentationControllerProtocol?
     
     private let transitionType: TransitionType
@@ -96,4 +97,10 @@ extension SlideInteractionController: PopoverViewControllerDelegate {
             
         }
     }
+}
+
+
+extension CGSize {
+    static var fullscreen = UIScreen.main.bounds.size
+    static var halfScreen = CGSize(width: UIScreen.main.bounds.size.width / 2, height: UIScreen.main.bounds.size.height / 2) 
 }
