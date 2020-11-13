@@ -8,6 +8,6 @@
 
 import Foundation
 
-public protocol PresentationShowDirectionProvider {
+protocol PresentationShowDirectionProvider {
     var showDirection: Direction { get set }
 }

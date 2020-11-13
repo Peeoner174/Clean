@@ -15,7 +15,6 @@ class ExpandableSlideInteractionController: UIPercentDrivenInteractiveTransition
     weak private var presentationController: PopoverPresentationControllerProtocol?
     
     private let transitionType: TransitionType
-    private var frameOfPresentedView: FrameOfPresentedViewClosure
     
     var interactionAction: (() -> ())?
     private lazy var panGestureRecognizer: UIPanGestureRecognizer = {
@@ -28,14 +27,13 @@ class ExpandableSlideInteractionController: UIPercentDrivenInteractiveTransition
     
     init(presentedViewController: UIViewController,
          presentationController: PopoverPresentationControllerProtocol,
-         transitionType: TransitionType,
-         frameOfPresentedView: FrameOfPresentedViewClosure) {
-
+         transitionType: TransitionType
+    ) {
+        
         self.presentedViewController = presentedViewController
         self.presentationController = presentationController
         self.transitionType = transitionType
-        self.frameOfPresentedView = frameOfPresentedView
-
+        
         super.init()
     }
     
@@ -44,7 +42,8 @@ class ExpandableSlideInteractionController: UIPercentDrivenInteractiveTransition
         let containerView = transitionContext.containerView
         containerView.addGestureRecognizer(panGestureRecognizer)
         
-        presentationController?.didTapBackgroundView = {
+        presentationController?.didTapBackgroundView = { [weak self] in
+            guard let self = self else { return }
             self.presentedViewController?.dismiss(animated: true, completion: nil)
         }
     }
@@ -97,7 +96,11 @@ extension ExpandableSlideInteractionController: PopoverViewControllerDelegate {
                 }
             }
         } else {
-            self.interactionAction?()
+            let oldFrame = self.presentationController?.presentedView?.frame
+            let newFrame = CGRect(x: oldFrame!.minX, y: oldFrame!.maxY + abs(translation), width: oldFrame!.width, height: oldFrame!.height + abs(translation))
+            self.presentationController?.presentedViewController.view.transform = CGAffineTransform(translationX: 0, y: translation * 1.2)
+            self.presentationController?.presentedView?.frame = newFrame
+
         }
     }
 }

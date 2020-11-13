@@ -9,13 +9,13 @@
 import UIKit
 import Foundation
 
-public struct PresentationUIConfiguration {
+struct PresentationUIConfiguration {
     public var cornerRadius: CGFloat
     public var backgroundStyle: BackgroundStyle
     public var isTapBackgroundToDismissEnabled: Bool
     public var corners: CACornerMask
     
-    public init(cornerRadius: CGFloat = 0.0,
+    init(cornerRadius: CGFloat = 0.0,
                 backgroundStyle: BackgroundStyle = .dimmed(alpha: 0.5),
                 isTapBackgroundToDismissEnabled: Bool = true,
                 corners: CACornerMask = [.layerMaxXMaxYCorner,.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner]) {

@@ -7,12 +7,13 @@
 //
 
 import UIKit
-public struct PresentationTiming {
+
+struct PresentationTiming {
     public var duration: Duration
     public var presentationCurve: UIView.AnimationCurve
     public var dismissCurve: UIView.AnimationCurve
     
-    public init(duration: Duration = .fast,
+    init(duration: Duration = .fast,
                 presentationCurve: UIView.AnimationCurve = .linear,
                 dismissCurve: UIView.AnimationCurve = .linear) {
         self.duration = duration

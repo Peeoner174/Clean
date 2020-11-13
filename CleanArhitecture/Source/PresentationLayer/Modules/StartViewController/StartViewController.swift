@@ -15,21 +15,19 @@ class StartViewController: UIViewController {
     
     @IBAction func openEmployListViewController(_ sender: Any) {
         let presentedVC = EmployeeListViewController.instantiate()
-        let presentation = SlidePresentation(direction: .bottom, uiConfiguration: PresentationUIConfiguration())
-        
-        PopoverManager.presentSlidePopover(
-            vc: presentedVC,
-            in: self,
-            presentation: presentation,
-            frameOfPresentedView: { containerViewFrame in
-                return CGRect(origin: CGPoint(x: 0, y: 310), size: CGSize(width: containerViewFrame.width, height: containerViewFrame.height - 300))
-        },
-            presentCompletion: { print("present completion")},
-            dismissCompletion: { print("dismiss completion")})
+        let presentation = ExpandableSlidePresentation(direction: .bottom, uiConfiguration: PresentationUIConfiguration()) { (containerViewFrame, presentStep) -> CGRect in
+            switch presentStep {
+            case 0:
+                return CGRect(x: 0.0, y: 400, width: 375, height: 800)
+            case 1:
+                return CGRect(x: 0.0, y: 0, width: 375.0, height: 800)
+            default: fatalError()
+            }
+        }
+        PopoverManager.presentExpandableSlidePopover(vc: presentedVC, in: self, presentation: presentation)
     }
     
     override func preferredContentSizeDidChange(forChildContentContainer container: UIContentContainer) {
-          super.preferredContentSizeDidChange(forChildContentContainer: container)
-          
-      }
+        super.preferredContentSizeDidChange(forChildContentContainer: container)
+    }
 }

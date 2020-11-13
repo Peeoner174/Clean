@@ -15,7 +15,7 @@ protocol PopoverPresentationControllerProtocol: UIPresentationController, UIGest
 
 final class PopoverPresentationController: UIPresentationController, PopoverPresentationControllerProtocol {
     private var presentation: Presentation
-    private var popOverPresentationDelegate: PopoverPresentationDelegate?
+    private weak var popOverPresentationDelegate: PopoverPresentationDelegate?
     
     // MARK: - Views
     private lazy var backgroundView: BackgroundDesignable = {
@@ -46,7 +46,7 @@ final class PopoverPresentationController: UIPresentationController, PopoverPres
         return PopoverContainerView(presentedView: presentedViewController.view, frame: frame)
     }()
     
-    public override var presentedView: UIView {
+    override var presentedView: UIView {
         return popOverContainerView
     }
     
@@ -95,7 +95,7 @@ final class PopoverPresentationController: UIPresentationController, PopoverPres
     }
     
     override var frameOfPresentedViewInContainerView: CGRect {
-        return popOverPresentationDelegate?.frameOfPresentedView(in: containerView!.frame) ?? containerView!.frame
+        self.popOverPresentationDelegate!.frameOfPresentedView(in: containerView!.frame)
     }
     
     func updatePresentation(presentation: Presentation, duration: Duration) {
@@ -107,7 +107,7 @@ final class PopoverPresentationController: UIPresentationController, PopoverPres
     }
     
     override func size(forChildContentContainer container: UIContentContainer, withParentContainerSize parentSize: CGSize) -> CGSize {
-        return CGSize.fullscreen
+        return self.popOverPresentationDelegate!.frameOfPresentedView(in: containerView!.frame).size
     }
 }
 
@@ -124,6 +124,8 @@ extension PopoverPresentationController {
     }
     
     func configureViewLayout() {
+//        presentedViewController.view.frame = frameOfPresentedViewInContainerView
+        presentedView.frame = frameOfPresentedViewInContainerView
         let corners = presentation.presentationUIConfiguration.corners
         let radius = presentation.presentationUIConfiguration.cornerRadius
         presentedView.roundCorners(corners, radius: radius)

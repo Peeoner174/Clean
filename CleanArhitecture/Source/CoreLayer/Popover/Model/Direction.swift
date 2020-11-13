@@ -8,7 +8,7 @@
 
 import UIKit
 
-public enum Direction {
+enum Direction {
     case top
     case bottom
     case left

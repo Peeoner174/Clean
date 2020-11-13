@@ -19,7 +19,6 @@ class PopoverManager {
         
         let popOverPresentationDelegate = PopoverPresentationDelegateImpl(
             presentation: presentation,
-            frameOfPresentedView: frameOfPresentedView,
             dismissCompletion: dismissCompletion
         )
         
@@ -36,11 +35,52 @@ class PopoverManager {
             transitionType: .presentation
         )
         
+        let dismissInteractionController = SlideInteractionController(
+            presentedViewController: presentedVC,
+            presentationController: presentationController,
+            transitionType: .dismissal
+        )
+        
+        presentedVC.popoverDelegate = dismissInteractionController
+        
+        popOverPresentationDelegate.presentationController = presentationController
+        popOverPresentationDelegate.presentInteractionController = presentInteractionController
+        popOverPresentationDelegate.dismissInteractionController = dismissInteractionController
+        
+        popOverPresentationDelegate.prepare(presentedViewController: presentedVC)
+        
+        presentingVC.present(presentedVC, animated: animated, completion: presentCompletion)
+    }
+    
+    static func presentExpandableSlidePopover(vc presentedVC: PopoverViewController,
+                        in presentingVC: UIViewController,
+                        animated: Bool = true,
+                        presentation: ExpandableSlidePresentation,
+                        presentCompletion: EmptyCompletion = nil,
+                        dismissCompletion: EmptyCompletion = nil) {
+        
+        let popOverPresentationDelegate = PopoverPresentationDelegateImpl(
+            presentation: presentation,
+            dismissCompletion: dismissCompletion
+        )
+        
+        let presentationController = PopoverPresentationController(
+            presentedVС: presentedVC,
+            presentingVC: presentingVC,
+            presentation: presentation,
+            delegate: popOverPresentationDelegate
+        )
+        
+        let presentInteractionController = ExpandableSlideInteractionController(
+            presentedViewController: presentedVC,
+            presentationController: presentationController,
+            transitionType: .presentation
+        )
+        
         let dismissInteractionController = ExpandableSlideInteractionController(
             presentedViewController: presentedVC,
             presentationController: presentationController,
-            transitionType: .presentation,
-            frameOfPresentedView: frameOfPresentedView
+            transitionType: .dismissal
         )
         
         presentedVC.popoverDelegate = dismissInteractionController
@@ -50,13 +90,12 @@ class PopoverManager {
         popOverPresentationDelegate.presentInteractionController = presentInteractionController
         popOverPresentationDelegate.dismissInteractionController = dismissInteractionController
         dismissInteractionController.interactionAction = {
-            popOverPresentationDelegate.updateSize(.fullscreen, duration: .medium)
+            popOverPresentationDelegate.updateSize()
         }
         
         popOverPresentationDelegate.prepare(presentedViewController: presentedVC)
         
-//        if let rootVC = UIApplication.shared.keyWindow?.rootViewController {
-            presentingVC.present(presentedVC, animated: animated, completion: presentCompletion)
-//        }
+        presentingVC.present(presentedVC, animated: animated, completion: presentCompletion)
     }
+    
 }

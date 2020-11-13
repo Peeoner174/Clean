@@ -27,23 +27,7 @@ extension EmployeeListPresenterImpl: EmployeeSectionModelDelegate {
     }
     
     func didTapCall(withPhone phoneNumber: String) {
-        let presentedVC = EmployeeListViewController.instantiate()
-        let presentation = SlidePresentation(direction: .bottom, uiConfiguration: PresentationUIConfiguration())
-        
-        PopoverManager.presentSlidePopover(
-            vc: presentedVC,
-            in: self.view as! UIViewController,
-            presentation: presentation,
-            frameOfPresentedView: { containerViewFrame in
-//                let height = CGFloat(300)
-                return CGRect(origin: CGPoint(x: 0, y: 310), size: CGSize(width: containerViewFrame.width, height: containerViewFrame.height - 300))
-        },
-            presentCompletion: { print("present completion")},
-            dismissCompletion: { print("dismiss completion")})
-        
-        
 
-        print("Will call to \(phoneNumber)")
     }
 }
 

@@ -9,22 +9,20 @@
 import UIKit
 
 protocol LiveUpdatable {
-    func updateSize(_ size: CGSize, duration: Duration)
+    func updateSize()
 }
 
 @objc
-public protocol PopoverPresentationDelegate: UIViewControllerTransitioningDelegate {
+protocol PopoverPresentationDelegate: UIViewControllerTransitioningDelegate {
     func frameOfPresentedView(in containerViewFrame: CGRect) -> CGRect
     @objc optional func didDismiss()
 }
 
 typealias Presentation = PresentationUIConfigurationProvider & PresentationAnimatorProvider
-typealias FrameOfPresentedViewClosure = ((_ containerViewFrame: CGRect) -> CGRect)?
 
 final class PopoverPresentationDelegateImpl: NSObject {
     private var presentation: Presentation
-    
-    private var frameOfPresentedView: FrameOfPresentedViewClosure
+
     private var dismissCompletion: EmptyCompletion
 
     var presentInteractionController: UIPercentDrivenInteractiveTransition?
@@ -32,16 +30,14 @@ final class PopoverPresentationDelegateImpl: NSObject {
     weak var presentationController: PopoverPresentationControllerProtocol!
     private weak var presentedViewController: UIViewController!
     
-    public init(presentation: Presentation,
-                frameOfPresentedView: FrameOfPresentedViewClosure,
-                dismissCompletion: EmptyCompletion = nil) {
+    init(presentation: Presentation,
+         dismissCompletion: EmptyCompletion = nil) {
         self.presentation = presentation
-        self.frameOfPresentedView = frameOfPresentedView
         self.dismissCompletion = dismissCompletion
         super.init()
     }
     
-    public func prepare(presentedViewController: UIViewController) {
+    func prepare(presentedViewController: UIViewController) {
         presentedViewController.modalPresentationStyle = .custom
         presentedViewController.transitioningDelegate = self
         self.presentedViewController = presentedViewController
@@ -50,7 +46,13 @@ final class PopoverPresentationDelegateImpl: NSObject {
 
 extension PopoverPresentationDelegateImpl: PopoverPresentationDelegate {
     func frameOfPresentedView(in containerViewFrame: CGRect) -> CGRect {
-        return frameOfPresentedView?(containerViewFrame) ?? containerViewFrame
+        if let expandableFrameProvider = presentation as? PresentationExpandableFrameProvider {
+            return expandableFrameProvider.frameOfExpandablePresentedViewClosure?(containerViewFrame, expandableFrameProvider.expandStep) ?? containerViewFrame
+        } else if let frameProvider = presentation as? PresentationFrameProvider {
+            return frameProvider.frameOfPresentedViewClosure?(containerViewFrame) ?? containerViewFrame
+        } else {
+            return containerViewFrame
+        }
     }
     
     func didDismiss() {
@@ -79,9 +81,12 @@ extension PopoverPresentationDelegateImpl: PopoverPresentationDelegate {
 }
 
 extension PopoverPresentationDelegateImpl: LiveUpdatable {
-    func updateSize(_ size: CGSize, duration: Duration) {
-        
-        presentation.presentationUIConfiguration.isTapBackgroundToDismissEnabled = false
+    func updateSize() {
+        guard var presentation = presentation as? (PresentationExpandableFrameProvider & Presentation) else {
+            return
+        }
+        presentation.expandStep = 1
+        self.presentation = presentation
         self.presentationController.updatePresentation(presentation: presentation, duration: .medium)
     }
 }
