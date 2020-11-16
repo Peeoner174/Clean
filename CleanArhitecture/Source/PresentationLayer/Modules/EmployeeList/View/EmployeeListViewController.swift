@@ -8,16 +8,19 @@
 
 import UIKit
 
-class EmployeeListViewController: UITableViewController, EmployeeListViewInput, PopoverViewController {
-    
+class EmployeeListViewController: UITableViewController, EmployeeListViewInput, ExpandablePopoverViewController {
     var presenter: EmployeeListPresenter!
     var sections = [EmployeeSectionModel]()
     weak var popoverDelegate: PopoverViewControllerDelegate?
+    var expandingScrollView: UIScrollView {
+        tableView
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         presenter.viewIsReady()
+        popoverDelegate?.observe(scrollView: tableView)
     }
     
     func updateForSections(_ sections: [EmployeeSectionModel]) {
@@ -52,10 +55,6 @@ extension EmployeeListViewController {
         return CGFloat(sections[indexPath.section].rows[indexPath.row].cellHeight)
     }
     
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        self.popoverDelegate?.popoverVC_scrollViewDidScroll(scrollView)
-    }
-    
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             sections[indexPath.section].rows.remove(at: indexPath.row)
@@ -65,12 +64,12 @@ extension EmployeeListViewController {
     }
 }
 
-protocol PopoverViewController: UIViewController {
+protocol ExpandablePopoverViewController: UIViewController {
     var popoverDelegate: PopoverViewControllerDelegate? { get set }
+    var expandingScrollView: UIScrollView { get }
 }
 
 protocol PopoverViewControllerDelegate: class {
-    func popoverVC_scrollViewDidScroll(_ scrollView: UIScrollView)
-//    var contentFrame: CGRect? { get set }
+    func observe(scrollView: UIScrollView?)
 }
 

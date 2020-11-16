@@ -25,6 +25,12 @@ class ExpandableSlideInteractionController: UIPercentDrivenInteractiveTransition
         return gesture
     }()
     
+    // MARK: - ScrollView expanding PopOver properties
+    
+    /// An observer for the scroll view content offset
+    private var scrollObserver: NSKeyValueObservation?
+    private var scrollViewYOffset: CGFloat = 0.0
+    
     init(presentedViewController: UIViewController,
          presentationController: PopoverPresentationControllerProtocol,
          transitionType: TransitionType
@@ -37,27 +43,35 @@ class ExpandableSlideInteractionController: UIPercentDrivenInteractiveTransition
         super.init()
     }
     
+    deinit {
+        scrollObserver?.invalidate()
+    }
+    
     override func startInteractiveTransition(_ transitionContext: UIViewControllerContextTransitioning) {
         super.startInteractiveTransition(transitionContext)
         let containerView = transitionContext.containerView
+    
         containerView.addGestureRecognizer(panGestureRecognizer)
-        
+            
         presentationController?.didTapBackgroundView = { [weak self] in
             guard let self = self else { return }
             self.presentedViewController?.dismiss(animated: true, completion: nil)
         }
     }
-
+    
     @objc func didPanOnPresentedView(_ recognizer: UIPanGestureRecognizer) {
         switch recognizer.state {
         case .began:
             
             break
         case .changed:
-            let translationOffset = recognizer.translation(in: presentedViewController?.view).y
-            self.presentedViewController?.view.transform = CGAffineTransform(translationX: 0,
-                                                                            y: translationOffset < 0 ? calculateLogarithmicOffset(forOffset: translationOffset) : translationOffset
-            )
+//            let translationOffset = recognizer.translation(in: presentedViewController?.view).y
+//            self.presentedViewController?.view.transform = CGAffineTransform(translationX: 0,
+//                                                                            y: translationOffset < 0 ? calculateLogarithmicOffset(forOffset: translationOffset) : translationOffset
+//            )
+            
+       //     adjustFrames(toContentOffset: recognizer.translation(in: presentedViewController?.view))
+            respond(to: recognizer)
             break
         case .ended:
             let translation = recognizer.translation(in: presentedViewController?.view).y
@@ -77,33 +91,57 @@ class ExpandableSlideInteractionController: UIPercentDrivenInteractiveTransition
     private func calculateLogarithmicOffset(forOffset offset: CGFloat) -> CGFloat {
         return offset * ((1 - log2(abs(offset)) / 10) )
     }
+    
+    // MARK: - ScrollView expanding PopOver methods
+    
+    func didPanOnScrollView(_ scrollView: UIScrollView, change: NSKeyValueObservedChange<CGPoint>) {
+        guard
+            let presentedViewController = self.presentedViewController,
+            !presentedViewController.isBeingDismissed,
+            !presentedViewController.isBeingPresented
+            else { return }
+        
+        if scrollView.isScrolling {
+            haltScrolling(scrollView)
+           // trackScrolling(scrollView)
+        } else {
+            
+        }
+        
+        print(scrollView.contentOffset.y)
+        
+    }
+    
+    func haltScrolling(_ scrollView: UIScrollView) {
+        scrollView.setContentOffset(CGPoint(x: 0, y: scrollViewYOffset), animated: false)
+        scrollView.showsVerticalScrollIndicator = false
+    }
+    
+    func trackScrolling(_ scrollView: UIScrollView) {
+        scrollViewYOffset = max(scrollView.contentOffset.y, 0)
+        scrollView.showsVerticalScrollIndicator = true
+    }
+    
+    func adjustFrames(toContentOffset contentOffset: CGPoint) {
+        self.presentedViewController?.view.frame.origin.y = contentOffset.y
+        self.presentedViewController?.view.frame.size.height += contentOffset.y
+    }
+    
+    func respond(to panGestureRecognizer: UIPanGestureRecognizer) {
+        let yDisplacement = panGestureRecognizer.translation(in: presentedViewController?.view).y
+        adjustFrames(toContentOffset: CGPoint(x: 0, y: presentedViewController!.view.frame.origin.y + yDisplacement))
+        panGestureRecognizer.setTranslation(.zero, in: presentedViewController!.view)
+    }
 }
 
 extension ExpandableSlideInteractionController: PopoverViewControllerDelegate {
-    func popoverVC_scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard let controller = UIView.controller(for: scrollView) else {
-            return
-        }
-        let translation = -(scrollView.contentOffset.y + scrollView.contentInset.top)
-        if translation >= 0 {
-            if controller.isBeingPresented { return }
-            controller.view.transform = CGAffineTransform(translationX: 0, y: translation)
-            
-            if translation >= 25 {
-                if !scrollView.isTracking && !scrollView.isDragging {
-                    controller.dismiss(animated: true, completion: nil)
-                    return
-                }
-            }
-        } else {
-            let oldFrame = self.presentationController?.presentedView?.frame
-            let newFrame = CGRect(x: oldFrame!.minX, y: oldFrame!.maxY + abs(translation), width: oldFrame!.width, height: oldFrame!.height + abs(translation))
-            self.presentationController?.presentedViewController.view.transform = CGAffineTransform(translationX: 0, y: translation * 1.2)
-            self.presentationController?.presentedView?.frame = newFrame
-
-        }
+    func observe(scrollView: UIScrollView?) {
+        scrollObserver?.invalidate()
+        scrollObserver = scrollView?.observe(\.contentOffset, options: .old, changeHandler: didPanOnScrollView(_:change:))
     }
 }
+
+
 
 
 

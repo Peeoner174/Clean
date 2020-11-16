@@ -77,24 +77,8 @@ class SlideInteractionController: UIPercentDrivenInteractiveTransition {
 }
 
 extension SlideInteractionController: PopoverViewControllerDelegate {
-    func popoverVC_scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard let controller = UIView.controller(for: scrollView) else {
-            return
-        }
-        let translation = -(scrollView.contentOffset.y + scrollView.contentInset.top)
-        if translation >= 0 {
-            if controller.isBeingPresented { return }
-            controller.view.transform = CGAffineTransform(translationX: 0, y: translation)
-
-            if translation >= 25 {
-                if !scrollView.isTracking && !scrollView.isDragging {
-                    controller.dismiss(animated: true, completion: nil)
-                    return
-                }
-            }
-        } else {
-            
-        }
+    func observe(scrollView: UIScrollView?) {
+        
     }
 }
 
@@ -107,4 +91,10 @@ extension CGRect {
     static var fullscreen = CGRect(x: 0, y: UIScreen.main.bounds.size.height, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
     
     static var halfScreen = CGRect(x: 0, y: UIScreen.main.bounds.size.height / 2, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height / 2)
+}
+
+extension UIScrollView {
+    var isScrolling: Bool {
+        return isDragging || !isDecelerating || isTracking
+    }
 }

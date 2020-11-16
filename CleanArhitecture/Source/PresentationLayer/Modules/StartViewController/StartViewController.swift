@@ -18,7 +18,7 @@ class StartViewController: UIViewController {
         let presentation = ExpandableSlidePresentation(direction: .bottom, uiConfiguration: PresentationUIConfiguration()) { (containerViewFrame, presentStep) -> CGRect in
             switch presentStep {
             case 0:
-                return CGRect(x: 0.0, y: 400, width: 375, height: 800)
+                return CGRect(x: 0.0, y: 300, width: 375, height: 400)
             case 1:
                 return CGRect(x: 0.0, y: 0, width: 375.0, height: 800)
             default: fatalError()

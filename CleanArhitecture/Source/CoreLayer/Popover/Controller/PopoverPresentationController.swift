@@ -13,7 +13,7 @@ protocol PopoverPresentationControllerProtocol: UIPresentationController, UIGest
     func updatePresentation(presentation: Presentation, duration: Duration)
 }
 
-final class PopoverPresentationController: UIPresentationController, PopoverPresentationControllerProtocol {
+final class PopoverPresentationController: UIPresentationController {
     private var presentation: Presentation
     private weak var popOverPresentationDelegate: PopoverPresentationDelegate?
     
@@ -129,5 +129,25 @@ extension PopoverPresentationController {
         let corners = presentation.presentationUIConfiguration.corners
         let radius = presentation.presentationUIConfiguration.cornerRadius
         presentedView.roundCorners(corners, radius: radius)
+    }
+}
+
+extension PopoverPresentationController: PopoverPresentationControllerProtocol {
+    /**
+     Do not require any other gesture recognizers to fail
+     */
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return false
+    }
+
+    /**
+     Allow simultaneous gesture recognizers only when the other gesture recognizer's view
+     is the pan scrollable view
+     */
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        guard let presentedViewController = presentedViewController as? ExpandablePopoverViewController else {
+            return false
+        }
+        return otherGestureRecognizer.view == presentedViewController.expandingScrollView
     }
 }
