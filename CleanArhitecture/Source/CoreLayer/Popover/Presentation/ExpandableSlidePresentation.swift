@@ -16,7 +16,7 @@ private typealias ExpandableSlidePresentationParamsProvider =
     PresentationExpandableFrameProvider
 
 struct ExpandableSlidePresentation: ExpandableSlidePresentationParamsProvider {
-    var expandStep: Int8 = 0
+    var expandStep: UInt8 = 0
     var frameOfExpandablePresentedViewClosure: FrameOfExpandablePresentedViewClosure
     var presentationUIConfiguration: PresentationUIConfiguration
     var showDirection: Direction

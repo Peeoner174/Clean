@@ -11,11 +11,13 @@ import UIKit
 protocol PopoverPresentationControllerProtocol: UIPresentationController, UIGestureRecognizerDelegate {
     var didTapBackgroundView: EmptyCompletion { get set }
     func updatePresentation(presentation: Presentation, duration: Duration)
+    
 }
 
 final class PopoverPresentationController: UIPresentationController {
     private var presentation: Presentation
-    private weak var popOverPresentationDelegate: PopoverPresentationDelegate?
+    private var popOverPresentationDelegate: PopoverPresentationDelegate?
+    var needToTemp: Bool = false
     
     // MARK: - Views
     private lazy var backgroundView: BackgroundDesignable = {
@@ -125,10 +127,21 @@ extension PopoverPresentationController {
     
     func configureViewLayout() {
 //        presentedViewController.view.frame = frameOfPresentedViewInContainerView
-        presentedView.frame = frameOfPresentedViewInContainerView
-        let corners = presentation.presentationUIConfiguration.corners
-        let radius = presentation.presentationUIConfiguration.cornerRadius
-        presentedView.roundCorners(corners, radius: radius)
+        if needToTemp {
+            if let presentation = presentation as? PresentationExpandableFrameProvider {
+                presentedViewController.view.frame = try! presentation.frameOfExpandablePresentedViewClosure!(self.containerView!.frame, presentation.expandStep)
+            } else {
+              presentedViewController.view.frame = frameOfPresentedViewInContainerView
+            }
+            let corners = presentation.presentationUIConfiguration.corners
+            let radius = presentation.presentationUIConfiguration.cornerRadius
+            presentedView.roundCorners(corners, radius: radius)
+        } else {
+            presentedView.frame = frameOfPresentedViewInContainerView
+            let corners = presentation.presentationUIConfiguration.corners
+            let radius = presentation.presentationUIConfiguration.cornerRadius
+            presentedView.roundCorners(corners, radius: radius)
+        }
     }
 }
 
@@ -149,5 +162,61 @@ extension PopoverPresentationController: PopoverPresentationControllerProtocol {
             return false
         }
         return otherGestureRecognizer.view == presentedViewController.expandingScrollView
+    }
+}
+
+extension PopoverPresentationController: PopoverFrameTweakable {
+    
+    func updateFrame(currentFrame: CGRect, duration: Duration, direction: Direction) throws {
+        switch direction {
+        case .bottom:
+            var previousStepFrame: CGRect
+            repeat {
+                previousStepFrame = try getNextStepFrame(panDirection: direction)
+            } while previousStepFrame.height < currentFrame.height
+        case .top:
+            var nextStepFrame: CGRect
+            repeat {
+                nextStepFrame = try getNextStepFrame(panDirection: direction)
+            } while nextStepFrame.height < currentFrame.height
+        default:
+            throw LiveUpdateError.expandToDirectionNotSupported(direction)
+        }
+        needToTemp = true
+        self.updatePresentation(presentation: presentation, duration: duration)
+    }
+    
+    func getNextStepFrame(panDirection: Direction) throws -> CGRect {
+        guard var presentation = presentation as? (PresentationExpandableFrameProvider & Presentation) else {
+            return presentedViewController.view.frame
+        }
+        
+        let newFrame: CGRect
+        switch panDirection {
+        case .top:
+            do {
+                newFrame = try presentation.frameOfExpandablePresentedViewClosure!(
+                    containerView!.frame,
+                    presentation.expandStep + 1
+                )
+                presentation.expandStep += 1
+            } catch {
+                throw LiveUpdateError.reachedExpandMaximum
+            }
+        case .bottom:
+            do {
+                newFrame = try presentation.frameOfExpandablePresentedViewClosure!(
+                    containerView!.frame,
+                    presentation.expandStep - 1
+                )
+                presentation.expandStep -= 1
+            } catch {
+                throw LiveUpdateError.reachedExpandMinimum
+            }
+        default:
+            newFrame = presentedViewController.view.frame
+        }
+        self.presentation = presentation
+        return newFrame
     }
 }

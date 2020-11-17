@@ -16,12 +16,16 @@ class StartViewController: UIViewController {
     @IBAction func openEmployListViewController(_ sender: Any) {
         let presentedVC = EmployeeListViewController.instantiate()
         let presentation = ExpandableSlidePresentation(direction: .bottom, uiConfiguration: PresentationUIConfiguration()) { (containerViewFrame, presentStep) -> CGRect in
+            
             switch presentStep {
             case 0:
                 return CGRect(x: 0.0, y: 300, width: 375, height: 400)
             case 1:
-                return CGRect(x: 0.0, y: 0, width: 375.0, height: 800)
-            default: fatalError()
+                return CGRect(x: 0.0, y: 200, width: 375.0, height: 600)
+            case 2... :
+                throw LiveUpdateError.reachedExpandMaximum
+            default:
+                throw LiveUpdateError.undefinedExpandStep
             }
         }
         PopoverManager.presentExpandableSlidePopover(vc: presentedVC, in: self, presentation: presentation)

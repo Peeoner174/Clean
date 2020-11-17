@@ -90,7 +90,8 @@ class PopoverManager {
         popOverPresentationDelegate.presentInteractionController = presentInteractionController
         popOverPresentationDelegate.dismissInteractionController = dismissInteractionController
         dismissInteractionController.interactionAction = {
-            popOverPresentationDelegate.updateSize()
+            
+   //         popOverPresentationDelegate.updateSize()
         }
         
         popOverPresentationDelegate.prepare(presentedViewController: presentedVC)

@@ -8,15 +8,15 @@
 
 import UIKit
 
-typealias FrameOfPresentedViewClosure = ((_ containerViewFrame: CGRect) -> CGRect)?
+typealias FrameOfPresentedViewClosure = ((_ containerViewFrame: CGRect) throws -> CGRect)?
 
 protocol PresentationFrameProvider {
     var frameOfPresentedViewClosure: FrameOfPresentedViewClosure { get set }
 }
 
-typealias FrameOfExpandablePresentedViewClosure = ((_ containerViewFrame: CGRect, _ expandStep: Int8) -> CGRect)?
+typealias FrameOfExpandablePresentedViewClosure = ((_ containerViewFrame: CGRect, _ expandStep: UInt8) throws -> CGRect)?
 
 protocol PresentationExpandableFrameProvider {
-    var expandStep: Int8 { get set }
+    var expandStep: UInt8 { get set }
     var frameOfExpandablePresentedViewClosure: FrameOfExpandablePresentedViewClosure { get set }
 }

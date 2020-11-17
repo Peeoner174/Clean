@@ -8,8 +8,15 @@
 
 import UIKit
 
-protocol LiveUpdatable {
-    func updateSize()
+protocol PopoverFrameTweakable {
+    func updateFrame(currentFrame: CGRect, duration: Duration, direction: Direction) throws
+}
+
+enum LiveUpdateError: Error {
+    case reachedExpandMaximum
+    case reachedExpandMinimum
+    case expandToDirectionNotSupported(Direction)
+    case undefinedExpandStep
 }
 
 @objc
@@ -47,9 +54,9 @@ final class PopoverPresentationDelegateImpl: NSObject {
 extension PopoverPresentationDelegateImpl: PopoverPresentationDelegate {
     func frameOfPresentedView(in containerViewFrame: CGRect) -> CGRect {
         if let expandableFrameProvider = presentation as? PresentationExpandableFrameProvider {
-            return expandableFrameProvider.frameOfExpandablePresentedViewClosure?(containerViewFrame, expandableFrameProvider.expandStep) ?? containerViewFrame
+            return (try? expandableFrameProvider.frameOfExpandablePresentedViewClosure?(containerViewFrame, expandableFrameProvider.expandStep)) ?? containerViewFrame
         } else if let frameProvider = presentation as? PresentationFrameProvider {
-            return frameProvider.frameOfPresentedViewClosure?(containerViewFrame) ?? containerViewFrame
+            return (try? frameProvider.frameOfPresentedViewClosure?(containerViewFrame)) ?? containerViewFrame
         } else {
             return containerViewFrame
         }
@@ -77,16 +84,5 @@ extension PopoverPresentationDelegateImpl: PopoverPresentationDelegate {
     
     func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
         return dismissInteractionController
-    }
-}
-
-extension PopoverPresentationDelegateImpl: LiveUpdatable {
-    func updateSize() {
-        guard var presentation = presentation as? (PresentationExpandableFrameProvider & Presentation) else {
-            return
-        }
-        presentation.expandStep = 1
-        self.presentation = presentation
-        self.presentationController.updatePresentation(presentation: presentation, duration: .medium)
     }
 }
