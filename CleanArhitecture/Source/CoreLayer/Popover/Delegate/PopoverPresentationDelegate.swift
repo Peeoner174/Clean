@@ -12,7 +12,7 @@ protocol PopoverFrameTweakable {
     func updateFrame(currentFrame: CGRect, duration: Duration, direction: Direction) throws
 }
 
-enum LiveUpdateError: Error {
+enum LiveUpdateError: Error, Equatable {
     case reachedExpandMaximum
     case reachedExpandMinimum
     case expandToDirectionNotSupported(Direction)

@@ -205,6 +205,9 @@ extension PopoverPresentationController: PopoverFrameTweakable {
             }
         case .bottom:
             do {
+                guard presentation.expandStep != 0 else {
+                    throw LiveUpdateError.reachedExpandMinimum
+                }
                 newFrame = try presentation.frameOfExpandablePresentedViewClosure!(
                     containerView!.frame,
                     presentation.expandStep - 1

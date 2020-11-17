@@ -77,22 +77,22 @@ class PopoverManager {
             transitionType: .presentation
         )
         
-        let dismissInteractionController = ExpandableSlideInteractionController(
+        let dismissInteractionController = SlideInteractionController(
             presentedViewController: presentedVC,
             presentationController: presentationController,
             transitionType: .dismissal
         )
         
-        presentedVC.popoverDelegate = dismissInteractionController
+        presentedVC.popoverDelegate = presentInteractionController
         
         
         popOverPresentationDelegate.presentationController = presentationController
         popOverPresentationDelegate.presentInteractionController = presentInteractionController
         popOverPresentationDelegate.dismissInteractionController = dismissInteractionController
-        dismissInteractionController.interactionAction = {
+//        dismissInteractionController.interactionAction = {
             
    //         popOverPresentationDelegate.updateSize()
-        }
+//        }
         
         popOverPresentationDelegate.prepare(presentedViewController: presentedVC)
         

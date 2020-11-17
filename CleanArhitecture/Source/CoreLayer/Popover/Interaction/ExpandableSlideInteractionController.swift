@@ -27,8 +27,9 @@ class ExpandableSlideInteractionController: UIPercentDrivenInteractiveTransition
     
     // MARK: - ScrollView expanding PopOver properties
     
-    /// An observer for the scroll view content offset
-    private var scrollObserver: NSKeyValueObservation?
+    private var scrollViewScrollingObserver: NSKeyValueObservation?
+    private var scrollViewScrolledToBottom: Bool!
+    private var scrollViewScrolledToTop: Bool = false
     private var scrollViewYOffset: CGFloat = 0.0
     private var expandLimitReachead: Bool = false
     
@@ -45,7 +46,7 @@ class ExpandableSlideInteractionController: UIPercentDrivenInteractiveTransition
     }
     
     deinit {
-        scrollObserver?.invalidate()
+        scrollViewScrollingObserver?.invalidate()
     }
     
     override func startInteractiveTransition(_ transitionContext: UIViewControllerContextTransitioning) {
@@ -60,39 +61,53 @@ class ExpandableSlideInteractionController: UIPercentDrivenInteractiveTransition
         }
     }
     
+    var currentLiveUpdateError: LiveUpdateError?
+    var temp: Bool = true
     @objc func didPanOnPresentedView(_ recognizer: UIPanGestureRecognizer) {
+        let direction: Direction = recognizer.velocity(in: presentedViewController?.view).y < 0 ? .top : .bottom
+        let translationOffset = recognizer.translation(in: presentedViewController?.view).y
+//print(translationOffset)
+        
         switch recognizer.state {
         case .began:
-            break
+            temp = true
+            
         case .changed:
+            print(scrollViewYOffset)
+            print(" ", temp, " ", scrollViewYOffset, " ", direction )
             if presentedViewController!.view.frame.height < 550 {
+                temp = false
                 respond(to: recognizer)
-            } else {           }
-        case .ended: 
-            let translation = recognizer.translation(in: presentedViewController?.view).y
-
-            do {
-                try (presentationController as! PopoverFrameTweakable).updateFrame(
-                    currentFrame: presentedViewController!.view.frame,
-                    duration: .medium,
-                    direction: translation > 0 ? .bottom : .top
-                )
-            } catch let error {
-                guard let error = error as? LiveUpdateError else {
-                    return
-                }
-                switch error {
-                case .reachedExpandMaximum:
-                    UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 10.0, options: [.allowUserInteraction, .beginFromCurrentState], animations: {
-                        self.presentedViewController?.view.transform = CGAffineTransform.identity
-                    }, completion: {(true) in
-                    })
-                case .reachedExpandMinimum:
-                    self.presentedViewController?.dismiss(animated: true, completion: nil)
-                default:
-                    return
-                }
+            } else if temp && scrollViewYOffset < 1 && direction == .bottom {
+                //panGestureRecognizer.setTranslation(CGPoint(x: 0, y: 1), in: presentedViewController!.view)
+                respond(to: recognizer)
             }
+        case .ended:
+            temp = true
+
+//            do {
+//                try (presentationController as! PopoverFrameTweakable).updateFrame(
+//                    currentFrame: presentedViewController!.view.frame,
+//                    duration: .medium,
+//                    direction: direction
+//                )
+//            } catch let error {
+//                guard let error = error as? LiveUpdateError else {
+//                    return
+//                }
+//                self.currentLiveUpdateError = error
+//                switch error {
+//                case .reachedExpandMaximum:
+//                    UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 10.0, options: [.allowUserInteraction, .beginFromCurrentState], animations: {
+//                        self.presentedViewController?.view.transform = CGAffineTransform.identity
+//                    }, completion: {(true) in
+//                    })
+//                case .reachedExpandMinimum: break
+                  //      self.presentedViewController?.dismiss(animated: true, completion: nil)
+//                default:
+              //      return
+                //}
+           // }
         default:
             break
         }
@@ -139,6 +154,9 @@ class ExpandableSlideInteractionController: UIPercentDrivenInteractiveTransition
     
     func respond(to panGestureRecognizer: UIPanGestureRecognizer) {
         let yDisplacement = panGestureRecognizer.translation(in: presentedViewController?.view).y
+        guard abs(presentedViewController!.view.frame.origin.y - presentedViewController!.view.frame.origin.y + yDisplacement) < 100 else {
+            return
+        }
         adjustFrames(to: CGPoint(x: 0, y: presentedViewController!.view.frame.origin.y + yDisplacement))
         panGestureRecognizer.setTranslation(.zero, in: presentedViewController!.view)
     }
@@ -146,8 +164,12 @@ class ExpandableSlideInteractionController: UIPercentDrivenInteractiveTransition
 
 extension ExpandableSlideInteractionController: PopoverViewControllerDelegate {
     func observe(scrollView: UIScrollView?) {
-        scrollObserver?.invalidate()
-        scrollObserver = scrollView?.observe(\.contentOffset, options: .old, changeHandler: didPanOnScrollView(_:change:))
+        scrollViewScrollingObserver?.invalidate()
+        scrollViewScrollingObserver = scrollView?.observe(\.contentOffset, options: .old) { [weak self] scrollView, change in
+            self?.scrollViewScrolledToTop = scrollView.contentOffset.y == 0
+            self?.scrollViewScrolledToBottom = scrollView.contentSize.height == scrollView.contentOffset.y
+            self?.didPanOnScrollView(scrollView, change: change)
+        }
     }
 }
 
