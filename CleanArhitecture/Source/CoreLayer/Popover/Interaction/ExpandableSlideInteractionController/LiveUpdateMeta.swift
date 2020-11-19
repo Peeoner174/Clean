@@ -6,6 +6,8 @@
 //  Copyright © 2020 IA. All rights reserved.
 //
 
+import UIKit
+
 struct ScrollViewMeta {
     var scrollViewReachedBottom: Bool = false
     var scrollViewReachedTopOnPanBegan = false
