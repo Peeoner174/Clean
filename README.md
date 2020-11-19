@@ -3,8 +3,6 @@ My example project. Thoughts about app architecture, realizations custom view pr
 
 
 
-
-
 Основная цель -- легкая расширяемость функционала, поэтому я не стал выносить код в отдельный pod.
 
 **Interaction**
