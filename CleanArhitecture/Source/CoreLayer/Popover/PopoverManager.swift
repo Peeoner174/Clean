@@ -9,18 +9,16 @@
 import UIKit
 
 class PopoverManager {
-
-    static func presentSlidePopover(vc presentedVC: UIViewController,
+    
+    static func presentExpandableSlidePopover(vc presentedVC: ExpandablePopoverViewController,
                         in presentingVC: UIViewController,
                         animated: Bool = true,
-                        presentation: SlidePresentation,
-                        frameOfPresentedView: FrameOfPresentedViewClosure,
+                        presentation: ExpandableSlidePresentation,
                         presentCompletion: EmptyCompletion = nil,
                         dismissCompletion: EmptyCompletion = nil) {
         
         let popOverPresentationDelegate = PopoverPresentationDelegateImpl(
             presentation: presentation,
-            frameOfPresentedView: frameOfPresentedView,
             dismissCompletion: dismissCompletion
         )
         
@@ -31,7 +29,7 @@ class PopoverManager {
             delegate: popOverPresentationDelegate
         )
         
-        let presentInteractionController = SlideInteractionController(
+        let presentInteractionController = ExpandableSlideInteractionController(
             presentedViewController: presentedVC,
             presentationController: presentationController,
             transitionType: .presentation
@@ -43,15 +41,14 @@ class PopoverManager {
             transitionType: .dismissal
         )
         
+        presentedVC.popoverDelegate = presentInteractionController
+        
         popOverPresentationDelegate.presentationController = presentationController
         popOverPresentationDelegate.presentInteractionController = presentInteractionController
         popOverPresentationDelegate.dismissInteractionController = dismissInteractionController
-        
         popOverPresentationDelegate.prepare(presentedViewController: presentedVC)
         
-        if let rootVC = UIApplication.shared.keyWindow?.rootViewController {
-            rootVC.present(presentedVC, animated: animated, completion: presentCompletion)
-        }
+        presentingVC.present(presentedVC, animated: animated, completion: presentCompletion)
     }
     
 }

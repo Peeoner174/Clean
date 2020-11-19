@@ -6,7 +6,7 @@
 //  Copyright © 2019 IA. All rights reserved.
 //
 
-public protocol PresentationUIConfigurationProvider {
+protocol PresentationUIConfigurationProvider {
     var presentationUIConfiguration: PresentationUIConfiguration { get set }
 }
 

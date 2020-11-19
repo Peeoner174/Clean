@@ -10,6 +10,6 @@ import UIKit
 
 struct Constants {
     
-    public static let startVCType = EmployeeListViewController.self
+    public static let startVCType = StartViewController.self
     
 }

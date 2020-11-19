@@ -23,7 +23,7 @@ public class DimmedView: UIView {
         fatalError()
     }
     
-    public var didTap: ((_ recognizer: UIGestureRecognizer) -> Void)?
+    var didTap: ((_ recognizer: UIGestureRecognizer) -> Void)?
     
     private lazy var tapGesture: UIGestureRecognizer = {
         return UITapGestureRecognizer(target: self, action: #selector(didTapView))
@@ -37,15 +37,15 @@ public class DimmedView: UIView {
 }
 
 extension DimmedView: BackgroundDesignable {
-    public func onPresent() {
+    func onPresent() {
         alpha = dimAlpha
     }
     
-    public func onDissmis() {
+    func onDissmis() {
         alpha = 0.0
     }
     
-    public var style: BackgroundStyle {
+    var style: BackgroundStyle {
         return .dimmed(alpha: self.dimAlpha)
     }
 }

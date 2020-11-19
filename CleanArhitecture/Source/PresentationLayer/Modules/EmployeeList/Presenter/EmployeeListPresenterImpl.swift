@@ -19,7 +19,6 @@ class EmployeeListPresenterImpl {
         self.employeeListUsecase = employeeListUsecase
         self.router = router
     }
-    
 }
 
 extension EmployeeListPresenterImpl: EmployeeSectionModelDelegate {
@@ -28,23 +27,7 @@ extension EmployeeListPresenterImpl: EmployeeSectionModelDelegate {
     }
     
     func didTapCall(withPhone phoneNumber: String) {
-        let presentedVC = EmployeeListViewController.instantiate()
-        let presentation = SlidePresentation(direction: .bottom, uiConfiguration: PresentationUIConfiguration())
-        
-        PopoverManager.presentSlidePopover(
-            vc: presentedVC,
-            in: self.view as! UIViewController,
-            presentation: presentation,
-            frameOfPresentedView: { containerViewFrame in
-                let height = CGFloat(300)
-                return CGRect(origin: CGPoint(x: 0, y: containerViewFrame.height - height + 10), size: CGSize(width: containerViewFrame.width, height: height))
-        },
-            presentCompletion: { print("present completion")},
-            dismissCompletion: { print("dismiss completion")})
-        
-        
 
-        print("Will call to \(phoneNumber)")
     }
 }
 
@@ -67,5 +50,4 @@ extension EmployeeListPresenterImpl: EmployeeListPresenter {
         
         view.updateForSections(sections)
     }
-    
 }

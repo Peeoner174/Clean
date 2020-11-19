@@ -75,3 +75,10 @@ class SlideInteractionController: UIPercentDrivenInteractiveTransition {
         return offset * ((1 - log2(abs(offset)) / 10) )
     }
 }
+
+extension SlideInteractionController: PopoverViewControllerDelegate {
+    func observe(scrollView: UIScrollView?) {
+        
+    }
+}
+

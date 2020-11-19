@@ -44,7 +44,7 @@ class PassthroughBackgroundView: UIView {
         return view
     }
     
-    public var didTap: ((_ recognizer: UIGestureRecognizer) -> Void)?
+    var didTap: ((_ recognizer: UIGestureRecognizer) -> Void)?
     
     private lazy var tapGesture: UIGestureRecognizer = {
         return UITapGestureRecognizer(target: self, action: #selector(didTapView))

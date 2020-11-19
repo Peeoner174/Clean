@@ -21,7 +21,7 @@ public class BluredView: UIVisualEffectView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public var didTap: ((_ recognizer: UIGestureRecognizer) -> Void)?
+    var didTap: ((_ recognizer: UIGestureRecognizer) -> Void)?
     
     private lazy var tapGesture: UIGestureRecognizer = {
         return UITapGestureRecognizer(target: self, action: #selector(didTapView))
@@ -35,15 +35,15 @@ public class BluredView: UIVisualEffectView {
 }
 
 extension BluredView: BackgroundDesignable {
-    public func onPresent() {
+    func onPresent() {
         effect = UIBlurEffect(style: effectStyle)
     }
     
-    public func onDissmis() {
+    func onDissmis() {
         effect = nil
     }
     
-    public var style: BackgroundStyle {
+    var style: BackgroundStyle {
         return .blurred(effectStyle: self.effectStyle)
     }
 }

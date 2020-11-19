@@ -12,26 +12,34 @@ import UIKit
 private typealias SlidePresentationParamsProvider =
     PresentationTimingInformationProvider &
     PresentationUIConfigurationProvider &
-    PresentationShowDirectionProvider
+    PresentationShowDirectionProvider &
+    PresentationFrameProvider
 
-public struct SlidePresentation: SlidePresentationParamsProvider {
-    public var presentationUIConfiguration: PresentationUIConfiguration
-    public var showDirection: Direction
-    public var presentationTiming: PresentationTiming
+struct SlidePresentation: SlidePresentationParamsProvider {
+    var frameOfPresentedViewClosure: FrameOfPresentedViewClosure
+    var presentationUIConfiguration: PresentationUIConfiguration
+    var showDirection: Direction
+    var presentationTiming: PresentationTiming
     
-    public init(timing: PresentationTiming = PresentationTiming(), direction: Direction, uiConfiguration: PresentationUIConfiguration) {
+    init(
+        timing: PresentationTiming = PresentationTiming(),
+        direction: Direction,
+        uiConfiguration: PresentationUIConfiguration,
+        frameOfPresentedViewClosure: FrameOfPresentedViewClosure
+    ) {
         self.presentationTiming = timing
         self.showDirection = direction
         self.presentationUIConfiguration = uiConfiguration
+        self.frameOfPresentedViewClosure = frameOfPresentedViewClosure
     }
 }
 
 extension SlidePresentation: PresentationAnimatorProvider {
-    public var showAnimator: UIViewControllerAnimatedTransitioning {
+    var showAnimator: UIViewControllerAnimatedTransitioning {
         return SlideAnimator(transitionType: .presentation, presentation: self)
     }
     
-    public var dismissAnimator: UIViewControllerAnimatedTransitioning {
+    var dismissAnimator: UIViewControllerAnimatedTransitioning {
         return SlideAnimator(transitionType: .dismissal, presentation: self)
     }
 }
