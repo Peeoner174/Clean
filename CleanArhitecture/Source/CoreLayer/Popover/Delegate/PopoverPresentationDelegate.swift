@@ -10,6 +10,7 @@ import UIKit
 
 protocol PopoverFrameTweakable {
     func updateFrame(currentFrame: CGRect, duration: Duration, direction: Direction) throws
+    var needTweak: Bool { get set }
 }
 
 enum LiveUpdateError: Error, Equatable {
@@ -54,7 +55,7 @@ final class PopoverPresentationDelegateImpl: NSObject {
 extension PopoverPresentationDelegateImpl: PopoverPresentationDelegate {
     func frameOfPresentedView(in containerViewFrame: CGRect) -> CGRect {
         if let expandableFrameProvider = presentation as? PresentationExpandableFrameProvider {
-            return (try? expandableFrameProvider.frameOfExpandablePresentedViewClosure?(containerViewFrame, expandableFrameProvider.expandStep)) ?? containerViewFrame
+            return (try? expandableFrameProvider.frameOfExpandablePresentedViewClosure?(containerViewFrame, expandableFrameProvider.currentExpandStep)) ?? containerViewFrame
         } else if let frameProvider = presentation as? PresentationFrameProvider {
             return (try? frameProvider.frameOfPresentedViewClosure?(containerViewFrame)) ?? containerViewFrame
         } else {

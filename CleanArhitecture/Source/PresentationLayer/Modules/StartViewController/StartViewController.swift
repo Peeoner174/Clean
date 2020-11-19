@@ -19,9 +19,9 @@ class StartViewController: UIViewController {
             
             switch presentStep {
             case 0:
-                return CGRect(x: 0.0, y: 300, width: 375, height: 400)
+                return CGRect(x: 0.0, y: UIScreen.main.bounds.height - 400, width: UIScreen.main.bounds.width, height: 400)
             case 1:
-                return CGRect(x: 0.0, y: 200, width: 375.0, height: 600)
+                return CGRect(x: 0.0, y: UIScreen.main.bounds.height - 550, width: UIScreen.main.bounds.width, height: 550)
             case 2... :
                 throw LiveUpdateError.reachedExpandMaximum
             default:

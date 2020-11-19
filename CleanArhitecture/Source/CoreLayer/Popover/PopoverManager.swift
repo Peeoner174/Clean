@@ -9,48 +9,6 @@
 import UIKit
 
 class PopoverManager {
-//    static func presentSlidePopover(vc presentedVC: PopoverViewController,
-//                        in presentingVC: UIViewController,
-//                        animated: Bool = true,
-//                        presentation: SlidePresentation,
-//                        frameOfPresentedView: FrameOfPresentedViewClosure,
-//                        presentCompletion: EmptyCompletion = nil,
-//                        dismissCompletion: EmptyCompletion = nil) {
-//        
-//        let popOverPresentationDelegate = PopoverPresentationDelegateImpl(
-//            presentation: presentation,
-//            dismissCompletion: dismissCompletion
-//        )
-//        
-//        let presentationController = PopoverPresentationController(
-//            presentedVС: presentedVC,
-//            presentingVC: presentingVC,
-//            presentation: presentation,
-//            delegate: popOverPresentationDelegate
-//        )
-//        
-//        let presentInteractionController = SlideInteractionController(
-//            presentedViewController: presentedVC,
-//            presentationController: presentationController,
-//            transitionType: .presentation
-//        )
-//        
-//        let dismissInteractionController = SlideInteractionController(
-//            presentedViewController: presentedVC,
-//            presentationController: presentationController,
-//            transitionType: .dismissal
-//        )
-//        
-//        presentedVC.popoverDelegate = dismissInteractionController
-//        
-//        popOverPresentationDelegate.presentationController = presentationController
-//        popOverPresentationDelegate.presentInteractionController = presentInteractionController
-//        popOverPresentationDelegate.dismissInteractionController = dismissInteractionController
-//        
-//        popOverPresentationDelegate.prepare(presentedViewController: presentedVC)
-//        
-//        presentingVC.present(presentedVC, animated: animated, completion: presentCompletion)
-//    }
     
     static func presentExpandableSlidePopover(vc presentedVC: ExpandablePopoverViewController,
                         in presentingVC: UIViewController,
@@ -85,15 +43,9 @@ class PopoverManager {
         
         presentedVC.popoverDelegate = presentInteractionController
         
-        
         popOverPresentationDelegate.presentationController = presentationController
         popOverPresentationDelegate.presentInteractionController = presentInteractionController
         popOverPresentationDelegate.dismissInteractionController = dismissInteractionController
-//        dismissInteractionController.interactionAction = {
-            
-   //         popOverPresentationDelegate.updateSize()
-//        }
-        
         popOverPresentationDelegate.prepare(presentedViewController: presentedVC)
         
         presentingVC.present(presentedVC, animated: animated, completion: presentCompletion)

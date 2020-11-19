@@ -17,7 +17,7 @@ protocol PopoverPresentationControllerProtocol: UIPresentationController, UIGest
 final class PopoverPresentationController: UIPresentationController {
     private var presentation: Presentation
     private var popOverPresentationDelegate: PopoverPresentationDelegate?
-    var needToTemp: Bool = false
+    var needTweak: Bool = false
     
     // MARK: - Views
     private lazy var backgroundView: BackgroundDesignable = {
@@ -103,8 +103,12 @@ final class PopoverPresentationController: UIPresentationController {
     func updatePresentation(presentation: Presentation, duration: Duration) {
         self.presentation = presentation
         containerView?.setNeedsLayout()
+        self.needTweak = true
+        
         UIView.animate(withDuration: duration.timeInterval) {
             self.containerView?.layoutIfNeeded()
+        } completion: { (isTrue) in
+            self.needTweak = false
         }
     }
     
@@ -126,10 +130,9 @@ extension PopoverPresentationController {
     }
     
     func configureViewLayout() {
-//        presentedViewController.view.frame = frameOfPresentedViewInContainerView
-        if needToTemp {
+        if needTweak {
             if let presentation = presentation as? PresentationExpandableFrameProvider {
-                presentedViewController.view.frame = try! presentation.frameOfExpandablePresentedViewClosure!(self.containerView!.frame, presentation.expandStep)
+                presentedViewController.view.frame = try! presentation.frameOfExpandablePresentedViewClosure!(self.containerView!.frame, presentation.currentExpandStep)
             } else {
               presentedViewController.view.frame = frameOfPresentedViewInContainerView
             }
@@ -168,22 +171,60 @@ extension PopoverPresentationController: PopoverPresentationControllerProtocol {
 extension PopoverPresentationController: PopoverFrameTweakable {
     
     func updateFrame(currentFrame: CGRect, duration: Duration, direction: Direction) throws {
+        updateCurrentExpandSteps(currentFrame: currentFrame, direction: direction)
+        
         switch direction {
         case .bottom:
             var previousStepFrame: CGRect
             repeat {
                 previousStepFrame = try getNextStepFrame(panDirection: direction)
-            } while previousStepFrame.height < currentFrame.height
+            } while previousStepFrame.height > currentFrame.height
         case .top:
             var nextStepFrame: CGRect
             repeat {
                 nextStepFrame = try getNextStepFrame(panDirection: direction)
             } while nextStepFrame.height < currentFrame.height
-        default:
-            throw LiveUpdateError.expandToDirectionNotSupported(direction)
+        default: break
         }
-        needToTemp = true
         self.updatePresentation(presentation: presentation, duration: duration)
+    }
+    
+    func updateCurrentExpandSteps(currentFrame: CGRect, direction: Direction) {
+        guard var presentation = presentation as? (PresentationExpandableFrameProvider & Presentation) else { return }
+        func getExpandStepsWithFramesDict() -> [CGRect] {
+            if !presentation.expandSteps.isEmpty { return presentation.expandSteps }
+            do {
+                for stepNumber in 0... {
+                    let stepFrame = try presentation.frameOfExpandablePresentedViewClosure!(containerView!.frame, UInt8(stepNumber))
+                    presentation.expandSteps.append(stepFrame)
+                }
+                return presentation.expandSteps
+            } catch {
+                return presentation.expandSteps
+            }
+        }
+        
+        let expandsSteps = getExpandStepsWithFramesDict()
+        
+        switch direction {
+        case .top:
+            for stepNumber in stride(from: expandsSteps.count - 1, through: 1, by: -1) {
+                if currentFrame.height < presentation.expandSteps[stepNumber].height {
+                    continue
+                }
+                presentation.currentExpandStep = stepNumber - 1 >= 0 ? UInt8(stepNumber - 1) : UInt8(0)
+            }
+        case .bottom:
+            for stepNumber in 0...presentation.expandSteps.count - 1 {
+                if currentFrame.height > presentation.expandSteps[stepNumber].height {
+                    continue
+                }
+                presentation.currentExpandStep = UInt8(stepNumber)
+            }
+        default:
+            break
+        }
+        self.presentation = presentation
     }
     
     func getNextStepFrame(panDirection: Direction) throws -> CGRect {
@@ -194,28 +235,20 @@ extension PopoverPresentationController: PopoverFrameTweakable {
         let newFrame: CGRect
         switch panDirection {
         case .top:
-            do {
-                newFrame = try presentation.frameOfExpandablePresentedViewClosure!(
-                    containerView!.frame,
-                    presentation.expandStep + 1
-                )
-                presentation.expandStep += 1
-            } catch {
-                throw LiveUpdateError.reachedExpandMaximum
-            }
+            newFrame = try presentation.frameOfExpandablePresentedViewClosure!(
+                containerView!.frame,
+                presentation.currentExpandStep + 1
+            )
+            presentation.currentExpandStep += 1
         case .bottom:
-            do {
-                guard presentation.expandStep != 0 else {
-                    throw LiveUpdateError.reachedExpandMinimum
-                }
-                newFrame = try presentation.frameOfExpandablePresentedViewClosure!(
-                    containerView!.frame,
-                    presentation.expandStep - 1
-                )
-                presentation.expandStep -= 1
-            } catch {
+            guard presentation.currentExpandStep != 0 else {
                 throw LiveUpdateError.reachedExpandMinimum
             }
+            newFrame = try presentation.frameOfExpandablePresentedViewClosure!(
+                containerView!.frame,
+                presentation.currentExpandStep - 1
+            )
+            presentation.currentExpandStep -= 1
         default:
             newFrame = presentedViewController.view.frame
         }

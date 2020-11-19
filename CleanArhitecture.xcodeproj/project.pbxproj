@@ -11,6 +11,9 @@
 		2020B37DBBF3ED1F25E888C7 /* EmployeeListRouterInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789D1C79AEA4BF85173680A8 /* EmployeeListRouterInput.swift */; };
 		260504EC37ED20E04CBCB3A0 /* EmployeeListPresenterImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F275451BD80215740A04E696 /* EmployeeListPresenterImpl.swift */; };
 		5418B24C893629DC71095317 /* EmployeeListAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A36DC285FD9D3D0696D5126 /* EmployeeListAssembly.swift */; };
+		5C203C2B25666B84008AC063 /* LiveUpdateMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C203C2A25666B84008AC063 /* LiveUpdateMeta.swift */; };
+		5C203C3225666D70008AC063 /* UISCrollView + isScrolling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C203C3125666D70008AC063 /* UISCrollView + isScrolling.swift */; };
+		5C203C3625666D9E008AC063 /* CGRect + Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C203C3525666D9E008AC063 /* CGRect + Ext.swift */; };
 		5C20C125255E67B400C6F2FD /* PresentationFrameProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C20C124255E67B400C6F2FD /* PresentationFrameProvider.swift */; };
 		5C20C129255E6B2900C6F2FD /* ExpandableSlidePresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C20C128255E6B2900C6F2FD /* ExpandableSlidePresentation.swift */; };
 		5C20C12D255E6BB100C6F2FD /* ExpandableSlideAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C20C12C255E6BB100C6F2FD /* ExpandableSlideAnimator.swift */; };
@@ -102,6 +105,9 @@
 		33A6B621E78D1B76444A91E3 /* EmployeeListInitializer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EmployeeListInitializer.swift; sourceTree = "<group>"; };
 		3759847FB8D7357322CD4B65 /* Pods-TableViper.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TableViper.debug.xcconfig"; path = "Target Support Files/Pods-TableViper/Pods-TableViper.debug.xcconfig"; sourceTree = "<group>"; };
 		3A36DC285FD9D3D0696D5126 /* EmployeeListAssembly.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EmployeeListAssembly.swift; sourceTree = "<group>"; };
+		5C203C2A25666B84008AC063 /* LiveUpdateMeta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveUpdateMeta.swift; sourceTree = "<group>"; };
+		5C203C3125666D70008AC063 /* UISCrollView + isScrolling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISCrollView + isScrolling.swift"; sourceTree = "<group>"; };
+		5C203C3525666D9E008AC063 /* CGRect + Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGRect + Ext.swift"; sourceTree = "<group>"; };
 		5C20C124255E67B400C6F2FD /* PresentationFrameProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationFrameProvider.swift; sourceTree = "<group>"; };
 		5C20C128255E6B2900C6F2FD /* ExpandableSlidePresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandableSlidePresentation.swift; sourceTree = "<group>"; };
 		5C20C12C255E6BB100C6F2FD /* ExpandableSlideAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandableSlideAnimator.swift; sourceTree = "<group>"; };
@@ -240,6 +246,24 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		5C203C2825666B56008AC063 /* ExpandableSlideInteractionController */ = {
+			isa = PBXGroup;
+			children = (
+				5C964022255C0C8900702F55 /* ExpandableSlideInteractionController.swift */,
+				5C203C2A25666B84008AC063 /* LiveUpdateMeta.swift */,
+			);
+			path = ExpandableSlideInteractionController;
+			sourceTree = "<group>";
+		};
+		5C203C3025666D54008AC063 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				5C203C3125666D70008AC063 /* UISCrollView + isScrolling.swift */,
+				5C203C3525666D9E008AC063 /* CGRect + Ext.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		6E4CC3C1233379DD00156C9A /* Remote */ = {
 			isa = PBXGroup;
 			children = (
@@ -287,6 +311,7 @@
 		6E5C058E23216DE300A3C9F4 /* Popover */ = {
 			isa = PBXGroup;
 			children = (
+				5C203C3025666D54008AC063 /* Extension */,
 				6E99FEC823277310004BAA80 /* Interaction */,
 				6EC82BF2232255C500DE156C /* Presentation */,
 				6EC82BF0232252BB00DE156C /* Model */,
@@ -445,8 +470,8 @@
 		6E99FEC823277310004BAA80 /* Interaction */ = {
 			isa = PBXGroup;
 			children = (
+				5C203C2825666B56008AC063 /* ExpandableSlideInteractionController */,
 				6E628BBB2326430F000F447C /* SlideInteractionController.swift */,
-				5C964022255C0C8900702F55 /* ExpandableSlideInteractionController.swift */,
 			);
 			path = Interaction;
 			sourceTree = "<group>";
@@ -989,6 +1014,7 @@
 				6EC82C0523226E4A00DE156C /* PresentationTimingInformationProvider.swift in Sources */,
 				6ED7C379231E337C00662C6A /* EmployeeListUsecase.swift in Sources */,
 				6E5C058B2321678D00A3C9F4 /* DeviceServicesAccessor.swift in Sources */,
+				5C203C2B25666B84008AC063 /* LiveUpdateMeta.swift in Sources */,
 				6EC82C0723226EFB00DE156C /* PresentationUIConfigurationProvider.swift in Sources */,
 				6EC82BF4232255FB00DE156C /* SlidePresentation.swift in Sources */,
 				6E8B3CEC231C17E0009EEF59 /* Constants.swift in Sources */,
@@ -998,6 +1024,7 @@
 				CE3CBA202014782300D4DF0E /* EmployeeWorkplaceCellModel.swift in Sources */,
 				CE8F042E2013CDDB0061F034 /* RootWireframe.swift in Sources */,
 				6E8698C12324406F00A4E291 /* PopoverManager.swift in Sources */,
+				5C203C3225666D70008AC063 /* UISCrollView + isScrolling.swift in Sources */,
 				CE3CBA252014868100D4DF0E /* EmployeeBaseInfoCell.swift in Sources */,
 				6E8B3CE3231BAA12009EEF59 /* StartupConfiguratorAppDelegate.swift in Sources */,
 				5C964021255BEBF900702F55 /* UIView+Hierarchy.swift in Sources */,
@@ -1010,6 +1037,7 @@
 				6E5C059923217E1800A3C9F4 /* PopoverContainerView.swift in Sources */,
 				5C20C129255E6B2900C6F2FD /* ExpandableSlidePresentation.swift in Sources */,
 				0A0BF14C799C3A3BC4C4BBE4 /* EmployeeListViewController.swift in Sources */,
+				5C203C3625666D9E008AC063 /* CGRect + Ext.swift in Sources */,
 				6E628BBC2326430F000F447C /* SlideInteractionController.swift in Sources */,
 				6ECB66462331469B00E7E81A /* Result+Extension.swift in Sources */,
 				CE3CBA1E2014769E00D4DF0E /* EmployeeBaseCellModel.swift in Sources */,

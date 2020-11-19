@@ -17,6 +17,7 @@ protocol PresentationFrameProvider {
 typealias FrameOfExpandablePresentedViewClosure = ((_ containerViewFrame: CGRect, _ expandStep: UInt8) throws -> CGRect)?
 
 protocol PresentationExpandableFrameProvider {
-    var expandStep: UInt8 { get set }
+    var currentExpandStep: UInt8 { get set }
+    var expandSteps: [CGRect] { get set }
     var frameOfExpandablePresentedViewClosure: FrameOfExpandablePresentedViewClosure { get set }
 }
