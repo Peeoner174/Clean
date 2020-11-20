@@ -105,9 +105,9 @@ final class PopoverPresentationController: UIPresentationController {
         containerView?.setNeedsLayout()
         self.needTweak = true
         
-        UIView.animate(withDuration: duration.timeInterval) {
+        UIView.animate(withDuration: duration.timeInterval, animations: {
             self.containerView?.layoutIfNeeded()
-        } completion: { (isTrue) in
+        }) { (isTrue) in
             self.needTweak = false
         }
     }
