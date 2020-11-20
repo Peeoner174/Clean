@@ -8,18 +8,6 @@
 
 import UIKit
 
-protocol PopoverFrameTweakable {
-    func updateFrame(currentFrame: CGRect, duration: Duration, direction: Direction) throws
-    var needTweak: Bool { get set }
-}
-
-enum LiveUpdateError: Error, Equatable {
-    case reachedExpandMaximum
-    case reachedExpandMinimum
-    case expandToDirectionNotSupported(Direction)
-    case undefinedExpandStep
-}
-
 @objc
 protocol PopoverPresentationDelegate: UIViewControllerTransitioningDelegate {
     func frameOfPresentedView(in containerViewFrame: CGRect) -> CGRect

@@ -50,5 +50,4 @@ class PopoverManager {
         
         presentingVC.present(presentedVC, animated: animated, completion: presentCompletion)
     }
-    
 }

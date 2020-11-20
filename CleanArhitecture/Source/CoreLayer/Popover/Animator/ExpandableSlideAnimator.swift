@@ -61,7 +61,6 @@ extension ExpandableSlideAnimator: UIViewControllerAnimatedTransitioning {
         self.currentPropertyAnimator = propertyAnimator
         propertyAnimator.startAnimation()
     }
-    
 }
 
 

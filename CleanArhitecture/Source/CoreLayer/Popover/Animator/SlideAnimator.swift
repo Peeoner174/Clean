@@ -62,7 +62,6 @@ extension SlideAnimator: UIViewControllerAnimatedTransitioning {
         self.currentPropertyAnimator = propertyAnimator
         propertyAnimator.startAnimation()
     }
-    
 }
 
 

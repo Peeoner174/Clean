@@ -15,10 +15,18 @@ struct ScrollViewMeta {
     var expandLimitReachead: Bool = false
 }
 
+enum LiveUpdateError: Error, Equatable {
+    case reachedExpandMaximum
+    case reachedExpandMinimum
+    case expandToDirectionNotSupported(Direction)
+    case undefinedExpandStep
+}
+
 struct LiveUpdateMeta {
     var currentLiveUpdateError: LiveUpdateError?
     var direction: Direction?
     var presentedViewIsFullExpanded: Bool = false
+    var fullExpandedPresentedViewFrameHeight: CGFloat?
     var scrollViewMeta = ScrollViewMeta()
     
     private var panBeganPresentedFrameHeight: CGFloat!
@@ -28,7 +36,8 @@ struct LiveUpdateMeta {
         _ recognizer: UIPanGestureRecognizer,
         presentedViewController: ExpandablePopoverViewController
     ) {
-        presentedViewIsFullExpanded = presentedViewController.view.frame.height > 550
+        presentedViewIsFullExpanded = presentedViewController.view.frame.height > fullExpandedPresentedViewFrameHeight!
+        
         switch recognizer.state {
         case .began:
             currentLiveUpdateError = nil

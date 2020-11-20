@@ -20,4 +20,5 @@ protocol PresentationExpandableFrameProvider {
     var currentExpandStep: UInt8 { get set }
     var expandSteps: [CGRect] { get set }
     var frameOfExpandablePresentedViewClosure: FrameOfExpandablePresentedViewClosure { get set }
+    func getMaximumExpandFrameHeight(forContainerView containerView: UIView) -> CGFloat
 }

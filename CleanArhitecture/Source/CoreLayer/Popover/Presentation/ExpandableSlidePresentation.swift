@@ -34,6 +34,18 @@ struct ExpandableSlidePresentation: ExpandableSlidePresentationParamsProvider {
         self.presentationUIConfiguration = uiConfiguration
         self.frameOfExpandablePresentedViewClosure = frameOfExpandablePresentedViewClosure
     }
+    
+    func getMaximumExpandFrameHeight(forContainerView containerView: UIView) -> CGFloat {
+        var stepFrameHeight: CGFloat = 0
+        do {
+            for stepNumber in 0... {
+                stepFrameHeight = try frameOfExpandablePresentedViewClosure!(containerView.frame, UInt8(stepNumber)).height
+            }
+        } catch {
+            return stepFrameHeight
+        }
+        fatalError()
+    }
 }
 
 extension ExpandableSlidePresentation: PresentationAnimatorProvider {

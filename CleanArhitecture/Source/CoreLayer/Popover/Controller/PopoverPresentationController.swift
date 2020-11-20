@@ -11,7 +11,12 @@ import UIKit
 protocol PopoverPresentationControllerProtocol: UIPresentationController, UIGestureRecognizerDelegate {
     var didTapBackgroundView: EmptyCompletion { get set }
     func updatePresentation(presentation: Presentation, duration: Duration)
-    
+}
+
+protocol PopoverFrameTweakable {
+    func tweakFrame(currentFrame: CGRect, duration: Duration, direction: Direction) throws
+    var needTweak: Bool { get set }
+    func getMaximumExpandFrameHeight() -> CGFloat
 }
 
 final class PopoverPresentationController: UIPresentationController {
@@ -170,7 +175,7 @@ extension PopoverPresentationController: PopoverPresentationControllerProtocol {
 
 extension PopoverPresentationController: PopoverFrameTweakable {
     
-    func updateFrame(currentFrame: CGRect, duration: Duration, direction: Direction) throws {
+    func tweakFrame(currentFrame: CGRect, duration: Duration, direction: Direction) throws {
         updateCurrentExpandSteps(currentFrame: currentFrame, direction: direction)
         
         switch direction {
@@ -187,6 +192,13 @@ extension PopoverPresentationController: PopoverFrameTweakable {
         default: break
         }
         self.updatePresentation(presentation: presentation, duration: duration)
+    }
+    
+    func getMaximumExpandFrameHeight() -> CGFloat {
+        if let presentation = self.presentation as? PresentationExpandableFrameProvider {
+            return presentation.getMaximumExpandFrameHeight(forContainerView: self.containerView!)
+        }
+        fatalError("Unimplemented")
     }
     
     func updateCurrentExpandSteps(currentFrame: CGRect, direction: Direction) {

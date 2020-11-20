@@ -23,7 +23,11 @@ class ExpandableSlideInteractionController: UIPercentDrivenInteractiveTransition
     }()
     
     private var scrollViewScrollingObserver: NSKeyValueObservation?
-    var liveUpdateMeta = LiveUpdateMeta()
+    lazy var liveUpdateMeta: LiveUpdateMeta = {
+        var liveUpdateMeta = LiveUpdateMeta()
+        liveUpdateMeta.fullExpandedPresentedViewFrameHeight = (self.presentationController as! PopoverFrameTweakable).getMaximumExpandFrameHeight()
+        return liveUpdateMeta
+    }()
     
     init(presentedViewController: ExpandablePopoverViewController,
          presentationController: PopoverPresentationControllerProtocol,
@@ -69,7 +73,7 @@ class ExpandableSlideInteractionController: UIPercentDrivenInteractiveTransition
         case .ended:
             guard !liveUpdateMeta.presentedViewIsFullExpanded else { break }
             do {
-                try (presentationController as! PopoverFrameTweakable).updateFrame(
+                try (presentationController as! PopoverFrameTweakable).tweakFrame(
                     currentFrame: presentedViewController!.view.frame,
                     duration: .medium,
                     direction: liveUpdateMeta.direction!
@@ -121,7 +125,7 @@ class ExpandableSlideInteractionController: UIPercentDrivenInteractiveTransition
             else { return }
         
         if scrollView.isScrolling {
-            if presentedViewController.view.frame.height < 550 {
+            if presentedViewController.view.frame.height < liveUpdateMeta.fullExpandedPresentedViewFrameHeight! {
                 haltScrolling(scrollView)
             } else {
                 trackScrolling(scrollView)
