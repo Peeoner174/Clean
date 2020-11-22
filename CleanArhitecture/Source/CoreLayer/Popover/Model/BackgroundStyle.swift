@@ -13,10 +13,15 @@ protocol BackgroundDesignable: UIView {
     var didTap: ((_ recognizer: UIGestureRecognizer) -> Void)? { get set }
     func onPresent()
     func onDissmis()
+    func updateIntensity(percent: CGFloat)
+}
+
+extension BackgroundDesignable {
+    func updateIntensity(percent: CGFloat) {}
 }
 
 enum BackgroundStyle {
-    case dimmed(alpha: CGFloat)
+    case dimmed(maxAlpha: CGFloat, minAlpha: CGFloat)
     case blurred(effectStyle: UIBlurEffect.Style)
     case clear(shouldPassthrough: Bool)
 }

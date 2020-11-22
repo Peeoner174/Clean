@@ -9,10 +9,12 @@
 import UIKit
 
 public class DimmedView: UIView {
-    private let dimAlpha: CGFloat
+    private let maxDimAlpha: CGFloat
+    private let minDimAlpha: CGFloat
     
-    init(dimAlpha: CGFloat = 0.7) {
-        self.dimAlpha = dimAlpha
+    init(maxDimAlpha: CGFloat = 0.8, minDimAlpha: CGFloat = 0.0) {
+        self.maxDimAlpha = maxDimAlpha
+        self.minDimAlpha = minDimAlpha
         super.init(frame: .zero)
         alpha = 0.0
         backgroundColor = .black
@@ -37,15 +39,17 @@ public class DimmedView: UIView {
 }
 
 extension DimmedView: BackgroundDesignable {
-    func onPresent() {
-        alpha = dimAlpha
-    }
+    func onPresent() {}
     
     func onDissmis() {
         alpha = 0.0
     }
     
     var style: BackgroundStyle {
-        return .dimmed(alpha: self.dimAlpha)
+        .dimmed(maxAlpha: maxDimAlpha, minAlpha: minDimAlpha)
+    }
+    
+    func updateIntensity(percent: CGFloat) {
+        alpha = percent
     }
 }

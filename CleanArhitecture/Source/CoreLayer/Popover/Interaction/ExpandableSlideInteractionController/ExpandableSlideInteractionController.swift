@@ -104,6 +104,7 @@ class ExpandableSlideInteractionController: UIPercentDrivenInteractiveTransition
     func adjustFrames(to displacement: CGPoint) {
         self.presentedViewController?.view.frame.origin.y = displacement.y
         self.presentedViewController?.view.frame.size.height = UIScreen.main.bounds.size.height - self.presentedViewController!.view.frame.origin.y
+        self.presentationController?.changeBackgroundViewIntensity?(self.presentedViewController!.view.frame.height / liveUpdateMeta.fullExpandedPresentedViewFrameHeight!)
     }
     
     func respond(to panGestureRecognizer: UIPanGestureRecognizer) {

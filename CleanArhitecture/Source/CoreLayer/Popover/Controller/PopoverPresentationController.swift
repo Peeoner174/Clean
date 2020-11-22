@@ -10,6 +10,7 @@ import UIKit
 
 protocol PopoverPresentationControllerProtocol: UIPresentationController, UIGestureRecognizerDelegate {
     var didTapBackgroundView: EmptyCompletion { get set }
+    var changeBackgroundViewIntensity: BackgroundViewIntensityClosure { get set }
     func updatePresentation(presentation: Presentation, duration: Duration)
 }
 
@@ -18,6 +19,8 @@ protocol PopoverFrameTweakable {
     var needTweak: Bool { get set }
     func getMaximumExpandFrameHeight() -> CGFloat
 }
+
+typealias BackgroundViewIntensityClosure = ((_ percent: CGFloat) -> Void)?
 
 final class PopoverPresentationController: UIPresentationController {
     private var presentation: Presentation
@@ -28,8 +31,12 @@ final class PopoverPresentationController: UIPresentationController {
     private lazy var backgroundView: BackgroundDesignable = {
         let view: BackgroundDesignable
         switch self.presentation.presentationUIConfiguration.backgroundStyle {
-        case .dimmed(alpha: let alpha):
-            view = DimmedView(dimAlpha: alpha)
+        case .dimmed(maxAlpha: let maxDimAlpha, minAlpha: let minDimAlpha):
+            var dimmedView = DimmedView(maxDimAlpha: maxDimAlpha, minDimAlpha: minDimAlpha)
+            self.changeBackgroundViewIntensity = { fullExpandPercent in
+                dimmedView.updateIntensity(percent: 1 - (fullExpandPercent * (maxDimAlpha - minDimAlpha) + minDimAlpha))
+            }
+            view = dimmedView
         case .blurred(effectStyle: let effectStyle):
             view = BluredView(effectStyle: effectStyle)
         case .clear(shouldPassthrough: let shouldPassthrough):
@@ -47,7 +54,8 @@ final class PopoverPresentationController: UIPresentationController {
     }()
     
     var didTapBackgroundView: EmptyCompletion = nil
-    
+    var changeBackgroundViewIntensity: BackgroundViewIntensityClosure = nil
+
     private lazy var popOverContainerView: PopoverContainerView = {
         let frame = containerView?.frame ?? .zero
         return PopoverContainerView(presentedView: presentedViewController.view, frame: frame)
@@ -83,8 +91,11 @@ final class PopoverPresentationController: UIPresentationController {
         }
         
         coordinator.animate(alongsideTransition: { [weak self] _ in
-            self?.backgroundView.onPresent()
-            self?.presentedViewController.setNeedsStatusBarAppearanceUpdate()
+            guard let self = self else {
+                return
+            }
+            self.changeBackgroundViewIntensity!(self.presentedViewController.view.frame.height / self.getMaximumExpandFrameHeight())
+            self.presentedViewController.setNeedsStatusBarAppearanceUpdate()
         })
     }
     
@@ -112,6 +123,7 @@ final class PopoverPresentationController: UIPresentationController {
         
         UIView.animate(withDuration: duration.timeInterval, animations: {
             self.containerView?.layoutIfNeeded()
+            self.changeBackgroundViewIntensity!(self.presentedViewController.view.frame.height / self.getMaximumExpandFrameHeight())
         }) { (isTrue) in
             self.needTweak = false
         }

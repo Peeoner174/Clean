@@ -15,10 +15,12 @@ struct PresentationUIConfiguration {
     public var isTapBackgroundToDismissEnabled: Bool
     public var corners: CACornerMask
     
-    init(cornerRadius: CGFloat = 0.0,
-                backgroundStyle: BackgroundStyle = .dimmed(alpha: 0.5),
-                isTapBackgroundToDismissEnabled: Bool = true,
-                corners: CACornerMask = [.layerMaxXMaxYCorner,.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner]) {
+    init(
+        cornerRadius: CGFloat = 0.0,
+        backgroundStyle: BackgroundStyle = .dimmed(maxAlpha: 0.3, minAlpha: 0.8),
+        isTapBackgroundToDismissEnabled: Bool = true,
+        corners: CACornerMask = [.layerMaxXMaxYCorner,.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner]
+    ) {
         self.cornerRadius = cornerRadius
         self.backgroundStyle = backgroundStyle
         self.isTapBackgroundToDismissEnabled = isTapBackgroundToDismissEnabled
