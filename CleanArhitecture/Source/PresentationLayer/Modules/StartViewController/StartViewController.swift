@@ -15,7 +15,10 @@ class StartViewController: UIViewController {
     
     @IBAction func openEmployListViewController(_ sender: Any) {
         let presentedVC = EmployeeListViewController.instantiate()
-        let presentation = ExpandableSlidePresentation(direction: .bottom, uiConfiguration: PresentationUIConfiguration()) { (containerViewFrame, presentStep) -> CGRect in
+            
+        let t = PresentationUIConfiguration(cornerRadius: 15, backgroundStyle: .dimmed(maxAlpha: 0.7, minAlpha: 0.1), isTapBackgroundToDismissEnabled: true, corners: [.layerMaxXMaxYCorner, .layerMinXMaxYCorner])
+        
+        let presentation = ExpandableSlidePresentation(direction: .bottom, uiConfiguration: t) { (containerViewFrame, presentStep) -> CGRect in
             
             switch presentStep {
             case 0:

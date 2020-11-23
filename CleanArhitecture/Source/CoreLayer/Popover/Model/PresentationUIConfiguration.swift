@@ -17,7 +17,7 @@ struct PresentationUIConfiguration {
     
     init(
         cornerRadius: CGFloat = 0.0,
-        backgroundStyle: BackgroundStyle = .dimmed(maxAlpha: 0.3, minAlpha: 0.8),
+        backgroundStyle: BackgroundStyle = .dimmed(maxAlpha: 0.8, minAlpha: 0.3),
         isTapBackgroundToDismissEnabled: Bool = true,
         corners: CACornerMask = [.layerMaxXMaxYCorner,.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner]
     ) {

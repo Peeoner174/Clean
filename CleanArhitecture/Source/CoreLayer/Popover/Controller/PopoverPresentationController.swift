@@ -28,13 +28,14 @@ final class PopoverPresentationController: UIPresentationController {
     var needTweak: Bool = false
     
     // MARK: - Views
+    
     private lazy var backgroundView: BackgroundDesignable = {
         let view: BackgroundDesignable
         switch self.presentation.presentationUIConfiguration.backgroundStyle {
         case .dimmed(maxAlpha: let maxDimAlpha, minAlpha: let minDimAlpha):
             var dimmedView = DimmedView(maxDimAlpha: maxDimAlpha, minDimAlpha: minDimAlpha)
             self.changeBackgroundViewIntensity = { fullExpandPercent in
-                dimmedView.updateIntensity(percent: 1 - (fullExpandPercent * (maxDimAlpha - minDimAlpha) + minDimAlpha))
+                dimmedView.updateIntensity(percent: fullExpandPercent * (maxDimAlpha - minDimAlpha) + minDimAlpha)
             }
             view = dimmedView
         case .blurred(effectStyle: let effectStyle):
@@ -155,11 +156,13 @@ extension PopoverPresentationController {
             }
             let corners = presentation.presentationUIConfiguration.corners
             let radius = presentation.presentationUIConfiguration.cornerRadius
+//            presentedViewController.view.roundCorners(corners, radius: radius)
             presentedView.roundCorners(corners, radius: radius)
         } else {
             presentedView.frame = frameOfPresentedViewInContainerView
             let corners = presentation.presentationUIConfiguration.corners
             let radius = presentation.presentationUIConfiguration.cornerRadius
+//            presentedViewController.view.roundCorners(corners, radius: radius)
             presentedView.roundCorners(corners, radius: radius)
         }
     }
