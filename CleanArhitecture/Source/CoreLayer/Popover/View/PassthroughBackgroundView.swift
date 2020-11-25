@@ -55,7 +55,6 @@ class PassthroughBackgroundView: UIView {
     @objc private func didTapView() {
         didTap?(tapGesture)
     }
-    
 }
 
 extension PassthroughBackgroundView: BackgroundDesignable {

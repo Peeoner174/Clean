@@ -154,17 +154,12 @@ extension PopoverPresentationController {
             } else {
               presentedViewController.view.frame = frameOfPresentedViewInContainerView
             }
-            let corners = presentation.presentationUIConfiguration.corners
-            let radius = presentation.presentationUIConfiguration.cornerRadius
-//            presentedViewController.view.roundCorners(corners, radius: radius)
-            presentedView.roundCorners(corners, radius: radius)
         } else {
             presentedView.frame = frameOfPresentedViewInContainerView
-            let corners = presentation.presentationUIConfiguration.corners
-            let radius = presentation.presentationUIConfiguration.cornerRadius
-//            presentedViewController.view.roundCorners(corners, radius: radius)
-            presentedView.roundCorners(corners, radius: radius)
         }
+        let corners = presentation.presentationUIConfiguration.corners
+        let radius = presentation.presentationUIConfiguration.cornerRadius
+        presentedViewController.view.roundCorners(corners, radius: radius)
     }
 }
 

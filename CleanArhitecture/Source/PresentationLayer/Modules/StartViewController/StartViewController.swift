@@ -15,10 +15,16 @@ class StartViewController: UIViewController {
     
     @IBAction func openEmployListViewController(_ sender: Any) {
         let presentedVC = EmployeeListViewController.instantiate()
-            
-        let t = PresentationUIConfiguration(cornerRadius: 15, backgroundStyle: .dimmed(maxAlpha: 0.7, minAlpha: 0.1), isTapBackgroundToDismissEnabled: true, corners: [.layerMaxXMaxYCorner, .layerMinXMaxYCorner])
         
-        let presentation = ExpandableSlidePresentation(direction: .bottom, uiConfiguration: t) { (containerViewFrame, presentStep) -> CGRect in
+        let presentation = ExpandableSlidePresentation(
+            timing: PresentationTiming(
+                duration: .normal,
+                presentationCurve: .easeInOut,
+                dismissCurve: .easeInOut
+            ),
+            direction: .bottom,
+            uiConfiguration: PresentationUIConfiguration()
+        ) { (containerViewFrame, presentStep) -> CGRect in
             
             switch presentStep {
             case 0:
@@ -32,9 +38,5 @@ class StartViewController: UIViewController {
             }
         }
         PopoverManager.presentExpandableSlidePopover(vc: presentedVC, in: self, presentation: presentation)
-    }
-    
-    override func preferredContentSizeDidChange(forChildContentContainer container: UIContentContainer) {
-        super.preferredContentSizeDidChange(forChildContentContainer: container)
     }
 }

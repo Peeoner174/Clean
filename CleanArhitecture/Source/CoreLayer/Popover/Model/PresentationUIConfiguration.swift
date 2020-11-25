@@ -13,13 +13,13 @@ struct PresentationUIConfiguration {
     public var cornerRadius: CGFloat
     public var backgroundStyle: BackgroundStyle
     public var isTapBackgroundToDismissEnabled: Bool
-    public var corners: CACornerMask
+    public var corners: [UIRectCorner]
     
     init(
         cornerRadius: CGFloat = 0.0,
         backgroundStyle: BackgroundStyle = .dimmed(maxAlpha: 0.8, minAlpha: 0.3),
         isTapBackgroundToDismissEnabled: Bool = true,
-        corners: CACornerMask = [.layerMaxXMaxYCorner,.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner]
+        corners: [UIRectCorner] = [.allCorners]
     ) {
         self.cornerRadius = cornerRadius
         self.backgroundStyle = backgroundStyle
