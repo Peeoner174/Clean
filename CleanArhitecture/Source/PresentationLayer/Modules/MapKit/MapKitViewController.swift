@@ -9,14 +9,17 @@
 import UIKit
 import MapKit
 
+protocol ViewControllerLifecycler: UIViewController {
+    var viewWillDisappearHandler: EmptyCompletion { get set }
+}
+
 class MapKitViewController: UIViewController {
     
-//    @IBOutlet weak var mapKitView: MKMapView!
-    
-    var presentedVC = EmployeeListViewController.instantiate()
+    var viewWillDisappearHandler: EmptyCompletion = nil
     
     func showPopOver() {
-    
+        let presentedVC = EmployeeListViewController.instantiate()
+        
         let presentation = ExpandableSlidePresentation(
             timing: PresentationTiming(
                 duration: .normal,
@@ -38,7 +41,16 @@ class MapKitViewController: UIViewController {
                 throw LiveUpdateError.undefinedExpandStep
             }
         }
-        PopoverManager.presentExpandableSlidePopover(vc: presentedVC, in: self, presentation: presentation)
+        
+        self.viewWillDisappearHandler = {
+            presentedVC.dismiss(animated: true, completion: nil)
+        }
+        
+        PopoverManager.presentExpandablePopoverWithActiveParent(
+            vc: presentedVC,
+            in: self,
+            animated: true,
+            presentation: presentation)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -48,4 +60,10 @@ class MapKitViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.viewWillDisappearHandler?()
+    }
 }
+
+
