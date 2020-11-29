@@ -95,7 +95,7 @@ final class PopoverPresentationController: UIPresentationController {
             guard let self = self else {
                 return
             }
-            self.changeBackgroundViewIntensity!(self.presentedViewController.view.frame.height / self.getMaximumExpandFrameHeight())
+            self.changeBackgroundViewIntensity?(self.presentedViewController.view.frame.height / self.getMaximumExpandFrameHeight())
             self.presentedViewController.setNeedsStatusBarAppearanceUpdate()
         })
     }
@@ -124,7 +124,7 @@ final class PopoverPresentationController: UIPresentationController {
         
         UIView.animate(withDuration: duration.timeInterval, animations: {
             self.containerView?.layoutIfNeeded()
-            self.changeBackgroundViewIntensity!(self.presentedViewController.view.frame.height / self.getMaximumExpandFrameHeight())
+            self.changeBackgroundViewIntensity?(self.presentedViewController.view.frame.height / self.getMaximumExpandFrameHeight())
         }) { (isTrue) in
             self.needTweak = false
         }

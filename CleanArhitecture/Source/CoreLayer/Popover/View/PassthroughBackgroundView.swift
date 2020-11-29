@@ -27,13 +27,16 @@ class PassthroughBackgroundView: UIView {
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         var view = super.hitTest(point, with: event)
+        guard let navigationTransitionView_Class = NSClassFromString("UINavigationTransitionView") else {
+            abort()
+        }
         
         if !shouldPassthrough {
             return view
         }
         
         if view == self {
-            for passthroughView in passthroughViews {
+            for passthroughView in passthroughViews.filter({ !$0.isKind(of: navigationTransitionView_Class) }) {
                 view = passthroughView.hitTest(convert(point, to: passthroughView), with: event)
                 if view != nil {
                     break

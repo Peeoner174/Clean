@@ -1,21 +1,22 @@
 //
-//  StartViewController.swift
+//  MapKitViewController.swift
 //  CleanArhitecture
 //
-//  Created by MSI on 12.11.2020.
+//  Created by MSI on 25.11.2020.
 //  Copyright © 2020 IA. All rights reserved.
 //
 
 import UIKit
+import MapKit
 
-class StartViewController: UIViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
+class MapKitViewController: UIViewController {
     
-    @IBAction func openEmployListViewController(_ sender: Any) {
-        let presentedVC = EmployeeListViewController.instantiate()
-        
+//    @IBOutlet weak var mapKitView: MKMapView!
+    
+    var presentedVC = EmployeeListViewController.instantiate()
+    
+    func showPopOver() {
+    
         let presentation = ExpandableSlidePresentation(
             timing: PresentationTiming(
                 duration: .normal,
@@ -23,7 +24,7 @@ class StartViewController: UIViewController {
                 dismissCurve: .easeInOut
             ),
             direction: .bottom,
-            uiConfiguration: PresentationUIConfiguration()
+            uiConfiguration: PresentationUIConfiguration(backgroundStyle: .clear(shouldPassthrough: true))
         ) { (containerViewFrame, presentStep) -> CGRect in
             
             switch presentStep {
@@ -38,5 +39,13 @@ class StartViewController: UIViewController {
             }
         }
         PopoverManager.presentExpandableSlidePopover(vc: presentedVC, in: self, presentation: presentation)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
     }
 }
