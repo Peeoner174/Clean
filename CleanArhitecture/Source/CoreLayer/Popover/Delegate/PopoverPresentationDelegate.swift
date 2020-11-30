@@ -43,7 +43,7 @@ final class PopoverPresentationDelegateImpl: NSObject {
 extension PopoverPresentationDelegateImpl: PopoverPresentationDelegate {
     func frameOfPresentedView(in containerViewFrame: CGRect) -> CGRect {
         if let expandableFrameProvider = presentation as? PresentationExpandableFrameProvider {
-            return (try? expandableFrameProvider.frameOfExpandablePresentedViewClosure?(containerViewFrame, expandableFrameProvider.currentExpandStep)) ?? containerViewFrame
+            return (try? expandableFrameProvider.frameOfExpandablePresentedViewClosure?(containerViewFrame, expandableFrameProvider.expandablePopoverFrameMeta.currentExpandStep)) ?? containerViewFrame
         } else if let frameProvider = presentation as? PresentationFrameProvider {
             return (try? frameProvider.frameOfPresentedViewClosure?(containerViewFrame)) ?? containerViewFrame
         } else {

@@ -20,7 +20,7 @@ class MapKitViewController: UIViewController, ViewControllerLifecyclerDelegate {
     
     var viewWillDisappearHandler: OnViewWillDissapearHandler? = nil
     
-    var maxExpandPopoverCommand: TweakPopoverCommand = TweakPopoverCommand(step: 2)
+    var maxExpandPopoverCommand: TweakPopoverCommand = TweakPopoverCommand(step: 1)
     var minExpandPopoverCommand: TweakPopoverCommand = TweakPopoverCommand(step: 0)
     
     func showPopOver() {
@@ -42,7 +42,9 @@ class MapKitViewController: UIViewController, ViewControllerLifecyclerDelegate {
                 return CGRect(x: 0.0, y: UIScreen.main.bounds.height - 50, width: UIScreen.main.bounds.width, height: 50)
             case 1:
                 return CGRect(x: 0.0, y: UIScreen.main.bounds.height - 300, width: UIScreen.main.bounds.width, height: 300)
-            case 2... :
+            case 2:
+                return CGRect(x: 0.0, y: UIScreen.main.bounds.height - 450, width: UIScreen.main.bounds.width, height: 450)
+            case 3... :
                 throw LiveUpdateError.reachedExpandMaximum
             default:
                 throw LiveUpdateError.undefinedExpandStep
@@ -68,18 +70,18 @@ class MapKitViewController: UIViewController, ViewControllerLifecyclerDelegate {
         super.viewDidLoad()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
+    deinit {
         self.viewWillDisappearHandler?()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
     }
 }
 
 extension MapKitViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
-        self.maxExpandPopoverCommand.execute()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
-            self?.minExpandPopoverCommand.execute()
-        }
+        self.minExpandPopoverCommand.execute()
     }
 }
 

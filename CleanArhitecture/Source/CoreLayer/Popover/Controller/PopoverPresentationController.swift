@@ -56,7 +56,7 @@ final class PopoverPresentationController: UIPresentationController {
     
     var didTapBackgroundView: EmptyCompletion = nil
     var changeBackgroundViewIntensity: BackgroundViewIntensityClosure = nil
-
+    
     private lazy var popOverContainerView: PopoverContainerView = {
         let frame = containerView?.frame ?? .zero
         return PopoverContainerView(presentedView: presentedViewController.view, frame: frame)
@@ -67,7 +67,7 @@ final class PopoverPresentationController: UIPresentationController {
     }
     
     // MARK: - Initializers
-
+    
     init(presentedVС: UIViewController, presentingVC: UIViewController?, presentation: Presentation, delegate: PopoverPresentationDelegate?) {
         self.presentation = presentation
         self.popOverPresentationDelegate = delegate
@@ -112,8 +112,8 @@ final class PopoverPresentationController: UIPresentationController {
         coordinator.animate(alongsideTransition: { [weak self] _ in
             self?.backgroundView.onDissmis()
             self?.presentedViewController.setNeedsStatusBarAppearanceUpdate()
-            }, completion: { [weak self] _ in
-                self?.popOverPresentationDelegate?.didDismiss?()
+        }, completion: { [weak self] _ in
+            self?.popOverPresentationDelegate?.didDismiss?()
         })
     }
     
@@ -156,7 +156,7 @@ extension PopoverPresentationController {
             if let presentation = presentation as? PresentationExpandableFrameProvider {
                 presentedViewController.view.frame = try! presentation.frameOfExpandablePresentedViewClosure!(self.containerView!.frame, presentation.expandablePopoverFrameMeta.currentExpandStep)
             } else {
-              presentedViewController.view.frame = frameOfPresentedViewInContainerView
+                presentedViewController.view.frame = frameOfPresentedViewInContainerView
             }
         } else {
             presentedView.frame = frameOfPresentedViewInContainerView
@@ -174,7 +174,7 @@ extension PopoverPresentationController: PopoverPresentationControllerProtocol {
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return false
     }
-
+    
     /**
      Allow simultaneous gesture recognizers only when the other gesture recognizer's view
      is the pan scrollable view

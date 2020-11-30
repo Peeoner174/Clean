@@ -42,25 +42,39 @@ class StartViewController: UIViewController {
     
     @IBAction func openMapKitViewController(_ sender: Any) {
         let vc = MapKitViewController.instantiate()
-        self.navigationController?.pushViewController(viewController: vc, animated: true, completion: {
+        self.navigationController?.pushViewController(vc, animated: true, completion: {
             vc.showPopOver()
         })
     }
 }
 
-
 extension UINavigationController {
+    public func pushViewController(
+        _ viewController: UIViewController,
+        animated: Bool,
+        completion: @escaping () -> Void)
+    {
+        pushViewController(viewController, animated: animated)
 
-  public func pushViewController(viewController: UIViewController,
-                                 animated: Bool,
-                                 completion: (() -> Void)?) {
-    CATransaction.begin()
-    CATransaction.setCompletionBlock {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            completion?()
+        guard animated, let coordinator = transitionCoordinator else {
+            DispatchQueue.main.async { completion() }
+            return
         }
+
+        coordinator.animate(alongsideTransition: nil) { _ in completion() }
     }
-    pushViewController(viewController, animated: animated)
-    CATransaction.commit()
-  }
+
+    func popViewController(
+        animated: Bool,
+        completion: @escaping () -> Void)
+    {
+        popViewController(animated: animated)
+
+        guard animated, let coordinator = transitionCoordinator else {
+            DispatchQueue.main.async { completion() }
+            return
+        }
+
+        coordinator.animate(alongsideTransition: nil) { _ in completion() }
+    }
 }
