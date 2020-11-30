@@ -196,7 +196,17 @@ extension PopoverPresentationController: PopoverFrameTweaker {
         case .bottom:
             var previousStepFrame: CGRect
             repeat {
-                previousStepFrame = try getNextStepFrame(panDirection: direction)
+                do {
+                    previousStepFrame = try getNextStepFrame(panDirection: direction)
+                } catch let error {
+                    guard
+                        let luError = error as? LiveUpdateError,
+                        luError == .reachedExpandMinimum,
+                        let presentation = presentation as? PresentationExpandableFrameProvider & Presentation,
+                        presentation.expandablePopoverFrameMeta.blockDismissOnPanGesture
+                    else { throw error }
+                    break
+                }
             } while previousStepFrame.height > currentFrame.height
         case .top:
             var nextStepFrame: CGRect

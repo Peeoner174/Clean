@@ -24,6 +24,7 @@ struct ExpandablePopoverFrameMeta {
     let tweakExpandableFrameCommands: [TweakPopoverCommand]
     var expandSteps: [CGRect]
     var currentExpandStep: UInt8
+    var blockDismissOnPanGesture: Bool = true
 }
 
 protocol PresentationExpandableFrameProvider {
