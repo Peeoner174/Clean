@@ -14,7 +14,7 @@ protocol PopoverPresentationControllerProtocol: UIPresentationController, UIGest
     func updatePresentation(presentation: Presentation, duration: Duration)
 }
 
-protocol PopoverFrameTweakable {
+protocol PopoverFrameTweaker {
     func tweakFrame(currentFrame: CGRect, duration: Duration, direction: Direction) throws
     var needTweak: Bool { get set }
     func getMaximumExpandFrameHeight() -> CGFloat
@@ -183,7 +183,7 @@ extension PopoverPresentationController: PopoverPresentationControllerProtocol {
     }
 }
 
-extension PopoverPresentationController: PopoverFrameTweakable {
+extension PopoverPresentationController: PopoverFrameTweaker {
     
     func tweakFrame(currentFrame: CGRect, duration: Duration, direction: Direction) throws {
         updateCurrentExpandSteps(currentFrame: currentFrame, direction: direction)

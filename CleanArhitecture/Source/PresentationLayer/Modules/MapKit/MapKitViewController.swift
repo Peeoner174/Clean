@@ -9,13 +9,16 @@
 import UIKit
 import MapKit
 
-protocol ViewControllerLifecycler: UIViewController {
-    var viewWillDisappearHandler: EmptyCompletion { get set }
-}
+typealias OnViewWillDissapearHandler = () -> ()
 
-class MapKitViewController: UIViewController {
+protocol ViewControllerLifecyclerDelegate: class {
+    var viewWillDisappearHandler: OnViewWillDissapearHandler? { get set }
+}
     
-    var viewWillDisappearHandler: EmptyCompletion = nil
+class MapKitViewController: UIViewController, ViewControllerLifecyclerDelegate {
+    @IBOutlet weak var mapView: MKMapView!
+    
+    var viewWillDisappearHandler: OnViewWillDissapearHandler? = nil
     
     func showPopOver() {
         let presentedVC = EmployeeListViewController.instantiate()
@@ -32,9 +35,9 @@ class MapKitViewController: UIViewController {
             
             switch presentStep {
             case 0:
-                return CGRect(x: 0.0, y: UIScreen.main.bounds.height - 400, width: UIScreen.main.bounds.width, height: 400)
+                return CGRect(x: 0.0, y: UIScreen.main.bounds.height - 50, width: UIScreen.main.bounds.width, height: 50)
             case 1:
-                return CGRect(x: 0.0, y: UIScreen.main.bounds.height - 550, width: UIScreen.main.bounds.width, height: 550)
+                return CGRect(x: 0.0, y: UIScreen.main.bounds.height - 300, width: UIScreen.main.bounds.width, height: 300)
             case 2... :
                 throw LiveUpdateError.reachedExpandMaximum
             default:
@@ -63,7 +66,16 @@ class MapKitViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         self.viewWillDisappearHandler?()
+        super.viewWillDisappear(animated)
     }
 }
 
+extension MapKitViewController: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
+        print("will change")
+    }
+}
 
+protocol t {
+    func tweakChildPopover(to step: UInt8) 
+}
