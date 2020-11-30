@@ -72,6 +72,10 @@ final class PopoverPresentationController: UIPresentationController {
         self.presentation = presentation
         self.popOverPresentationDelegate = delegate
         super.init(presentedViewController: presentedVС, presenting: presentingVC)
+        
+        if let presentation = self.presentation as? PresentationExpandableFrameProvider {
+            setExecuteHandlers(forCommands: presentation.expandablePopoverFrameMeta.tweakExpandableFrameCommands)
+        }
     }
     
     // MARK: - Lifecycle
@@ -150,7 +154,7 @@ extension PopoverPresentationController {
     func configureViewLayout() {
         if needTweak {
             if let presentation = presentation as? PresentationExpandableFrameProvider {
-                presentedViewController.view.frame = try! presentation.frameOfExpandablePresentedViewClosure!(self.containerView!.frame, presentation.currentExpandStep)
+                presentedViewController.view.frame = try! presentation.frameOfExpandablePresentedViewClosure!(self.containerView!.frame, presentation.expandablePopoverFrameMeta.currentExpandStep)
             } else {
               presentedViewController.view.frame = frameOfPresentedViewInContainerView
             }
@@ -214,15 +218,15 @@ extension PopoverPresentationController: PopoverFrameTweaker {
     func updateCurrentExpandSteps(currentFrame: CGRect, direction: Direction) {
         guard var presentation = presentation as? (PresentationExpandableFrameProvider & Presentation) else { return }
         func getExpandStepsWithFramesDict() -> [CGRect] {
-            if !presentation.expandSteps.isEmpty { return presentation.expandSteps }
+            if !presentation.expandablePopoverFrameMeta.expandSteps.isEmpty { return presentation.expandablePopoverFrameMeta.expandSteps }
             do {
                 for stepNumber in 0... {
                     let stepFrame = try presentation.frameOfExpandablePresentedViewClosure!(containerView!.frame, UInt8(stepNumber))
-                    presentation.expandSteps.append(stepFrame)
+                    presentation.expandablePopoverFrameMeta.expandSteps.append(stepFrame)
                 }
-                return presentation.expandSteps
+                return presentation.expandablePopoverFrameMeta.expandSteps
             } catch {
-                return presentation.expandSteps
+                return presentation.expandablePopoverFrameMeta.expandSteps
             }
         }
         
@@ -231,17 +235,17 @@ extension PopoverPresentationController: PopoverFrameTweaker {
         switch direction {
         case .top:
             for stepNumber in stride(from: expandsSteps.count - 1, through: 1, by: -1) {
-                if currentFrame.height < presentation.expandSteps[stepNumber].height {
+                if currentFrame.height < presentation.expandablePopoverFrameMeta.expandSteps[stepNumber].height {
                     continue
                 }
-                presentation.currentExpandStep = stepNumber - 1 >= 0 ? UInt8(stepNumber - 1) : UInt8(0)
+                presentation.expandablePopoverFrameMeta.currentExpandStep = stepNumber - 1 >= 0 ? UInt8(stepNumber - 1) : UInt8(0)
             }
         case .bottom:
-            for stepNumber in 0...presentation.expandSteps.count - 1 {
-                if currentFrame.height > presentation.expandSteps[stepNumber].height {
+            for stepNumber in 0...presentation.expandablePopoverFrameMeta.expandSteps.count - 1 {
+                if currentFrame.height > presentation.expandablePopoverFrameMeta.expandSteps[stepNumber].height {
                     continue
                 }
-                presentation.currentExpandStep = UInt8(stepNumber)
+                presentation.expandablePopoverFrameMeta.currentExpandStep = UInt8(stepNumber)
             }
         default:
             break
@@ -259,22 +263,33 @@ extension PopoverPresentationController: PopoverFrameTweaker {
         case .top:
             newFrame = try presentation.frameOfExpandablePresentedViewClosure!(
                 containerView!.frame,
-                presentation.currentExpandStep + 1
+                presentation.expandablePopoverFrameMeta.currentExpandStep + 1
             )
-            presentation.currentExpandStep += 1
+            presentation.expandablePopoverFrameMeta.currentExpandStep += 1
         case .bottom:
-            guard presentation.currentExpandStep != 0 else {
+            guard presentation.expandablePopoverFrameMeta.currentExpandStep != 0 else {
                 throw LiveUpdateError.reachedExpandMinimum
             }
             newFrame = try presentation.frameOfExpandablePresentedViewClosure!(
                 containerView!.frame,
-                presentation.currentExpandStep - 1
+                presentation.expandablePopoverFrameMeta.currentExpandStep - 1
             )
-            presentation.currentExpandStep -= 1
+            presentation.expandablePopoverFrameMeta.currentExpandStep -= 1
         default:
             newFrame = presentedViewController.view.frame
         }
         self.presentation = presentation
         return newFrame
+    }
+    
+    func setExecuteHandlers(forCommands commands: [TweakPopoverCommand]) {
+        guard var presentationFrameProvider = presentation as? (PresentationExpandableFrameProvider & Presentation) else { return }
+        for index in 0 ..< commands.count {
+            commands[index].onCommandExecuteHandler = { [weak self] in
+                guard let self = self else { return }
+                presentationFrameProvider.expandablePopoverFrameMeta.currentExpandStep = commands[index].step
+                self.updatePresentation(presentation: presentationFrameProvider, duration: .normal)
+            }
+        }
     }
 }

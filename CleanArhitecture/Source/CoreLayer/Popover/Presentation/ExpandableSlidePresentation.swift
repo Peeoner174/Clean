@@ -16,8 +16,7 @@ private typealias ExpandableSlidePresentationParamsProvider =
     PresentationExpandableFrameProvider
 
 struct ExpandableSlidePresentation: ExpandableSlidePresentationParamsProvider {
-    var currentExpandStep: UInt8 = 0
-    var expandSteps = [CGRect]()
+    var expandablePopoverFrameMeta: ExpandablePopoverFrameMeta
     var frameOfExpandablePresentedViewClosure: FrameOfExpandablePresentedViewClosure
     var presentationUIConfiguration: PresentationUIConfiguration
     var showDirection: Direction
@@ -27,12 +26,18 @@ struct ExpandableSlidePresentation: ExpandableSlidePresentationParamsProvider {
         timing: PresentationTiming = PresentationTiming(),
         direction: Direction,
         uiConfiguration: PresentationUIConfiguration,
+        tweakExpandableFrameCommands: [TweakPopoverCommand] = [],
         frameOfExpandablePresentedViewClosure: FrameOfExpandablePresentedViewClosure
     ) {
         self.presentationTiming = timing
         self.showDirection = direction
         self.presentationUIConfiguration = uiConfiguration
         self.frameOfExpandablePresentedViewClosure = frameOfExpandablePresentedViewClosure
+        self.expandablePopoverFrameMeta = ExpandablePopoverFrameMeta(
+            tweakExpandableFrameCommands: tweakExpandableFrameCommands,
+            expandSteps: [],
+            currentExpandStep: 0
+        )
     }
     
     func getMaximumExpandFrameHeight(forContainerView containerView: UIView) -> CGFloat {

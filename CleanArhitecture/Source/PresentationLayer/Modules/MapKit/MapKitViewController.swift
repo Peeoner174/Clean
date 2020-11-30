@@ -20,6 +20,9 @@ class MapKitViewController: UIViewController, ViewControllerLifecyclerDelegate {
     
     var viewWillDisappearHandler: OnViewWillDissapearHandler? = nil
     
+    var maxExpandPopoverCommand: TweakPopoverCommand = TweakPopoverCommand(step: 2)
+    var minExpandPopoverCommand: TweakPopoverCommand = TweakPopoverCommand(step: 0)
+    
     func showPopOver() {
         let presentedVC = EmployeeListViewController.instantiate()
         
@@ -30,7 +33,8 @@ class MapKitViewController: UIViewController, ViewControllerLifecyclerDelegate {
                 dismissCurve: .easeInOut
             ),
             direction: .bottom,
-            uiConfiguration: PresentationUIConfiguration(backgroundStyle: .clear(shouldPassthrough: true))
+            uiConfiguration: PresentationUIConfiguration(backgroundStyle: .clear(shouldPassthrough: true)),
+            tweakExpandableFrameCommands: [maxExpandPopoverCommand, minExpandPopoverCommand]
         ) { (containerViewFrame, presentStep) -> CGRect in
             
             switch presentStep {
@@ -72,10 +76,25 @@ class MapKitViewController: UIViewController, ViewControllerLifecyclerDelegate {
 
 extension MapKitViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
-        print("will change")
+        self.maxExpandPopoverCommand.execute()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+            self?.minExpandPopoverCommand.execute()
+        }
     }
 }
 
-protocol t {
-    func tweakChildPopover(to step: UInt8) 
+typealias onCommandExecuteHandler = EmptyCompletion 
+
+class TweakPopoverCommand {
+    var step: UInt8
+    
+    var onCommandExecuteHandler: EmptyCompletion = nil
+    
+    init(step: UInt8) {
+        self.step = step
+    }
+    
+    func execute() {
+        onCommandExecuteHandler?()
+    }
 }
