@@ -1,9 +1,11 @@
 # CleanArhitecture
 My example project. Thoughts about app architecture, realizations custom view presentations, ets.
 
-
+Код проекта содержит реализацию гибко кастомизированного модального окна
 
 Основная цель -- легкая расширяемость функционала, поэтому я не стал выносить код в отдельный pod.
+
+**Реализация модального окна поделена на сущности:
 
 **Interaction**
 
