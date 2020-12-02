@@ -21,14 +21,14 @@ protocol PresentationFrameProvider {
 typealias FrameOfExpandablePresentedViewClosure = ((_ containerViewFrame: CGRect, _ expandStep: UInt8) throws -> CGRect)?
 
 class ExpandablePopoverFrameMeta {
-    internal init(expandSteps: [CGRect] = [], currentExpandStep: UInt8 = 0, blockDismissOnPanGesture: Bool = true, tweakExpandableFrameCommands: WeakSet<TweakPopoverCommand> = []) {
+    internal init(expandSteps: [CGRect] = [], currentExpandStep: UInt8 = 0, blockDismissOnPanGesture: Bool = true, tweakExpandableFrameCommands: [TweakPopoverCommand] = []) {
         self.expandSteps = expandSteps
         self.currentExpandStep = currentExpandStep
         self.blockDismissOnPanGesture = blockDismissOnPanGesture
         self.tweakExpandableFrameCommands = tweakExpandableFrameCommands
     }
     
-    var tweakExpandableFrameCommands: WeakSet<TweakPopoverCommand> = []
+    var tweakExpandableFrameCommands: [TweakPopoverCommand]
     var expandSteps: [CGRect] = []
     var currentExpandStep: UInt8 = 0
     var blockDismissOnPanGesture: Bool = true
@@ -39,9 +39,6 @@ protocol PresentationExpandableFrameProvider {
     var frameOfExpandablePresentedViewClosure: FrameOfExpandablePresentedViewClosure { get set }
     func getMaximumExpandFrameHeight(forContainerView containerView: UIView) -> CGFloat
 }
-
-
-
 
 
 class WeakSet<T: AnyObject>: Sequence, ExpressibleByArrayLiteral, CustomStringConvertible, CustomDebugStringConvertible {

@@ -74,7 +74,7 @@ final class PopoverPresentationController: UIPresentationController {
         super.init(presentedViewController: presentedVС, presenting: presentingVC)
         
         if let presentation = self.presentation as? PresentationExpandableFrameProvider {
-            setExecuteHandlers(forCommands: presentation.expandablePopoverFrameMeta.tweakExpandableFrameCommands.allObjects)
+            setExecuteHandlers(forCommands: presentation.expandablePopoverFrameMeta.tweakExpandableFrameCommands)
         }
     }
     
