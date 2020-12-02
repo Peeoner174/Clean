@@ -52,12 +52,14 @@ class PopoverManager {
     }
     
     
-    static func presentExpandablePopoverWithActiveParent(vc presentedVC: ExpandablePopoverViewController,
-                        in presentingVC: UIViewController,
-                        animated: Bool = true,
-                        presentation: ExpandableSlidePresentation,
-                        presentCompletion: EmptyCompletion = nil,
-                        dismissCompletion: EmptyCompletion = nil) {
+    static func presentExpandablePopoverWithActiveParent(
+        vc presentedVC: ExpandablePopoverViewController,
+        in presentingVC: UIViewController,
+        animated: Bool = true,
+        presentation: ExpandableSlidePresentation,
+        presentCompletion: EmptyCompletion = nil,
+        dismissCompletion: EmptyCompletion = nil
+    ) {
         
         let popOverPresentationDelegate = PopoverPresentationDelegateImpl(
             presentation: presentation,

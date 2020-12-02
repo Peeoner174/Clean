@@ -74,7 +74,7 @@ final class PopoverPresentationController: UIPresentationController {
         super.init(presentedViewController: presentedVС, presenting: presentingVC)
         
         if let presentation = self.presentation as? PresentationExpandableFrameProvider {
-            setExecuteHandlers(forCommands: presentation.expandablePopoverFrameMeta.tweakExpandableFrameCommands)
+            setExecuteHandlers(forCommands: presentation.expandablePopoverFrameMeta.tweakExpandableFrameCommands.allObjects)
         }
     }
     
@@ -293,11 +293,16 @@ extension PopoverPresentationController: PopoverFrameTweaker {
     }
     
     func setExecuteHandlers(forCommands commands: [TweakPopoverCommand]) {
-        guard var presentationFrameProvider = presentation as? (PresentationExpandableFrameProvider & Presentation) else { return }
+        
         for index in 0 ..< commands.count {
-            commands[index].onCommandExecuteHandler = { [weak self] in
-                guard let self = self else { return }
-                presentationFrameProvider.expandablePopoverFrameMeta.currentExpandStep = commands[index].step
+            let command = commands[index]
+            command.onCommandExecuteHandler = { [weak self, weak command] in
+                guard
+                    let self = self,
+                    let command = command,
+                    let presentationFrameProvider = self.presentation as? (PresentationExpandableFrameProvider & Presentation)
+                else { return }
+                presentationFrameProvider.expandablePopoverFrameMeta.currentExpandStep = command.step
                 self.updatePresentation(presentation: presentationFrameProvider, duration: .normal)
             }
         }

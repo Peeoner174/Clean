@@ -26,7 +26,7 @@ struct ExpandableSlidePresentation: ExpandableSlidePresentationParamsProvider {
         timing: PresentationTiming = PresentationTiming(),
         direction: Direction,
         uiConfiguration: PresentationUIConfiguration,
-        tweakExpandableFrameCommands: [TweakPopoverCommand] = [],
+        tweakExpandableFrameCommands: WeakSet<TweakPopoverCommand> = .init([]),
         frameOfExpandablePresentedViewClosure: FrameOfExpandablePresentedViewClosure
     ) {
         self.presentationTiming = timing
@@ -34,9 +34,10 @@ struct ExpandableSlidePresentation: ExpandableSlidePresentationParamsProvider {
         self.presentationUIConfiguration = uiConfiguration
         self.frameOfExpandablePresentedViewClosure = frameOfExpandablePresentedViewClosure
         self.expandablePopoverFrameMeta = ExpandablePopoverFrameMeta(
-            tweakExpandableFrameCommands: tweakExpandableFrameCommands,
             expandSteps: [],
-            currentExpandStep: 0
+            currentExpandStep: 0,
+            blockDismissOnPanGesture: true,
+            tweakExpandableFrameCommands: tweakExpandableFrameCommands
         )
     }
     
