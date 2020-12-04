@@ -76,7 +76,7 @@ class SlideInteractionController: UIPercentDrivenInteractiveTransition {
     }
 }
 
-extension SlideInteractionController: PopoverViewControllerDelegate {
+extension SlideInteractionController: PopoverViewControllerScrollViewObserver {
     func observe(scrollView: UIScrollView?) {
         
     }

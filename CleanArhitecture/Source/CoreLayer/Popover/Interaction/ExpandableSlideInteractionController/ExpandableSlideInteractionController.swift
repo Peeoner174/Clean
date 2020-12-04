@@ -151,7 +151,7 @@ class ExpandableSlideInteractionController: UIPercentDrivenInteractiveTransition
 
 // MARK: - PopoverViewControllerDelegate
 
-extension ExpandableSlideInteractionController: PopoverViewControllerDelegate {
+extension ExpandableSlideInteractionController: PopoverViewControllerScrollViewObserver {
     func observe(scrollView: UIScrollView?) {
         scrollViewScrollingObserver?.invalidate()
         scrollViewScrollingObserver = scrollView?.observe(\.contentOffset, options: .old) { [weak self] scrollView, change in

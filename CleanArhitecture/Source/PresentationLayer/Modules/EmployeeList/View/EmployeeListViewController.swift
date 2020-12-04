@@ -8,19 +8,47 @@
 
 import UIKit
 
+protocol PopoverViewControllerScrollViewObserver: class {
+    func observe(scrollView: UIScrollView?)
+}
+
+protocol PopoverViewControllerFrameObserver: class {
+    var onPopoverViewControllerChangeFrameHandler: ((CGRect) -> Void)? { get set }
+}
+
+protocol ExpandablePopoverViewController: UIViewController {
+    var scrollViewObserver: PopoverViewControllerScrollViewObserver? { get set }
+    var frameObserver: PopoverViewControllerFrameObserver? { get set }
+    var expandingScrollView: UIScrollView { get }
+}
+
 class EmployeeListViewController: UITableViewController, EmployeeListViewInput, ExpandablePopoverViewController {
     var presenter: EmployeeListPresenter!
     var sections = [EmployeeSectionModel]()
-    weak var popoverDelegate: PopoverViewControllerDelegate?
+    
+    weak var frameObserver: PopoverViewControllerFrameObserver?
+    private var viewFrameChangedObserver: NSKeyValueObservation?
+    
+    weak var scrollViewObserver: PopoverViewControllerScrollViewObserver?
     var expandingScrollView: UIScrollView {
         tableView
     }
     
+    deinit {
+        viewFrameChangedObserver?.invalidate()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
         presenter.viewIsReady()
-        popoverDelegate?.observe(scrollView: tableView)
+        
+        scrollViewObserver?.observe(scrollView: tableView)
+        
+        viewFrameChangedObserver?.invalidate()
+        viewFrameChangedObserver = self.view.observe(\.frame, options: .old) { [weak self] (view, change) in
+            guard let self = self else { return }
+            self.frameObserver?.onPopoverViewControllerChangeFrameHandler?(self.view.frame)
+        }
     }
     
     func updateForSections(_ sections: [EmployeeSectionModel]) {
@@ -64,12 +92,4 @@ extension EmployeeListViewController {
     }
 }
 
-protocol ExpandablePopoverViewController: UIViewController {
-    var popoverDelegate: PopoverViewControllerDelegate? { get set }
-    var expandingScrollView: UIScrollView { get }
-}
-
-protocol PopoverViewControllerDelegate: class {
-    func observe(scrollView: UIScrollView?)
-}
 

@@ -15,7 +15,7 @@ private typealias SlidePresentationParamsProvider =
     PresentationShowDirectionProvider &
     PresentationFrameProvider
 
-struct SlidePresentation: SlidePresentationParamsProvider {
+class SlidePresentation: SlidePresentationParamsProvider {
     var frameOfPresentedViewClosure: FrameOfPresentedViewClosure
     var presentationUIConfiguration: PresentationUIConfiguration
     var showDirection: Direction

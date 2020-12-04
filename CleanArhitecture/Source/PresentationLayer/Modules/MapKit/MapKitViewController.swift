@@ -15,8 +15,10 @@ protocol ViewControllerLifecyclerDelegate: class {
     var viewWillDisappearHandler: OnViewWillDissapearHandler? { get set }
 }
     
-class MapKitViewController: UIViewController, ViewControllerLifecyclerDelegate {
+class MapKitViewController: UIViewController, ViewControllerLifecyclerDelegate, PopoverViewControllerFrameObserver {
     @IBOutlet weak var mapView: MKMapView!
+    
+    var onPopoverViewControllerChangeFrameHandler: ((CGRect) -> Void)?
     
     var viewWillDisappearHandler: OnViewWillDissapearHandler? = nil
     
@@ -25,6 +27,8 @@ class MapKitViewController: UIViewController, ViewControllerLifecyclerDelegate {
     
     func showPopOver() {
         let presentedVC = EmployeeListViewController.instantiate()
+        presentedVC.frameObserver = self
+        self.onPopoverViewControllerChangeFrameHandler = { print($0) }
         
         let presentation = ExpandableSlidePresentation(
             timing: PresentationTiming(

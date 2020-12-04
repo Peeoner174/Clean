@@ -15,7 +15,7 @@ private typealias ExpandableSlidePresentationParamsProvider =
     PresentationShowDirectionProvider &
     PresentationExpandableFrameProvider
 
-struct ExpandableSlidePresentation: ExpandableSlidePresentationParamsProvider {
+class ExpandableSlidePresentation: ExpandableSlidePresentationParamsProvider {
     var expandablePopoverFrameMeta: ExpandablePopoverFrameMeta
     var frameOfExpandablePresentedViewClosure: FrameOfExpandablePresentedViewClosure
     var presentationUIConfiguration: PresentationUIConfiguration

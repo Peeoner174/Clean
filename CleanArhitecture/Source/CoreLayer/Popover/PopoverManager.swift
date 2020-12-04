@@ -41,7 +41,7 @@ class PopoverManager {
             transitionType: .dismissal
         )
         
-        presentedVC.popoverDelegate = presentInteractionController
+        presentedVC.scrollViewObserver = presentInteractionController
         
         popOverPresentationDelegate.presentationController = presentationController
         popOverPresentationDelegate.presentInteractionController = presentInteractionController
@@ -85,7 +85,7 @@ class PopoverManager {
             transitionType: .dismissal
         )
         
-        presentedVC.popoverDelegate = presentInteractionController
+        presentedVC.scrollViewObserver = presentInteractionController
         
         popOverPresentationDelegate.presentationController = presentationController
         popOverPresentationDelegate.presentInteractionController = presentInteractionController

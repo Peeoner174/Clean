@@ -25,7 +25,7 @@ typealias OnMakeStepClosure = ((_ isMaked: Bool) -> Void)
 typealias MakeExpandStepClosure = ((_ containerViewFrame: CGRect, _ expandStep: UInt8, _ onMakeStepClosure: OnMakeStepClosure) throws -> CGRect)?
 
 
-class ExpandablePopoverFrameMeta {
+struct ExpandablePopoverFrameMeta {
     var tweakExpandableFrameCommands: [TweakPopoverCommand]
     var expandSteps: [CGRect] = []
     var currentExpandStep: UInt8 = 0
@@ -44,7 +44,7 @@ class ExpandablePopoverFrameMeta {
     }
 }
 
-protocol PresentationExpandableFrameProvider {
+protocol PresentationExpandableFrameProvider: class {
     var expandablePopoverFrameMeta: ExpandablePopoverFrameMeta { get set }
     var frameOfExpandablePresentedViewClosure: FrameOfExpandablePresentedViewClosure { get set }
     func getMaximumExpandFrameHeight(forContainerView containerView: UIView) -> CGFloat
