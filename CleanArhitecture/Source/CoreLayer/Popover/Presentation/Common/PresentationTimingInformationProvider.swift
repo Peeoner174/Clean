@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol PresentationTimingInformationProvider {
+protocol PresentationTimingInformationProvider: class {
     var presentationTiming: PresentationTiming { get set}
 }

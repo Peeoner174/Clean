@@ -25,14 +25,19 @@ class PassthroughBackgroundView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private func getNavigationBar(fromViewsStack viewsStack: [UIView]) -> UINavigationBar? {
+        viewsStack.filter {$0.isKind(of: UINavigationBar.classForCoder()) }.first as? UINavigationBar
+    }
+    
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         var view = super.hitTest(point, with: event)
         
-        if !shouldPassthrough {
-            return view
-        }
+        guard shouldPassthrough else { return view }
         
-        if view == self {
+        if let navigationBar = self.getNavigationBar(fromViewsStack: passthroughViews),
+           navigationBar.bounds.contains(convert(point, to: navigationBar)) {
+            view = navigationBar.hitTest(convert(point, to: navigationBar), with: event)
+        } else if view == self {
             for passthroughView in passthroughViews {
                 view = passthroughView.hitTest(convert(point, to: passthroughView), with: event)
                 if view != nil {

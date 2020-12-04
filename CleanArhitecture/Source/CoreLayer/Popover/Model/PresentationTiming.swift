@@ -9,9 +9,9 @@
 import UIKit
 
 struct PresentationTiming {
-    public var duration: Duration
-    public var presentationCurve: UIView.AnimationCurve
-    public var dismissCurve: UIView.AnimationCurve
+    var duration: Duration
+    var presentationCurve: UIView.AnimationCurve
+    var dismissCurve: UIView.AnimationCurve
     
     init(
         duration: Duration = .fast,

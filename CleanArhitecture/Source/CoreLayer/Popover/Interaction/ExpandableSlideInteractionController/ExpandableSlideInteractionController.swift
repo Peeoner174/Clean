@@ -25,7 +25,7 @@ class ExpandableSlideInteractionController: UIPercentDrivenInteractiveTransition
     private var scrollViewScrollingObserver: NSKeyValueObservation?
     lazy var liveUpdateMeta: LiveUpdateMeta = {
         var liveUpdateMeta = LiveUpdateMeta()
-        liveUpdateMeta.fullExpandedPresentedViewFrameHeight = (self.presentationController as! PopoverFrameTweakable).getMaximumExpandFrameHeight()
+        liveUpdateMeta.fullExpandedPresentedViewFrameHeight = (self.presentationController as! PopoverFrameTweaker).getMaximumExpandFrameHeight()
         return liveUpdateMeta
     }()
     
@@ -73,7 +73,7 @@ class ExpandableSlideInteractionController: UIPercentDrivenInteractiveTransition
         case .ended:
             guard !liveUpdateMeta.presentedViewIsFullExpanded else { break }
             do {
-                try (presentationController as! PopoverFrameTweakable).tweakFrame(
+                try (presentationController as! PopoverFrameTweaker).tweakFrame(
                     currentFrame: presentedViewController!.view.frame,
                     duration: .medium,
                     direction: liveUpdateMeta.direction!
@@ -143,7 +143,7 @@ class ExpandableSlideInteractionController: UIPercentDrivenInteractiveTransition
     
     func trackScrolling(_ scrollView: UIScrollView) {
         liveUpdateMeta.scrollViewMeta.scrollViewYOffset = max(scrollView.contentOffset.y, 0)
-        if !(self.presentationController as? PopoverFrameTweakable)!.needTweak {
+        if !(self.presentationController as? PopoverFrameTweaker)!.needTweak {
             scrollView.showsVerticalScrollIndicator = true
         }
     }
@@ -151,7 +151,7 @@ class ExpandableSlideInteractionController: UIPercentDrivenInteractiveTransition
 
 // MARK: - PopoverViewControllerDelegate
 
-extension ExpandableSlideInteractionController: PopoverViewControllerDelegate {
+extension ExpandableSlideInteractionController: PopoverViewControllerScrollViewObserver {
     func observe(scrollView: UIScrollView?) {
         scrollViewScrollingObserver?.invalidate()
         scrollViewScrollingObserver = scrollView?.observe(\.contentOffset, options: .old) { [weak self] scrollView, change in

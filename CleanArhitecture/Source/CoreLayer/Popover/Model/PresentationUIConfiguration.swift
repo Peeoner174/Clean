@@ -10,21 +10,24 @@ import UIKit
 import Foundation
 
 struct PresentationUIConfiguration {
-    public var cornerRadius: CGFloat
-    public var backgroundStyle: BackgroundStyle
-    public var isTapBackgroundToDismissEnabled: Bool
-    public var corners: [UIRectCorner]
+    var cornerRadius: CGFloat
+    var backgroundStyle: BackgroundStyle
+    var isTapBackgroundToDismissEnabled: Bool
+    var dismissWithParentViewController: Bool
+    var corners: [UIRectCorner]
     
     init(
         cornerRadius: CGFloat = 0.0,
         backgroundStyle: BackgroundStyle = .dimmed(maxAlpha: 0.8, minAlpha: 0.3),
         isTapBackgroundToDismissEnabled: Bool = true,
-        corners: [UIRectCorner] = [.allCorners]
+        corners: [UIRectCorner] = [.allCorners],
+        dismissWithParentViewController: Bool = true
     ) {
         self.cornerRadius = cornerRadius
         self.backgroundStyle = backgroundStyle
         self.isTapBackgroundToDismissEnabled = isTapBackgroundToDismissEnabled
         self.corners = corners
+        self.dismissWithParentViewController = dismissWithParentViewController
     }
 }
 
