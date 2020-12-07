@@ -49,7 +49,7 @@ class StartViewController: UIViewController {
 }
 
 extension UINavigationController {
-    public func pushViewController(
+    func pushViewController(
         _ viewController: UIViewController,
         animated: Bool,
         completion: @escaping () -> Void)
@@ -61,7 +61,14 @@ extension UINavigationController {
             return
         }
 
-        coordinator.animate(alongsideTransition: nil) { _ in completion() }
+        coordinator.animate(alongsideTransition: nil) { context in
+            let command = ExecuteAfterDelayCommand()
+            if context.isInteractive {
+                command.execute(afterDelay: 1.0, completion) 
+            } else {
+                completion()
+            }
+        }
     }
 
     func popViewController(
@@ -76,5 +83,15 @@ extension UINavigationController {
         }
 
         coordinator.animate(alongsideTransition: nil) { _ in completion() }
+    }
+}
+
+class ExecuteAfterDelayCommand {
+    
+    func execute(afterDelay delay: Double, _ block: @escaping () -> Void) {
+        let delayTime = DispatchTime.now() + delay
+        let dispatchWorkItem = DispatchWorkItem(block: block);
+        DispatchQueue.main.asyncAfter(
+            deadline: delayTime, execute: dispatchWorkItem)
     }
 }
