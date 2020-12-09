@@ -63,9 +63,6 @@ class PassthroughBackgroundView: UIView {
 }
 
 extension PassthroughBackgroundView: BackgroundDesignable {
-    func onPresent() {
-        
-    }
     
     func onDissmis() {
         

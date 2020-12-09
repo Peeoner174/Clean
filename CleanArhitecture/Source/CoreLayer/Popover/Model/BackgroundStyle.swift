@@ -18,10 +18,11 @@ protocol BackgroundDesignable: UIView {
 
 extension BackgroundDesignable {
     func updateIntensity(percent: CGFloat) {}
+    func onPresent() {}
 }
 
 enum BackgroundStyle {
     case dimmed(maxAlpha: CGFloat, minAlpha: CGFloat)
-    case blurred(effectStyle: UIBlurEffect.Style)
+    case blurred(effectStyle: UIBlurEffect.Style, maxAlpha: CGFloat, minAlpha: CGFloat)
     case clear(shouldPassthrough: Bool)
 }

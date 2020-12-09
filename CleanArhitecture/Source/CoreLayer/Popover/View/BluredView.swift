@@ -10,9 +10,13 @@ import UIKit
 
 public class BluredView: UIVisualEffectView {
     let effectStyle: UIBlurEffect.Style
+    let maxAlpha: CGFloat
+    let minAlpha: CGFloat
     
-    init(effectStyle: UIBlurEffect.Style) {
+    init(effectStyle: UIBlurEffect.Style, maxAlpha: CGFloat, minAlpha: CGFloat) {
         self.effectStyle = effectStyle
+        self.maxAlpha = maxAlpha
+        self.minAlpha = minAlpha
         super.init(effect: nil)
         addGestureRecognizer(tapGesture)
     }
@@ -36,7 +40,7 @@ public class BluredView: UIVisualEffectView {
 
 extension BluredView: BackgroundDesignable {
     func onPresent() {
-        effect = UIBlurEffect(style: effectStyle)
+        self.effect = UIBlurEffect(style: self.effectStyle)
     }
     
     func onDissmis() {
@@ -44,6 +48,10 @@ extension BluredView: BackgroundDesignable {
     }
     
     var style: BackgroundStyle {
-        return .blurred(effectStyle: self.effectStyle)
+        return .blurred(effectStyle: self.effectStyle, maxAlpha: self.maxAlpha, minAlpha: self.minAlpha)
+    }
+    
+    func updateIntensity(percent: CGFloat) {
+        alpha = percent
     }
 }

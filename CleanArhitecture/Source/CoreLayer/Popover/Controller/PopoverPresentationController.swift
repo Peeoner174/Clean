@@ -38,8 +38,12 @@ final class PopoverPresentationController: UIPresentationController {
                 dimmedView.updateIntensity(percent: fullExpandPercent * (maxDimAlpha - minDimAlpha) + minDimAlpha)
             }
             view = dimmedView
-        case .blurred(effectStyle: let effectStyle):
-            view = BluredView(effectStyle: effectStyle)
+        case .blurred(effectStyle: let effectStyle, maxAlpha: let maxAlpha, minAlpha: let minAlpha):
+            var blurredView = BluredView(effectStyle: effectStyle, maxAlpha: maxAlpha, minAlpha: minAlpha)
+            self.changeBackgroundViewIntensity = { fullExpandPercent in
+                blurredView.updateIntensity(percent: fullExpandPercent * (maxAlpha - minAlpha) + minAlpha)
+            }
+            view = blurredView
         case .clear(shouldPassthrough: let shouldPassthrough):
             view = PassthroughBackgroundView(shouldPassthrough: shouldPassthrough, presentingVC: presentingViewController)
         }
@@ -99,6 +103,7 @@ final class PopoverPresentationController: UIPresentationController {
             guard let self = self else {
                 return
             }
+            self.backgroundView.onPresent()
             self.changeBackgroundViewIntensity?(self.presentedViewController.view.frame.height / self.getMaximumExpandFrameHeight())
             self.presentedViewController.setNeedsStatusBarAppearanceUpdate()
         })
