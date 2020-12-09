@@ -39,7 +39,6 @@ public class DimmedView: UIView {
 }
 
 extension DimmedView: BackgroundDesignable {
-    func onPresent() {}
     
     func onDissmis() {
         alpha = 0.0
