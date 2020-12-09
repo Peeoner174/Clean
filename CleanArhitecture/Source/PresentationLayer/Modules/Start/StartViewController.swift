@@ -64,7 +64,13 @@ extension UINavigationController {
         coordinator.animate(alongsideTransition: nil) { context in
             let command = ExecuteAfterDelayCommand()
             if context.isInteractive {
-                command.execute(afterDelay: 1.0, completion) 
+                command.execute(onExpressionIsTrue: { [weak self] in
+                    guard let _ = self?.transitionCoordinator else {
+                        return true
+                    }
+                    return false
+                },
+                checkedDelayStep: 0.1, completion)
             } else {
                 completion()
             }
@@ -88,10 +94,12 @@ extension UINavigationController {
 
 class ExecuteAfterDelayCommand {
     
-    func execute(afterDelay delay: Double, _ block: @escaping () -> Void) {
+    func execute(onExpressionIsTrue isTrue: @escaping () -> Bool, checkedDelayStep delay: TimeInterval, _ block: @escaping () -> Void) {
         let delayTime = DispatchTime.now() + delay
-        let dispatchWorkItem = DispatchWorkItem(block: block);
-        DispatchQueue.main.asyncAfter(
-            deadline: delayTime, execute: dispatchWorkItem)
+        let dispatchWorkItem = isTrue() ? DispatchWorkItem(block: block) : DispatchWorkItem(block: {
+            let command = ExecuteAfterDelayCommand()
+            command.execute(onExpressionIsTrue: isTrue, checkedDelayStep: delay, block)
+        });
+        DispatchQueue.main.asyncAfter(deadline: delayTime, execute: dispatchWorkItem)
     }
 }
