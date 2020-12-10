@@ -63,6 +63,7 @@ extension UINavigationController {
 
         coordinator.animate(alongsideTransition: nil) { context in
             let command = RecursiveCheckExpressionCommand()
+            /* if context in isInteractive state, then custom presentation style will not be work */
             if context.isInteractive {
                 command.execute(onExpressionIsTrue: { [weak self] in
                     guard let _ = self?.transitionCoordinator else {
