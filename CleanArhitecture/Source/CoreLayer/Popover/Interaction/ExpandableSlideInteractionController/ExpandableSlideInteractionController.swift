@@ -102,7 +102,15 @@ class ExpandableSlideInteractionController: UIPercentDrivenInteractiveTransition
     // MARK: - PresentedVC frame translation methods
     
     func adjustFrames(to displacement: CGPoint) {
-        self.presentedViewController?.view.frame.origin.y = displacement.y
+        let yCoordinateClosure: () -> CGFloat = { [weak self] in
+            guard let self = self else { return 0.0 }
+            if UIScreen.main.bounds.size.height - displacement.y - self.liveUpdateMeta.fullExpandedPresentedViewFrameHeight! > 2 {
+                return UIScreen.main.bounds.size.height - self.liveUpdateMeta.fullExpandedPresentedViewFrameHeight!
+            } else {
+                return displacement.y
+            }
+        }
+        self.presentedViewController?.view.frame.origin.y = yCoordinateClosure()
         self.presentedViewController?.view.frame.size.height = UIScreen.main.bounds.size.height - self.presentedViewController!.view.frame.origin.y
         self.presentationController?.changeBackgroundViewIntensity?(self.presentedViewController!.view.frame.height / liveUpdateMeta.fullExpandedPresentedViewFrameHeight!)
     }
@@ -113,6 +121,10 @@ class ExpandableSlideInteractionController: UIPercentDrivenInteractiveTransition
         /* fix interactive animation bug on start dismiss gesture from full expand popover state */
         if yDisplacement > 0 && liveUpdateMeta.fullExpandedPresentedViewFrameHeight! - presentedViewController!.view.frame.height < 2 {
             yDisplacement = min(yDisplacement, 5)
+        }
+        
+        if abs(presentedViewController!.view.frame.height - liveUpdateMeta.fullExpandedPresentedViewFrameHeight!) < 25.0 {
+            yDisplacement = atan(yDisplacement)
         }
         
         adjustFrames(to: CGPoint(x: 0, y: presentedViewController!.view.frame.origin.y + yDisplacement))
@@ -134,8 +146,6 @@ class ExpandableSlideInteractionController: UIPercentDrivenInteractiveTransition
             } else {
                 trackScrolling(scrollView)
             }
-        } else {
-
         }
     }
     

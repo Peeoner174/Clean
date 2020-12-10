@@ -26,8 +26,23 @@ class MapKitViewController: UIViewController, ViewControllerLifecyclerDelegate, 
     var minExpandPopoverCommand: TweakPopoverCommand = TweakPopoverCommand(step: 0)
     
     func showPopOver() {
+        let topConstraintedFrameHeight = self.navigationController!.navigationBar.frame.height + UIApplication.shared.windows[0].safeAreaInsets.top
+
         let presentedVC = EmployeeListViewController.instantiate()
         presentedVC.frameObserver = self
+        
+        onPopoverViewControllerChangeFrameHandler = { [weak self] in
+            guard let self = self else { return }
+            if $0.height > UIScreen.main.bounds.height - topConstraintedFrameHeight {
+                UIView.animate(withDuration: 0.3) {
+                    self.navigationController?.navigationBar.alpha = 1.0
+                }
+            } else {
+                UIView.animate(withDuration: 0.3) {
+                    self.navigationController?.navigationBar.alpha = 0.0
+                }
+            }
+        }
         
         let presentation = ExpandableSlidePresentation(
             timing: PresentationTiming(
@@ -38,16 +53,17 @@ class MapKitViewController: UIViewController, ViewControllerLifecyclerDelegate, 
             direction: .bottom,
             uiConfiguration: PresentationUIConfiguration(backgroundStyle: .clear(shouldPassthrough: true)),
             tweakExpandableFrameCommands: [maxExpandPopoverCommand, minExpandPopoverCommand]
-        ) { (containerViewFrame, presentStep) -> CGRect in
-            
+        ) { containerViewFrame, presentStep -> CGRect in
             switch presentStep {
             case 0:
-                return CGRect(x: 0.0, y: UIScreen.main.bounds.height - 50, width: UIScreen.main.bounds.width, height: 50)
+                return CGRect(x: 0.0, y: containerViewFrame.height - 50, width: containerViewFrame.width, height: 50)
             case 1:
-                return CGRect(x: 0.0, y: UIScreen.main.bounds.height - 300, width: UIScreen.main.bounds.width, height: 300)
+                return CGRect(x: 0.0, y: containerViewFrame.height - 300, width: containerViewFrame.width, height: 300)
             case 2:
-                return CGRect(x: 0.0, y: UIScreen.main.bounds.height - 450, width: UIScreen.main.bounds.width, height: 450)
-            case 3... :
+                return CGRect(x: 0.0, y: containerViewFrame.height - 450, width: containerViewFrame.width, height: 450)
+            case 3:
+                return CGRect(x: 0.0, y: containerViewFrame.height - topConstraintedFrameHeight, width: containerViewFrame.width, height: containerViewFrame.height - topConstraintedFrameHeight)
+            case 4... :
                 throw LiveUpdateError.reachedExpandMaximum
             default:
                 throw LiveUpdateError.undefinedExpandStep
@@ -103,3 +119,4 @@ class TweakPopoverCommand {
         onCommandExecuteHandler?()
     }
 }
+
