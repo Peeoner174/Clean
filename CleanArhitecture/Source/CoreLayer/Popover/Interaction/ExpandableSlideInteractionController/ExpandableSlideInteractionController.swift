@@ -108,10 +108,13 @@ class ExpandableSlideInteractionController: UIPercentDrivenInteractiveTransition
     }
     
     func respond(to panGestureRecognizer: UIPanGestureRecognizer) {
-        let yDisplacement = panGestureRecognizer.translation(in: presentedViewController?.view).y
-        guard abs(presentedViewController!.view.frame.origin.y - presentedViewController!.view.frame.origin.y + yDisplacement) < 100 else {
-            return
+        var yDisplacement = panGestureRecognizer.translation(in: presentedViewController?.view).y
+        
+        /* fix interactive animation bug on start dismiss gesture from full expand popover state */
+        if yDisplacement > 0 && liveUpdateMeta.fullExpandedPresentedViewFrameHeight! - presentedViewController!.view.frame.height < 2 {
+            yDisplacement = min(yDisplacement, 5)
         }
+        
         adjustFrames(to: CGPoint(x: 0, y: presentedViewController!.view.frame.origin.y + yDisplacement))
         panGestureRecognizer.setTranslation(.zero, in: presentedViewController!.view)
     }

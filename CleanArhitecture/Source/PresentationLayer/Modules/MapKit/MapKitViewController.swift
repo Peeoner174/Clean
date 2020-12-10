@@ -28,7 +28,6 @@ class MapKitViewController: UIViewController, ViewControllerLifecyclerDelegate, 
     func showPopOver() {
         let presentedVC = EmployeeListViewController.instantiate()
         presentedVC.frameObserver = self
-        self.onPopoverViewControllerChangeFrameHandler = { print($0) }
         
         let presentation = ExpandableSlidePresentation(
             timing: PresentationTiming(
