@@ -62,7 +62,7 @@ extension UINavigationController {
         }
 
         coordinator.animate(alongsideTransition: nil) { context in
-            let command = ExecuteAfterDelayCommand()
+            let command = RecursiveCheckExpressionCommand()
             if context.isInteractive {
                 command.execute(onExpressionIsTrue: { [weak self] in
                     guard let _ = self?.transitionCoordinator else {
@@ -92,12 +92,12 @@ extension UINavigationController {
     }
 }
 
-class ExecuteAfterDelayCommand {
+class RecursiveCheckExpressionCommand {
     
     func execute(onExpressionIsTrue isTrue: @escaping () -> Bool, checkedDelayStep delay: TimeInterval, _ block: @escaping () -> Void) {
         let delayTime = DispatchTime.now() + delay
         let dispatchWorkItem = isTrue() ? DispatchWorkItem(block: block) : DispatchWorkItem(block: {
-            let command = ExecuteAfterDelayCommand()
+            let command = RecursiveCheckExpressionCommand()
             command.execute(onExpressionIsTrue: isTrue, checkedDelayStep: delay, block)
         });
         DispatchQueue.main.asyncAfter(deadline: delayTime, execute: dispatchWorkItem)
