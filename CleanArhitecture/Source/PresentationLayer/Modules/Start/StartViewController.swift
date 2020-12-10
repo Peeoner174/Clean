@@ -63,7 +63,7 @@ extension UINavigationController {
 
         coordinator.animate(alongsideTransition: nil) { context in
             let command = RecursiveCheckExpressionCommand()
-            /* if context in isInteractive state, then custom presentation style will not be work */
+            /* if isInteractive == true in animate completion => custom presentation style will not be work. Then pushVC completion should be executed after coordinator dealloc */
             if context.isInteractive {
                 command.execute(onExpressionIsTrue: { [weak self] in
                     guard let _ = self?.transitionCoordinator else {
