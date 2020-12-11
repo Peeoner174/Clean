@@ -123,7 +123,8 @@ class ExpandableSlideInteractionController: UIPercentDrivenInteractiveTransition
             yDisplacement = min(yDisplacement, 5)
         }
         
-        if abs(presentedViewController!.view.frame.height - liveUpdateMeta.fullExpandedPresentedViewFrameHeight!) < 25.0 {
+        /* Autobraking interaction effect */
+        if liveUpdateMeta.fullExpandedPresentedViewFrameHeight! - presentedViewController!.view.frame.height < 25.0 {
             yDisplacement = atan(yDisplacement)
         }
         
