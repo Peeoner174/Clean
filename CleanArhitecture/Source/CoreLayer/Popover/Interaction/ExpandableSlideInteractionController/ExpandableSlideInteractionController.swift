@@ -142,7 +142,7 @@ class ExpandableSlideInteractionController: UIPercentDrivenInteractiveTransition
             else { return }
         
         if scrollView.isScrolling {
-            if presentedViewController.view.frame.height < liveUpdateMeta.fullExpandedPresentedViewFrameHeight! {
+            if !liveUpdateMeta.presentedViewIsFullExpanded {
                 haltScrolling(scrollView)
             } else {
                 trackScrolling(scrollView)

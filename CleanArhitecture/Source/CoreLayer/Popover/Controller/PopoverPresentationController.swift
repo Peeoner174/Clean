@@ -131,12 +131,20 @@ final class PopoverPresentationController: UIPresentationController {
         containerView?.setNeedsLayout()
         self.needTweak = true
         
-        UIView.animate(withDuration: duration.timeInterval, animations: {
+        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: [.allowUserInteraction, .beginFromCurrentState]) {
             self.containerView?.layoutIfNeeded()
             self.changeBackgroundViewIntensity?(self.presentedViewController.view.frame.height / self.getMaximumExpandFrameHeight())
-        }) { (isTrue) in
+        } completion: { (isTrue) in
             self.needTweak = false
         }
+
+        
+//        UIView.animate(withDuration: 0.3, animations: {
+//            self.containerView?.layoutIfNeeded()
+//            self.changeBackgroundViewIntensity?(self.presentedViewController.view.frame.height / self.getMaximumExpandFrameHeight())
+//        }) { (isTrue) in
+//            self.needTweak = false
+//        }
     }
     
     override func size(forChildContentContainer container: UIContentContainer, withParentContainerSize parentSize: CGSize) -> CGSize {
@@ -190,6 +198,13 @@ extension PopoverPresentationController: PopoverPresentationControllerProtocol {
         }
         return otherGestureRecognizer.view == presentedViewController.expandingScrollView
     }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive event: UIEvent) -> Bool {
+        guard
+            let touch = event.allTouches?.reversed().first,
+            touch.location(in: presentedViewController.view).y < 0 else { return true }
+        return false
+    }
 }
 
 extension PopoverPresentationController: PopoverFrameTweaker {
@@ -231,7 +246,7 @@ extension PopoverPresentationController: PopoverFrameTweaker {
     }
     
     func updateCurrentExpandSteps(currentFrame: CGRect, direction: Direction) {
-        guard var presentation = presentation as? (PresentationExpandableFrameProvider & Presentation) else { return }
+        guard let presentation = presentation as? (PresentationExpandableFrameProvider & Presentation) else { return }
         func getExpandStepsWithFramesDict() -> [CGRect] {
             if !presentation.expandablePopoverFrameMeta.expandSteps.isEmpty { return presentation.expandablePopoverFrameMeta.expandSteps }
             do {
@@ -269,7 +284,7 @@ extension PopoverPresentationController: PopoverFrameTweaker {
     }
     
     func getNextStepFrame(panDirection: Direction) throws -> CGRect {
-        guard var presentation = presentation as? (PresentationExpandableFrameProvider & Presentation) else {
+        guard let presentation = presentation as? (PresentationExpandableFrameProvider & Presentation) else {
             return presentedViewController.view.frame
         }
         

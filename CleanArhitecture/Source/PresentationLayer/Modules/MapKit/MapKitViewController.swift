@@ -60,10 +60,8 @@ class MapKitViewController: UIViewController, ViewControllerLifecyclerDelegate, 
             case 1:
                 return CGRect(x: 0.0, y: containerViewFrame.height - 300, width: containerViewFrame.width, height: 300)
             case 2:
-                return CGRect(x: 0.0, y: containerViewFrame.height - 450, width: containerViewFrame.width, height: 450)
-            case 3:
-                return CGRect(x: 0.0, y: containerViewFrame.height - topConstraintedFrameHeight, width: containerViewFrame.width, height: containerViewFrame.height - topConstraintedFrameHeight)
-            case 4... :
+                return CGRect(x: 0.0, y: containerViewFrame.height - 604.0, width: containerViewFrame.width, height: 604.0)
+            case 3... :
                 throw LiveUpdateError.reachedExpandMaximum
             default:
                 throw LiveUpdateError.undefinedExpandStep
