@@ -130,6 +130,13 @@ final class PopoverPresentationController: UIPresentationController {
         self.presentation = presentation
         containerView?.setNeedsLayout()
         self.needTweak = true
+       
+        /* For popOverContainerView frame correct update */
+        if let presentationExpandableFrameProvider = self.presentation as? PresentationExpandableFrameProvider {
+            let currentExpandStep = presentationExpandableFrameProvider.expandablePopoverFrameMeta.currentExpandStep
+            let frameCurrentExpandStep = presentationExpandableFrameProvider.expandablePopoverFrameMeta.expandSteps[Int(currentExpandStep)]
+            self.popOverContainerView.frame = frameCurrentExpandStep
+        }
         
         UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: [.allowUserInteraction, .beginFromCurrentState]) {
             self.containerView?.layoutIfNeeded()
@@ -137,14 +144,6 @@ final class PopoverPresentationController: UIPresentationController {
         } completion: { (isTrue) in
             self.needTweak = false
         }
-
-        
-//        UIView.animate(withDuration: 0.3, animations: {
-//            self.containerView?.layoutIfNeeded()
-//            self.changeBackgroundViewIntensity?(self.presentedViewController.view.frame.height / self.getMaximumExpandFrameHeight())
-//        }) { (isTrue) in
-//            self.needTweak = false
-//        }
     }
     
     override func size(forChildContentContainer container: UIContentContainer, withParentContainerSize parentSize: CGSize) -> CGSize {
@@ -197,13 +196,6 @@ extension PopoverPresentationController: PopoverPresentationControllerProtocol {
             return false
         }
         return otherGestureRecognizer.view == presentedViewController.expandingScrollView
-    }
-    
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive event: UIEvent) -> Bool {
-        guard
-            let touch = event.allTouches?.reversed().first,
-            touch.location(in: presentedViewController.view).y < 0 else { return true }
-        return false
     }
 }
 

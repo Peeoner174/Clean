@@ -48,7 +48,6 @@ class ExpandableSlideInteractionController: UIPercentDrivenInteractiveTransition
     override func startInteractiveTransition(_ transitionContext: UIViewControllerContextTransitioning) {
         super.startInteractiveTransition(transitionContext)
         let containerView = transitionContext.containerView
-    
         containerView.addGestureRecognizer(panGestureRecognizer)
             
         presentationController?.didTapBackgroundView = { [weak self] in
