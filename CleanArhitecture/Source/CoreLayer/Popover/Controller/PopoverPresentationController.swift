@@ -134,8 +134,9 @@ final class PopoverPresentationController: UIPresentationController {
         /* For popOverContainerView frame correct update */
         if let presentationExpandableFrameProvider = self.presentation as? PresentationExpandableFrameProvider {
             let currentExpandStep = presentationExpandableFrameProvider.expandablePopoverFrameMeta.currentExpandStep
-            let frameCurrentExpandStep = presentationExpandableFrameProvider.expandablePopoverFrameMeta.expandSteps[Int(currentExpandStep)]
-            self.popOverContainerView.frame = frameCurrentExpandStep
+            if let frameCurrentExpandStep = presentationExpandableFrameProvider.expandablePopoverFrameMeta.expandSteps[guarded: Int(currentExpandStep)] {
+                self.popOverContainerView.frame = frameCurrentExpandStep
+            }
         }
         
         UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: [.allowUserInteraction, .beginFromCurrentState]) {

@@ -45,6 +45,7 @@
 		6E8B3CEC231C17E0009EEF59 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B3CEB231C17E0009EEF59 /* Constants.swift */; };
 		6E9F517A231B1782003AB47D /* Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E9F5179231B1782003AB47D /* Reusable.swift */; };
 		6E9F517C231B1861003AB47D /* Storyboarded.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E9F517B231B1861003AB47D /* Storyboarded.swift */; };
+		6EA9CA7E25891EDF00037169 /* Array + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EA9CA7D25891EDF00037169 /* Array + Extension.swift */; };
 		6EC82BF4232255FB00DE156C /* SlidePresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC82BF3232255FB00DE156C /* SlidePresentation.swift */; };
 		6EC82BF7232256CD00DE156C /* PresentationAnimatorProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC82BF6232256CD00DE156C /* PresentationAnimatorProvider.swift */; };
 		6EC82BF92322587A00DE156C /* SlideAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC82BF82322587A00DE156C /* SlideAnimator.swift */; };
@@ -143,6 +144,7 @@
 		6E8B3CEB231C17E0009EEF59 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		6E9F5179231B1782003AB47D /* Reusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reusable.swift; sourceTree = "<group>"; };
 		6E9F517B231B1861003AB47D /* Storyboarded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storyboarded.swift; sourceTree = "<group>"; };
+		6EA9CA7D25891EDF00037169 /* Array + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array + Extension.swift"; sourceTree = "<group>"; };
 		6EC82BF3232255FB00DE156C /* SlidePresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlidePresentation.swift; sourceTree = "<group>"; };
 		6EC82BF6232256CD00DE156C /* PresentationAnimatorProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationAnimatorProvider.swift; sourceTree = "<group>"; };
 		6EC82BF82322587A00DE156C /* SlideAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideAnimator.swift; sourceTree = "<group>"; };
@@ -264,6 +266,7 @@
 			children = (
 				5C203C3125666D70008AC063 /* UISCrollView + isScrolling.swift */,
 				5CA98FEA2573E8AC00542FBF /* UIViewController + Lifecycle.swift */,
+				6EA9CA7D25891EDF00037169 /* Array + Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1075,6 +1078,7 @@
 				CE3CBA1C2014759900D4DF0E /* EmployeeBaseInfoCellModel.swift in Sources */,
 				CE3CBA2D201488E900D4DF0E /* EmployeeSectionModel.swift in Sources */,
 				6E4CC3C423338CEB00156C9A /* EmployeeApi.swift in Sources */,
+				6EA9CA7E25891EDF00037169 /* Array + Extension.swift in Sources */,
 				6ED7C384231E58FB00662C6A /* GatewaysAssembly.swift in Sources */,
 				5C964023255C0C8900702F55 /* ExpandableSlideInteractionController.swift in Sources */,
 				6E6185E5231DC553003B002A /* RealmDBManager.swift in Sources */,
