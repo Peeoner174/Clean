@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="iKt-zb-vwl">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="iKt-zb-vwl">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -16,7 +17,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1SN-A5-w9z">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1SN-A5-w9z">
                                 <rect key="frame" x="120.5" y="438" width="173" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="gkv-Ju-kh7"/>
@@ -27,22 +28,31 @@
                                     <action selector="openEmployListViewController:" destination="iKt-zb-vwl" eventType="touchUpInside" id="oGe-Hu-sIk"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="orw-3a-ljC">
-                                <rect key="frame" x="75" y="504" width="264" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="orw-3a-ljC">
+                                <rect key="frame" x="74.5" y="504" width="265" height="30"/>
                                 <state key="normal" title="MapKitSupplementaryExpandableView"/>
                                 <connections>
                                     <action selector="openMapKitViewController:" destination="iKt-zb-vwl" eventType="touchUpInside" id="jwN-0h-8nX"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GZH-id-22X">
+                                <rect key="frame" x="160" y="597" width="94" height="30"/>
+                                <state key="normal" title="Trip Adresses"/>
+                                <connections>
+                                    <action selector="openTripAdressesViewController:" destination="iKt-zb-vwl" eventType="touchUpInside" id="QkY-EF-Xip"/>
+                                </connections>
+                            </button>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="1Z9-Vb-cR4"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="GZH-id-22X" firstAttribute="top" secondItem="orw-3a-ljC" secondAttribute="bottom" constant="63" id="3h6-5r-6DS"/>
                             <constraint firstItem="1SN-A5-w9z" firstAttribute="centerY" secondItem="1Z9-Vb-cR4" secondAttribute="centerY" id="71S-nu-ojV"/>
                             <constraint firstItem="1SN-A5-w9z" firstAttribute="centerX" secondItem="1Z9-Vb-cR4" secondAttribute="centerX" id="FQk-ge-giJ"/>
                             <constraint firstItem="orw-3a-ljC" firstAttribute="top" secondItem="1SN-A5-w9z" secondAttribute="bottom" constant="36" id="NRf-DP-lPh"/>
                             <constraint firstItem="orw-3a-ljC" firstAttribute="centerX" secondItem="1SN-A5-w9z" secondAttribute="centerX" id="Xao-Uu-Go0"/>
+                            <constraint firstItem="GZH-id-22X" firstAttribute="centerX" secondItem="orw-3a-ljC" secondAttribute="centerX" id="wCb-Et-zpn"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="1Z9-Vb-cR4"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xry-5Z-6qn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -50,4 +60,9 @@
             <point key="canvasLocation" x="1339.1304347826087" y="64.955357142857139"/>
         </scene>
     </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>

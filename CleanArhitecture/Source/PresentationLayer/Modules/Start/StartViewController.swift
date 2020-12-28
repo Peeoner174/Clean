@@ -28,9 +28,9 @@ class StartViewController: UIViewController {
             
             switch presentStep {
             case 0:
-                return CGRect(x: 0.0, y: UIScreen.main.bounds.height - 400, width: UIScreen.main.bounds.width, height: 400)
+                return CGRect(x: 0.0, y: containerViewFrame.height - 400, width: containerViewFrame.width, height: 400)
             case 1:
-                return CGRect(x: 0.0, y: UIScreen.main.bounds.height - 550, width: UIScreen.main.bounds.width, height: 550)
+                return CGRect(x: 0.0, y: containerViewFrame.height - 550, width: containerViewFrame.width, height: 550)
             case 2... :
                 throw LiveUpdateError.reachedExpandMaximum
             default:
@@ -45,6 +45,31 @@ class StartViewController: UIViewController {
         self.navigationController?.pushViewController(vc, animated: true, completion: {
             vc.showPopOver()
         })
+    }
+    
+    @IBAction func openTripAdressesViewController(_ sender: Any) {
+        let presentedVC = TripAdressesViewController.instantiate()
+        
+        let presentation = ExpandableSlidePresentation(
+            timing: PresentationTiming(
+                duration: .normal,
+                presentationCurve: .easeInOut,
+                dismissCurve: .easeInOut
+            ),
+            direction: .bottom,
+            uiConfiguration: PresentationUIConfiguration()) { (containerViewFrame, presentStep) -> CGRect in
+            
+            switch presentStep {
+            case 0:
+                return CGRect(x: 0.0, y: containerViewFrame.height - 400, width: containerViewFrame.width, height: 400)
+            case 1...:
+                throw LiveUpdateError.reachedExpandMaximum
+            default:
+                throw LiveUpdateError.undefinedExpandStep
+            }
+        }
+        
+        PopoverManager.presentExpandableSlidePopover(vc: presentedVC, in: self, presentation: presentation)
     }
 }
 

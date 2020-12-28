@@ -58,7 +58,7 @@ extension UITableView {
                 assertionFailure("Could not dequeue cell with identifier: \(T.reuseIdentifier)")
                 return nil
             }
-            return cell
+             return cell
         } else {
             guard let cell = self.dequeueReusableCell(withIdentifier: cellType.reuseIdentifier) as? T else {
                 assertionFailure("Could not dequeue cell with identifier: \(T.reuseIdentifier)")

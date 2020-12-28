@@ -16,6 +16,11 @@
 		5C20C125255E67B400C6F2FD /* PresentationFrameProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C20C124255E67B400C6F2FD /* PresentationFrameProvider.swift */; };
 		5C20C129255E6B2900C6F2FD /* ExpandableSlidePresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C20C128255E6B2900C6F2FD /* ExpandableSlidePresentation.swift */; };
 		5C20C12D255E6BB100C6F2FD /* ExpandableSlideAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C20C12C255E6BB100C6F2FD /* ExpandableSlideAnimator.swift */; };
+		5C697CB62591F64500E7C2BF /* TripAdressesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C697CB52591F64500E7C2BF /* TripAdressesViewController.swift */; };
+		5C697CBC2591F65100E7C2BF /* TripAdressesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C697CBB2591F65100E7C2BF /* TripAdressesViewModel.swift */; };
+		5C697CC02591F66000E7C2BF /* TripAdressesViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C697CBF2591F66000E7C2BF /* TripAdressesViewController.storyboard */; };
+		5C697CC42591F94D00E7C2BF /* AdressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C697CC32591F94D00E7C2BF /* AdressCell.swift */; };
+		5C697D3A259207CE00E7C2BF /* AttributedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C697D39259207CE00E7C2BF /* AttributedString.swift */; };
 		5C964021255BEBF900702F55 /* UIView+Hierarchy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C964020255BEBF900702F55 /* UIView+Hierarchy.swift */; };
 		5C964023255C0C8900702F55 /* ExpandableSlideInteractionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C964022255C0C8900702F55 /* ExpandableSlideInteractionController.swift */; };
 		5CA98FEB2573E8AC00542FBF /* UIViewController + Lifecycle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA98FEA2573E8AC00542FBF /* UIViewController + Lifecycle.swift */; };
@@ -113,6 +118,11 @@
 		5C20C124255E67B400C6F2FD /* PresentationFrameProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationFrameProvider.swift; sourceTree = "<group>"; };
 		5C20C128255E6B2900C6F2FD /* ExpandableSlidePresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandableSlidePresentation.swift; sourceTree = "<group>"; };
 		5C20C12C255E6BB100C6F2FD /* ExpandableSlideAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandableSlideAnimator.swift; sourceTree = "<group>"; };
+		5C697CB52591F64500E7C2BF /* TripAdressesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripAdressesViewController.swift; sourceTree = "<group>"; };
+		5C697CBB2591F65100E7C2BF /* TripAdressesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripAdressesViewModel.swift; sourceTree = "<group>"; };
+		5C697CBF2591F66000E7C2BF /* TripAdressesViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TripAdressesViewController.storyboard; sourceTree = "<group>"; };
+		5C697CC32591F94D00E7C2BF /* AdressCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdressCell.swift; sourceTree = "<group>"; };
+		5C697D39259207CE00E7C2BF /* AttributedString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedString.swift; sourceTree = "<group>"; };
 		5C964020255BEBF900702F55 /* UIView+Hierarchy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Hierarchy.swift"; sourceTree = "<group>"; };
 		5C964022255C0C8900702F55 /* ExpandableSlideInteractionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandableSlideInteractionController.swift; sourceTree = "<group>"; };
 		5CA98FEA2573E8AC00542FBF /* UIViewController + Lifecycle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController + Lifecycle.swift"; sourceTree = "<group>"; };
@@ -269,6 +279,17 @@
 				6EA9CA7D25891EDF00037169 /* Array + Extension.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		5C697CB42591F61D00E7C2BF /* TripAdresses */ = {
+			isa = PBXGroup;
+			children = (
+				5C697CB52591F64500E7C2BF /* TripAdressesViewController.swift */,
+				5C697CBB2591F65100E7C2BF /* TripAdressesViewModel.swift */,
+				5C697CBF2591F66000E7C2BF /* TripAdressesViewController.storyboard */,
+				5C697CC32591F94D00E7C2BF /* AdressCell.swift */,
+			);
+			path = TripAdresses;
 			sourceTree = "<group>";
 		};
 		6E4CC3C1233379DD00156C9A /* Remote */ = {
@@ -501,6 +522,7 @@
 				6E8698BC2324251500A4E291 /* AnchoredConstraints.swift */,
 				6ECB664723314F8A00E7E81A /* Unimplemented.swift */,
 				6EE9631423353C810083A7B8 /* StubbedResponse.swift */,
+				5C697D39259207CE00E7C2BF /* AttributedString.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -849,6 +871,7 @@
 		F3D28DC529FB243EC77CF294 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				5C697CB42591F61D00E7C2BF /* TripAdresses */,
 				6ECD934D256EDC2500E50DCC /* MapKit */,
 				6E7E2C66255D381300914ADF /* Start */,
 				0B5DBDADBA8628A405264A91 /* EmployeeList */,
@@ -952,6 +975,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E7E2C6A255D393C00914ADF /* StartViewController.storyboard in Resources */,
+				5C697CC02591F66000E7C2BF /* TripAdressesViewController.storyboard in Resources */,
 				6ECD9351256EDC7500E50DCC /* MapKitViewController.storyboard in Resources */,
 				CE8F04252013C2A30061F034 /* LaunchScreen.storyboard in Resources */,
 				6EE96312233539CD0083A7B8 /* employees.json in Resources */,
@@ -1055,6 +1079,7 @@
 				6E8698BD2324251500A4E291 /* AnchoredConstraints.swift in Sources */,
 				6E8698B923241E5300A4E291 /* UIView+RoundCorners.swift in Sources */,
 				6E5C059923217E1800A3C9F4 /* PopoverContainerView.swift in Sources */,
+				5C697CC42591F94D00E7C2BF /* AdressCell.swift in Sources */,
 				5C20C129255E6B2900C6F2FD /* ExpandableSlidePresentation.swift in Sources */,
 				0A0BF14C799C3A3BC4C4BBE4 /* EmployeeListViewController.swift in Sources */,
 				6E628BBC2326430F000F447C /* SlideInteractionController.swift in Sources */,
@@ -1088,8 +1113,10 @@
 				6EE963172335550E0083A7B8 /* UIImageView+AlamofireImage.swift in Sources */,
 				6E8698B423241BDF00A4E291 /* BluredView.swift in Sources */,
 				6EC82BFE232265E700DE156C /* Direction.swift in Sources */,
+				5C697D3A259207CE00E7C2BF /* AttributedString.swift in Sources */,
 				6E8698BB2324230500A4E291 /* UIView+Layout.swift in Sources */,
 				2020B37DBBF3ED1F25E888C7 /* EmployeeListRouterInput.swift in Sources */,
+				5C697CBC2591F65100E7C2BF /* TripAdressesViewModel.swift in Sources */,
 				8F0BDCC8B30DD008AC4F7460 /* EmployeeListRouter.swift in Sources */,
 				5418B24C893629DC71095317 /* EmployeeListAssembly.swift in Sources */,
 				6EC82C0D232270AF00DE156C /* BackgroundStyle.swift in Sources */,
@@ -1098,6 +1125,7 @@
 				6E9F517C231B1861003AB47D /* Storyboarded.swift in Sources */,
 				6E9F517A231B1782003AB47D /* Reusable.swift in Sources */,
 				CE3CBA22201485BC00D4DF0E /* ButtonCellModel.swift in Sources */,
+				5C697CB62591F64500E7C2BF /* TripAdressesViewController.swift in Sources */,
 				6E6185E9231DCB81003B002A /* UseCasesAssembly.swift in Sources */,
 				CE3CBA272014868F00D4DF0E /* EmployeeBaseCell.swift in Sources */,
 				D5999091E141199DB95EEC2F /* EmployeeListInitializer.swift in Sources */,
