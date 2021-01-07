@@ -57,11 +57,13 @@ class StartViewController: UIViewController {
                 dismissCurve: .easeInOut
             ),
             direction: .bottom,
-            uiConfiguration: PresentationUIConfiguration()) { (containerViewFrame, presentStep) -> CGRect in
+            uiConfiguration: PresentationUIConfiguration(),
+            dragIndicatorView: DragIndicatorView(frame: .zero),
+            blockDismissOnPanGesture: false) { (containerViewFrame, presentStep) -> CGRect in
             
             switch presentStep {
             case 0:
-                return CGRect(x: 0.0, y: containerViewFrame.height - 400, width: containerViewFrame.width, height: 400)
+                return CGRect(x: 0.0, y: containerViewFrame.height - presentedVC.tableViewHeight, width: containerViewFrame.width, height: presentedVC.tableViewHeight)
             case 1...:
                 throw LiveUpdateError.reachedExpandMaximum
             default:

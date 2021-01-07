@@ -63,12 +63,21 @@ final class PopoverPresentationController: UIPresentationController {
     
     private lazy var popOverContainerView: PopoverContainerView = {
         let frame = containerView?.frame ?? .zero
-        return PopoverContainerView(presentedView: presentedViewController.view, frame: frame)
+        let popoverContainerView = PopoverContainerView(
+            presentedView: presentedViewController.view,
+            frame: frame,
+            dragIndicatorView: dragIndicatorView
+        )
+        return popoverContainerView
     }()
     
     override var presentedView: UIView {
         return popOverContainerView
     }
+    
+    private lazy var dragIndicatorView: UIView? = {
+        (presentation as? PresentationDragIndicatorViewProvider)?.dragIndicatorView
+    }()
     
     // MARK: - Initializers
     

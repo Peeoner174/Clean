@@ -18,6 +18,12 @@ class TripAdressesViewController: UIViewController {
         }
     }
     
+    var tableViewHeight: CGFloat {
+        get {
+            CGFloat(tableViewCellsModel.count * 50)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -28,6 +34,7 @@ class TripAdressesViewController: UIViewController {
         tableView.dragInteractionEnabled = true
         tableView.dragDelegate = self
         tableView.dropDelegate = self
+        tableView.isScrollEnabled = false
     }
 }
 
@@ -45,20 +52,19 @@ extension TripAdressesViewController: UITableViewDataSource {
         let addressModel = tableViewCellsModel[indexPath.row]
         let cell = tableView.dequeueReusableCell(AddressCell.self, forIndexPath: indexPath)!
 
-        cell.configure(model: addressModel, forIndexPath: indexPath)
+        cell.configure(model: addressModel, forIndexPath: indexPath) { [unowned self] in
+            self.tableViewCellsModel.remove(at: indexPath.row)
+            self.tableView.reloadData()
+            UIView.animate(withDuration: 0.3) { [unowned self] in
+                self.view.frame = CGRect(x: 0.0, y: UIScreen.main.bounds.height - self.tableViewHeight, width: UIScreen.main.bounds.width, height: self.tableViewHeight)
+            }
+        }
         return cell
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         let item = tableViewCellsModel.remove(at: sourceIndexPath.row)
         tableViewCellsModel.insert(item, at: destinationIndexPath.row)
-    }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            tableViewCellsModel.remove(at: indexPath.row)
-            tableView.reloadData()
-        }
     }
 }
 

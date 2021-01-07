@@ -10,13 +10,18 @@ import UIKit
 
 class PopoverContainerView: UIView {
     
-    init(presentedView: UIView, frame: CGRect) {
+    init(presentedView: UIView, frame: CGRect, dragIndicatorView: UIView? = nil) {
         super.init(frame: frame)
         addSubview(presentedView)
+        guard let dragIndicatorView = dragIndicatorView else { return }
+        presentedView.addSubview(dragIndicatorView, constraints: [
+            equal(\.bottomAnchor, to: presentedView, \.topAnchor),
+            equal(\.leadingAnchor, to: presentedView),
+            equal(\.trailingAnchor, to: presentedView)
+        ])
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }

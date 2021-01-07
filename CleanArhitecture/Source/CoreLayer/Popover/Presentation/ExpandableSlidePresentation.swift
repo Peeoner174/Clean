@@ -13,7 +13,8 @@ private typealias ExpandableSlidePresentationParamsProvider =
     PresentationTimingInformationProvider &
     PresentationUIConfigurationProvider &
     PresentationShowDirectionProvider &
-    PresentationExpandableFrameProvider
+    PresentationExpandableFrameProvider &
+    PresentationDragIndicatorViewProvider
 
 class ExpandableSlidePresentation: ExpandableSlidePresentationParamsProvider {
     var expandablePopoverFrameMeta: ExpandablePopoverFrameMeta
@@ -21,22 +22,26 @@ class ExpandableSlidePresentation: ExpandableSlidePresentationParamsProvider {
     var presentationUIConfiguration: PresentationUIConfiguration
     var showDirection: Direction
     var presentationTiming: PresentationTiming
+    var dragIndicatorView: UIView?
     
     init(
         timing: PresentationTiming = PresentationTiming(),
         direction: Direction,
         uiConfiguration: PresentationUIConfiguration,
         tweakExpandableFrameCommands: [TweakPopoverCommand] = [],
+        dragIndicatorView: UIView? = nil,
+        blockDismissOnPanGesture: Bool = true,
         frameOfExpandablePresentedViewClosure: FrameOfExpandablePresentedViewClosure
     ) {
         self.presentationTiming = timing
         self.showDirection = direction
         self.presentationUIConfiguration = uiConfiguration
+        self.dragIndicatorView = dragIndicatorView
         self.frameOfExpandablePresentedViewClosure = frameOfExpandablePresentedViewClosure
         self.expandablePopoverFrameMeta = ExpandablePopoverFrameMeta(
             expandSteps: [],
             currentExpandStep: 0,
-            blockDismissOnPanGesture: true,
+            blockDismissOnPanGesture: blockDismissOnPanGesture,
             tweakExpandableFrameCommands: tweakExpandableFrameCommands
         )
     }
