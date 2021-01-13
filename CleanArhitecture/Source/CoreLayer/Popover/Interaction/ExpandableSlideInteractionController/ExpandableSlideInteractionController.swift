@@ -25,7 +25,7 @@ class ExpandableSlideInteractionController: UIPercentDrivenInteractiveTransition
     private var scrollViewScrollingObserver: NSKeyValueObservation?
     lazy var liveUpdateMeta: LiveUpdateMeta = {
         var liveUpdateMeta = LiveUpdateMeta()
-        liveUpdateMeta.fullExpandedPresentedViewFrameHeight = (self.presentationController as! PopoverFrameTweaker).getMaximumExpandFrameHeight()
+        liveUpdateMeta.delegate = self
         return liveUpdateMeta
     }()
     
@@ -177,3 +177,10 @@ extension ExpandableSlideInteractionController: PopoverViewControllerScrollViewO
     }
 }
 
+// MARK: - LiveUpdateMetaDelegate
+
+extension ExpandableSlideInteractionController: LiveUpdateMetaDelegate {
+    func computeFullExpandFrameHeight() -> CGFloat {
+        (self.presentationController as! PopoverFrameTweaker).getMaximumExpandFrameHeight()
+    }
+}

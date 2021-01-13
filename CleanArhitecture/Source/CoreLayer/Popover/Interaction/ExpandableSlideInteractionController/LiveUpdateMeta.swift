@@ -22,12 +22,22 @@ enum LiveUpdateError: Error, Equatable {
     case undefinedExpandStep
 }
 
+protocol LiveUpdateMetaDelegate: class {
+    func computeFullExpandFrameHeight() -> CGFloat
+}
+
 struct LiveUpdateMeta {
     var currentLiveUpdateError: LiveUpdateError?
     var direction: Direction?
     var presentedViewIsFullExpanded: Bool = false
-    var fullExpandedPresentedViewFrameHeight: CGFloat?
     var scrollViewMeta = ScrollViewMeta()
+    var fullExpandedPresentedViewFrameHeight: CGFloat? {
+        get {
+            delegate?.computeFullExpandFrameHeight()
+        }
+    }
+    
+    weak var delegate: LiveUpdateMetaDelegate?
     
     private var panBeganPresentedFrameHeight: CGFloat!
     private var panEndPresentedFrameHeight: CGFloat!
