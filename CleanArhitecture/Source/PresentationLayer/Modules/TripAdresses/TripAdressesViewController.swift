@@ -10,6 +10,7 @@ import UIKit
 
 class TripAdressesViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
+    var tweakCommand: TweakPopoverCommand = TweakPopoverCommand(step: 0)
     
     private var tableViewCellsModel = (1...5)
         .map { AddressModel(address: "Тернопольская 6, кв. \($0)", number: $0) } {
@@ -55,9 +56,7 @@ extension TripAdressesViewController: UITableViewDataSource {
         cell.configure(model: addressModel, forIndexPath: indexPath) { [unowned self] in
             self.tableViewCellsModel.remove(at: indexPath.row)
             self.tableView.reloadData()
-            UIView.animate(withDuration: 0.3) { [unowned self] in
-                self.view.frame = CGRect(x: 0.0, y: UIScreen.main.bounds.height - self.tableViewHeight, width: UIScreen.main.bounds.width, height: self.tableViewHeight)
-            }
+            self.tweakCommand.execute()
         }
         return cell
     }

@@ -16,20 +16,20 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bQM-r1-evP">
-                    <rect key="frame" x="87" y="-35.5" width="240" height="128"/>
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="57"/>
                     <subviews>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="drag_indicator" translatesAutoresizingMaskIntoConstraints="NO" id="ddh-JA-Leu">
-                            <rect key="frame" x="111" y="62" width="18" height="4"/>
+                            <rect key="frame" x="198" y="26.5" width="18" height="4"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="4" id="5gY-Hw-hSI"/>
                                 <constraint firstAttribute="width" constant="18" id="gEM-od-B3c"/>
                             </constraints>
                         </imageView>
                     </subviews>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstItem="ddh-JA-Leu" firstAttribute="centerY" secondItem="bQM-r1-evP" secondAttribute="centerY" id="EKa-hQ-C3d"/>
-                        <constraint firstItem="ddh-JA-Leu" firstAttribute="centerX" secondItem="bQM-r1-evP" secondAttribute="centerX" id="tHp-6L-hK5"/>
+                        <constraint firstItem="ddh-JA-Leu" firstAttribute="centerY" secondItem="bQM-r1-evP" secondAttribute="centerY" id="2Da-fT-4BC"/>
+                        <constraint firstItem="ddh-JA-Leu" firstAttribute="centerX" secondItem="bQM-r1-evP" secondAttribute="centerX" id="arr-eH-11u"/>
                     </constraints>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -41,10 +41,10 @@
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="bQM-r1-evP" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="M1H-92-dtY"/>
-                <constraint firstItem="bQM-r1-evP" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="YBS-DB-I55"/>
-                <constraint firstItem="bQM-r1-evP" firstAttribute="width" secondItem="vUN-kp-3ea" secondAttribute="width" multiplier="0.57971" id="ngQ-JS-xro"/>
-                <constraint firstItem="bQM-r1-evP" firstAttribute="height" secondItem="vUN-kp-3ea" secondAttribute="height" multiplier="2.24561" id="ud9-t0-H8o"/>
+                <constraint firstItem="bQM-r1-evP" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="4AG-ur-MkR"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="bQM-r1-evP" secondAttribute="trailing" id="Tv2-bb-tcN"/>
+                <constraint firstItem="bQM-r1-evP" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="egY-Og-nDo"/>
+                <constraint firstAttribute="bottom" secondItem="bQM-r1-evP" secondAttribute="bottom" id="mCs-eB-hEa"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="-146.37681159420291" y="82.700892857142847"/>

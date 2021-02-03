@@ -58,6 +58,7 @@ class StartViewController: UIViewController {
             ),
             direction: .bottom,
             uiConfiguration: PresentationUIConfiguration(),
+            tweakExpandableFrameCommands: [presentedVC.tweakCommand],
             dragIndicatorView: DragIndicatorView(frame: .zero),
             blockDismissOnPanGesture: false) { (containerViewFrame, presentStep) -> CGRect in
             
@@ -70,7 +71,7 @@ class StartViewController: UIViewController {
                 throw LiveUpdateError.undefinedExpandStep
             }
         }
-        
+        UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0)).bounds.minY
         PopoverManager.presentExpandableSlidePopover(vc: presentedVC, in: self, presentation: presentation)
     }
 }

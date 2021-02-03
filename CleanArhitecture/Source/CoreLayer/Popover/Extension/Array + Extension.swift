@@ -15,4 +15,11 @@ extension Array {
         }
         return self[idx]
     }
+    
+    subscript(guarded idx: UInt8) -> Element? {
+        guard (startIndex..<endIndex).contains(Int(idx)) else {
+            return nil
+        }
+        return self[Int(idx)]
+    }
 }

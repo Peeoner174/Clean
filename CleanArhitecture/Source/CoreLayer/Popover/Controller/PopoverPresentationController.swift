@@ -63,11 +63,18 @@ final class PopoverPresentationController: UIPresentationController {
     
     private lazy var popOverContainerView: PopoverContainerView = {
         let frame = containerView?.frame ?? .zero
-        let popoverContainerView = PopoverContainerView(
-            presentedView: presentedViewController.view,
-            frame: frame,
-            dragIndicatorView: dragIndicatorView
-        )
+        let popoverContainerView: PopoverContainerView = {
+            PopoverContainerViewBuilder()
+                .add(node: presentingViewController.view)
+                .add(optionalNode: dragIndicatorView)
+                .build(withFrame: containerView?.frame ?? .zero)
+        }()
+        
+//        let popoverContainerView = PopoverContainerView(
+//            presentedView: presentedViewController.view,
+//            frame: frame,
+//            dragIndicatorView: dragIndicatorView
+//        )
         return popoverContainerView
     }()
     
@@ -141,9 +148,9 @@ final class PopoverPresentationController: UIPresentationController {
         self.needTweak = true
        
         /* For popOverContainerView frame correct update */
-        if let presentationExpandableFrameProvider = self.presentation as? PresentationExpandableFrameProvider {
-            let currentExpandStep = presentationExpandableFrameProvider.expandablePopoverFrameMeta.currentExpandStep
-            if let frameCurrentExpandStep = presentationExpandableFrameProvider.expandablePopoverFrameMeta.expandSteps[guarded: Int(currentExpandStep)] {
+        if let frameProvider = self.presentation as? PresentationExpandableFrameProvider {
+            let currentExpandStep = frameProvider.expandablePopoverFrameMeta.currentExpandStep
+            if let frameCurrentExpandStep = try? frameProvider.frameOfExpandablePresentedViewClosure!(self.containerView!.frame, currentExpandStep) {
                 self.popOverContainerView.frame = frameCurrentExpandStep
             }
         }
@@ -174,11 +181,13 @@ extension PopoverPresentationController {
     }
     
     func configureViewLayout() {
-        if needTweak {
-            if let presentation = presentation as? PresentationExpandableFrameProvider {
-                presentedViewController.view.frame = try! presentation.frameOfExpandablePresentedViewClosure!(self.containerView!.frame, presentation.expandablePopoverFrameMeta.currentExpandStep)
+        if
+            let frameProvider = presentation as? PresentationExpandableFrameProvider,
+            let currentStepFrame = expandSteps[guarded: frameProvider.expandablePopoverFrameMeta.currentExpandStep] {
+            if needTweak {
+                presentedViewController.view.frame = currentStepFrame
             } else {
-                presentedViewController.view.frame = frameOfPresentedViewInContainerView
+                presentedView.frame = frameOfPresentedViewInContainerView
             }
         } else {
             presentedView.frame = frameOfPresentedViewInContainerView
@@ -212,7 +221,7 @@ extension PopoverPresentationController: PopoverPresentationControllerProtocol {
 extension PopoverPresentationController: PopoverFrameTweaker {
     
     func tweakFrame(currentFrame: CGRect, duration: Duration, direction: Direction) throws {
-        updateCurrentExpandSteps(currentFrame: currentFrame, direction: direction)
+        updateCurrentExpandStep(currentFrame: currentFrame, direction: direction)
         
         switch direction {
         case .bottom:
@@ -247,34 +256,36 @@ extension PopoverPresentationController: PopoverFrameTweaker {
         fatalError("Unimplemented")
     }
     
-    func updateCurrentExpandSteps(currentFrame: CGRect, direction: Direction) {
-        guard let presentation = presentation as? (PresentationExpandableFrameProvider & Presentation) else { return }
-        func getExpandStepsWithFramesDict() -> [CGRect] {
-            if !presentation.expandablePopoverFrameMeta.expandSteps.isEmpty { return presentation.expandablePopoverFrameMeta.expandSteps }
+    private var expandSteps: [CGRect] {
+        get {
+            guard let presentation = presentation as? (PresentationExpandableFrameProvider & Presentation) else { return [] }
+            var expandStepsFrame: [CGRect] = []
             do {
                 for stepNumber in 0... {
-                    let stepFrame = try presentation.frameOfExpandablePresentedViewClosure!(containerView!.frame, UInt8(stepNumber))
-                    presentation.expandablePopoverFrameMeta.expandSteps.append(stepFrame)
+                    let stepFrame = try presentation.frameOfExpandablePresentedViewClosure!(self.containerView!.frame, UInt8(stepNumber))
+                    expandStepsFrame.append(stepFrame)
                 }
-                return presentation.expandablePopoverFrameMeta.expandSteps
             } catch {
-                return presentation.expandablePopoverFrameMeta.expandSteps
+                return expandStepsFrame
             }
+            return expandStepsFrame
         }
-        
-        let expandsSteps = getExpandStepsWithFramesDict()
+    }
+    
+    private func updateCurrentExpandStep(currentFrame: CGRect, direction: Direction) {
+        guard let presentation = presentation as? (PresentationExpandableFrameProvider & Presentation) else { return }
         
         switch direction {
         case .top:
-            for stepNumber in stride(from: expandsSteps.count - 1, through: 1, by: -1) {
-                if currentFrame.height < presentation.expandablePopoverFrameMeta.expandSteps[stepNumber].height {
+            for stepNumber in stride(from: expandSteps.count - 1, through: 1, by: -1) {
+                if currentFrame.height < expandSteps[stepNumber].height {
                     continue
                 }
                 presentation.expandablePopoverFrameMeta.currentExpandStep = stepNumber - 1 >= 0 ? UInt8(stepNumber - 1) : UInt8(0)
             }
         case .bottom:
-            for stepNumber in 0...presentation.expandablePopoverFrameMeta.expandSteps.count - 1 {
-                if currentFrame.height > presentation.expandablePopoverFrameMeta.expandSteps[stepNumber].height {
+            for stepNumber in 0...expandSteps.count - 1 {
+                if currentFrame.height > expandSteps[stepNumber].height {
                     continue
                 }
                 presentation.expandablePopoverFrameMeta.currentExpandStep = UInt8(stepNumber)

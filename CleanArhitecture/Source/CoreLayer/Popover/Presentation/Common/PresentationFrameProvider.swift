@@ -27,17 +27,14 @@ typealias MakeExpandStepClosure = ((_ containerViewFrame: CGRect, _ expandStep: 
 
 struct ExpandablePopoverFrameMeta {
     var tweakExpandableFrameCommands: [TweakPopoverCommand]
-    var expandSteps: [CGRect] = []
     var currentExpandStep: UInt8 = 0
     var blockDismissOnPanGesture: Bool = true
     
     internal init(
-        expandSteps: [CGRect] = [],
         currentExpandStep: UInt8 = 0,
         blockDismissOnPanGesture: Bool = true,
         tweakExpandableFrameCommands: [TweakPopoverCommand] = []
     ) {
-        self.expandSteps = expandSteps
         self.currentExpandStep = currentExpandStep
         self.blockDismissOnPanGesture = blockDismissOnPanGesture
         self.tweakExpandableFrameCommands = tweakExpandableFrameCommands

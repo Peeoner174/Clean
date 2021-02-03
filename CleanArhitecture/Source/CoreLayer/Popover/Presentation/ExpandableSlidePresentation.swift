@@ -39,7 +39,6 @@ class ExpandableSlidePresentation: ExpandableSlidePresentationParamsProvider {
         self.dragIndicatorView = dragIndicatorView
         self.frameOfExpandablePresentedViewClosure = frameOfExpandablePresentedViewClosure
         self.expandablePopoverFrameMeta = ExpandablePopoverFrameMeta(
-            expandSteps: [],
             currentExpandStep: 0,
             blockDismissOnPanGesture: blockDismissOnPanGesture,
             tweakExpandableFrameCommands: tweakExpandableFrameCommands
