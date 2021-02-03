@@ -14,10 +14,12 @@ class PopoverContainerView: UIView {
         super.init(frame: frame)
         addSubview(presentedView)
         guard let dragIndicatorView = dragIndicatorView else { return }
+
         presentedView.addSubview(dragIndicatorView, constraints: [
-            equal(\.bottomAnchor, to: presentedView, \.topAnchor),
+            equal(\.bottomAnchor, to: presentedView, \.topAnchor, constant: 10),
             equal(\.leadingAnchor, to: presentedView),
-            equal(\.trailingAnchor, to: presentedView)
+            equal(\.trailingAnchor, to: presentedView),
+            equal(\.topAnchor, to: presentedView, \.topAnchor, constant: -24)
         ])
     }
     

@@ -36,10 +36,19 @@ class TripAdressesViewController: UIViewController {
         tableView.dropDelegate = self
         tableView.isScrollEnabled = false
     }
+    
+    deinit {
+        
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        dismiss(animated: false, completion: nil)
+    }
 }
 
 extension TripAdressesViewController: UITableViewDataSource {
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tableViewCellsModel.count
     }
