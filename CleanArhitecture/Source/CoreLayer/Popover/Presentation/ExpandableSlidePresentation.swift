@@ -57,6 +57,10 @@ class ExpandableSlidePresentation: ExpandableSlidePresentationParamsProvider {
         }
         fatalError()
     }
+    
+    deinit {
+        
+    }
 }
 
 extension ExpandableSlidePresentation: PresentationAnimatorProvider {

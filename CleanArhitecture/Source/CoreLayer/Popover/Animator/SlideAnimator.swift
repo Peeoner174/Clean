@@ -19,6 +19,10 @@ final class SlideAnimator: NSObject {
         self.presentation = presentation
         super.init()
     }
+    
+    deinit {
+        
+    }
 }
 
 extension SlideAnimator: UIViewControllerAnimatedTransitioning {
@@ -45,8 +49,9 @@ extension SlideAnimator: UIViewControllerAnimatedTransitioning {
             curve: presentation.presentationTiming.presentationCurve
         )
         
-        propertyAnimator.addAnimations { [weak self] in
-            guard let `self` = self else { return }
+        propertyAnimator.addAnimations { [weak self, weak transitionContext] in
+            guard let self = self,
+                  let transitionContext = transitionContext else { return }
             
             if self.transitionType == .dismissal {
                 viewToAnimate.frame = offsetFrame
@@ -55,11 +60,12 @@ extension SlideAnimator: UIViewControllerAnimatedTransitioning {
             }
         }
         
-        propertyAnimator.addCompletion { animatedPosition in
+        propertyAnimator.addCompletion { [weak transitionContext] animatedPosition in
+            guard let transitionContext = transitionContext else { return }
             transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
         
-        self.currentPropertyAnimator = propertyAnimator
+//        self.currentPropertyAnimator = propertyAnimator
         propertyAnimator.startAnimation()
     }
 }

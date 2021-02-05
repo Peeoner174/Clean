@@ -59,7 +59,7 @@ class StartViewController: UIViewController {
             direction: .bottom,
             uiConfiguration: PresentationUIConfiguration(),
             dragIndicatorView: DragIndicatorView(frame: .zero),
-            blockDismissOnPanGesture: false) { (containerViewFrame, presentStep) -> CGRect in
+            blockDismissOnPanGesture: false) { [unowned presentedVC] (containerViewFrame, presentStep) -> CGRect in
             
             switch presentStep {
             case 0:
@@ -89,16 +89,16 @@ extension UINavigationController {
         }
 
         coordinator.animate(alongsideTransition: nil) { context in
-            let command = RecursiveCheckExpressionCommand()
+//            let command = RecursiveCheckExpressionCommand()
             /* if isInteractive == true in animate completion => custom presentation style will not be work. Then pushVC completion should be executed after coordinator dealloc */
             if context.isInteractive {
-                command.execute(onExpressionIsTrue: { [weak self] in
-                    guard let _ = self?.transitionCoordinator else {
-                        return true
-                    }
-                    return false
-                },
-                checkedDelayStep: 0.1, completion)
+//                command.execute(onExpressionIsTrue: { [weak self] in
+//                    guard let _ = self?.transitionCoordinator else {
+//                        return true
+//                    }
+//                    return false
+//                },
+//                checkedDelayStep: 0.1, completion)
             } else {
                 completion()
             }

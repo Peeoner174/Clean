@@ -11,11 +11,16 @@ import UIKit
 class TripAdressesViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
-    private var tableViewCellsModel = (1...5)
-        .map { AddressModel(address: "Тернопольская 6, кв. \($0)", number: $0) } {
-        didSet {
-            self.tableView.reloadData()
-        }
+    private var tableViewCellsModel = [AddressModel]()
+//    (1...5)
+//        .map { AddressModel(address: "Тернопольская 6, кв. \($0)", number: $0) } {
+//        didSet {
+//            self.tableView.reloadData()
+//        }
+//    }
+    override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+        super.dismiss(animated: flag, completion: completion)
+        
     }
     
     var tableViewHeight: CGFloat {
@@ -30,6 +35,15 @@ class TripAdressesViewController: UIViewController {
         setupViews()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+            guard let self = self else { return }
+            self.dismiss(animated: true)
+        }
+    }
+    
     func setupViews() {
         tableView.dragInteractionEnabled = true
         tableView.dragDelegate = self
@@ -42,8 +56,12 @@ class TripAdressesViewController: UIViewController {
     }
     
     override func viewDidDisappear(_ animated: Bool) {
+        self.transitioningDelegate = nil
         super.viewDidDisappear(animated)
-        dismiss(animated: false, completion: nil)
+        
+        
+        
+//        dismiss(animated: false, completion: nil)
     }
 }
 

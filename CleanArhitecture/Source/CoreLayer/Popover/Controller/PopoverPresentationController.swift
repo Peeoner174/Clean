@@ -34,13 +34,13 @@ final class PopoverPresentationController: UIPresentationController {
         switch self.presentation.presentationUIConfiguration.backgroundStyle {
         case .dimmed(maxAlpha: let maxDimAlpha, minAlpha: let minDimAlpha):
             var dimmedView = DimmedView(maxDimAlpha: maxDimAlpha, minDimAlpha: minDimAlpha)
-            self.changeBackgroundViewIntensity = { fullExpandPercent in
+            self.changeBackgroundViewIntensity = { [unowned self] fullExpandPercent in
                 dimmedView.updateIntensity(percent: fullExpandPercent * (maxDimAlpha - minDimAlpha) + minDimAlpha)
             }
             view = dimmedView
         case .blurred(effectStyle: let effectStyle, maxAlpha: let maxAlpha, minAlpha: let minAlpha):
             var blurredView = BluredView(effectStyle: effectStyle, maxAlpha: maxAlpha, minAlpha: minAlpha)
-            self.changeBackgroundViewIntensity = { fullExpandPercent in
+            self.changeBackgroundViewIntensity = { [unowned self] fullExpandPercent in
                 blurredView.updateIntensity(percent: fullExpandPercent * (maxAlpha - minAlpha) + minAlpha)
             }
             view = blurredView
@@ -48,11 +48,11 @@ final class PopoverPresentationController: UIPresentationController {
             view = PassthroughBackgroundView(shouldPassthrough: shouldPassthrough, presentingVC: presentingViewController)
         }
         
-        view.didTap = { [weak self] _ in
-            guard self?.presentation.presentationUIConfiguration.isTapBackgroundToDismissEnabled ?? false else {
+        view.didTap = { [unowned self] _ in
+            guard self.presentation.presentationUIConfiguration.isTapBackgroundToDismissEnabled else {
                 return
             }
-            self?.didTapBackgroundView?()
+            self.didTapBackgroundView?()
         }
         
         return view
@@ -99,6 +99,8 @@ final class PopoverPresentationController: UIPresentationController {
     }
     
     override func presentationTransitionWillBegin() {
+        super.presentationTransitionWillBegin()
+        
         guard let containerView = containerView else { return }
         
         layoutBackgroundView(in: containerView)
@@ -119,6 +121,8 @@ final class PopoverPresentationController: UIPresentationController {
     }
     
     override func dismissalTransitionWillBegin() {
+        super.dismissalTransitionWillBegin()
+        
         guard let coordinator = presentedViewController.transitionCoordinator else {
             return
         }
@@ -128,6 +132,7 @@ final class PopoverPresentationController: UIPresentationController {
             self?.presentedViewController.setNeedsStatusBarAppearanceUpdate()
         }, completion: { [weak self] _ in
             self?.popOverPresentationDelegate?.didDismiss?()
+            
         })
     }
     

@@ -40,7 +40,8 @@ class SlideInteractionController: UIPercentDrivenInteractiveTransition {
         let containerView = transitionContext.containerView
         containerView.addGestureRecognizer(panGestureRecognizer)
         
-        presentationController?.didTapBackgroundView = {
+        presentationController?.didTapBackgroundView = { [weak self] in
+            guard let self = self else { return }
             self.presentedViewController?.dismiss(animated: true, completion: nil)
         }
     }

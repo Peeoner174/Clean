@@ -14,7 +14,7 @@ class RootWireframe {
         let vc = type.self.instantiate()
         let navigationController = UINavigationController(rootViewController: vc)
         
-        window.rootViewController = navigationController
+        window.rootViewController = vc
         window.makeKeyAndVisible()
     }
     
