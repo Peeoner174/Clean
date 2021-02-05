@@ -52,7 +52,13 @@ extension PopoverPresentationDelegateImpl: PopoverPresentationDelegate {
     }
     
     func didDismiss() {
-        dismissCompletion?()
+        
+        presentedViewController.dismiss(animated: false, completion: { [unowned self] in
+            self.presentedViewController.removeFromParent()
+            self.presentedViewController.presentingViewController?.dismiss(animated: false, completion: nil)
+        } )
+//        presentation = nil
+//        dismissCompletion?()
     }
     
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
@@ -74,4 +80,22 @@ extension PopoverPresentationDelegateImpl: PopoverPresentationDelegate {
     func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
         return dismissInteractionController
     }
+}
+
+extension NSObjectProtocol {
+  /// Same as retain(), which the compiler no longer lets us call:
+  @discardableResult
+  func retainMe() -> Self {
+    _ = Unmanaged.passRetained(self)
+    return self
+  }
+
+  /// Same as autorelease(), which the compiler no longer lets us call.
+  ///
+  /// This function does an autorelease() rather than release() to give you more flexibility.
+  @discardableResult
+  func releaseMe() -> Self {
+    _ = Unmanaged.passUnretained(self).autorelease()
+    return self
+  }
 }

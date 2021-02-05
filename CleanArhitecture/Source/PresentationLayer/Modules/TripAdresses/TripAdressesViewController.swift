@@ -56,10 +56,14 @@ class TripAdressesViewController: UIViewController {
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        self.transitioningDelegate = nil
+   //     self.transitioningDelegate = nil
         super.viewDidDisappear(animated)
+        presentedViewController?.dismiss(animated: false, completion: nil)
+        presentationController?.dismissalTransitionDidEnd(true)
+        presentingViewController?.dismiss(animated: false, completion: nil)
+        dismiss(animated: false, completion: nil)
         
-        
+      
         
 //        dismiss(animated: false, completion: nil)
     }

@@ -73,6 +73,14 @@ class StartViewController: UIViewController {
         
         PopoverManager.presentExpandableSlidePopover(vc: presentedVC, in: self, presentation: presentation)
     }
+    
+
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+//        self.presentedViewController
+    }
 }
 
 extension UINavigationController {

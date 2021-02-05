@@ -11,7 +11,7 @@ import UIKit
 
 final class SlideAnimator: NSObject {
     private let transitionType: TransitionType
-    private let presentation: SlidePresentation
+    weak private var presentation: SlidePresentation!
     private var currentPropertyAnimator: UIViewPropertyAnimator?
     
     init(transitionType: TransitionType, presentation: SlidePresentation) {

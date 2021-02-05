@@ -10,7 +10,7 @@ import UIKit
 
 final class ExpandableSlideAnimator: NSObject {
     private let transitionType: TransitionType
-    private let presentation: ExpandableSlidePresentation
+    weak private var presentation: ExpandableSlidePresentation!
     private var currentPropertyAnimator: UIViewPropertyAnimator?
     
     init(transitionType: TransitionType, presentation: ExpandableSlidePresentation) {

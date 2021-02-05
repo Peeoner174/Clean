@@ -10,8 +10,14 @@ import UIKit
 
 class PopoverContainerView: UIView {
     
+    weak var presentedView: UIView?
+    weak var dragindicatorView: UIView?
+    
     init(presentedView: UIView, frame: CGRect, dragIndicatorView: UIView? = nil) {
         super.init(frame: frame)
+        self.presentedView = presentedView
+        self.dragindicatorView = dragIndicatorView
+        
         addSubview(presentedView)
         guard let dragIndicatorView = dragIndicatorView else { return }
 

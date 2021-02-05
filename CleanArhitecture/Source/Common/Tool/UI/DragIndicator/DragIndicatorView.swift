@@ -9,4 +9,17 @@
 import UIKit
 
 class DragIndicatorView: XibView {
+    override class func awakeFromNib() {
+        super.awakeFromNib()
+        
+    }
+    
+    override func willMove(toSuperview newSuperview: UIView?) {
+        super.willMove(toSuperview: newSuperview)
+        
+    }
+    
+    deinit {
+        
+    }
 }

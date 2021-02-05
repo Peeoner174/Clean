@@ -22,7 +22,7 @@ class ExpandableSlidePresentation: ExpandableSlidePresentationParamsProvider {
     var presentationUIConfiguration: PresentationUIConfiguration
     var showDirection: Direction
     var presentationTiming: PresentationTiming
-    var dragIndicatorView: UIView?
+    weak var dragIndicatorView: UIView?
     
     init(
         timing: PresentationTiming = PresentationTiming(),
