@@ -31,7 +31,8 @@ class EmployeeListViewController: UITableViewController, EmployeeListViewInput, 
     
     weak var scrollViewObserver: PopoverViewControllerScrollViewObserver?
     var expandingScrollView: UIScrollView {
-        tableView
+        UITableView()
+//        tableView
     }
     
     deinit {

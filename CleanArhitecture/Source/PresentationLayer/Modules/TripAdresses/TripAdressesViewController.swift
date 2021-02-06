@@ -11,13 +11,12 @@ import UIKit
 class TripAdressesViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
-    private var tableViewCellsModel = [AddressModel]()
-//    (1...5)
-//        .map { AddressModel(address: "Тернопольская 6, кв. \($0)", number: $0) } {
-//        didSet {
-//            self.tableView.reloadData()
-//        }
-//    }
+    private var tableViewCellsModel = (1...5)
+        .map { AddressModel(address: "Тернопольская 6, кв. \($0)", number: $0) } {
+        didSet {
+            self.tableView.reloadData()
+        }
+    }
     override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
         super.dismiss(animated: flag, completion: completion)
         
@@ -58,11 +57,12 @@ class TripAdressesViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
    //     self.transitioningDelegate = nil
         super.viewDidDisappear(animated)
-        presentedViewController?.dismiss(animated: false, completion: nil)
-        presentationController?.dismissalTransitionDidEnd(true)
-        presentingViewController?.dismiss(animated: false, completion: nil)
-        dismiss(animated: false, completion: nil)
-        
+//        presentedViewController?.dismiss(animated: false, completion: nil)
+//        presentationController?.dismissalTransitionDidEnd(true)
+//        presentingViewController?.dismiss(animated: false, completion: nil)
+//        dismiss(animated: false, completion: nil)
+//        presentingViewController.dismissV
+//
       
         
 //        dismiss(animated: false, completion: nil)

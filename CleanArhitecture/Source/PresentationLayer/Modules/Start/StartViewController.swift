@@ -63,7 +63,8 @@ class StartViewController: UIViewController {
             
             switch presentStep {
             case 0:
-                return CGRect(x: 0.0, y: containerViewFrame.height - presentedVC.tableViewHeight, width: containerViewFrame.width, height: presentedVC.tableViewHeight)
+                return CGRect(x: 0, y: 0, width: 0, height: 0)
+//                return CGRect(x: 0.0, y: containerViewFrame.height - presentedVC.tableViewHeight, width: containerViewFrame.width, height: presentedVC.tableViewHeight)
             case 1...:
                 throw LiveUpdateError.reachedExpandMaximum
             default:
