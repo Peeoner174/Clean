@@ -34,13 +34,13 @@ final class PopoverPresentationController: UIPresentationController {
         switch self.presentation.presentationUIConfiguration.backgroundStyle {
         case .dimmed(maxAlpha: let maxDimAlpha, minAlpha: let minDimAlpha):
             var dimmedView = DimmedView(maxDimAlpha: maxDimAlpha, minDimAlpha: minDimAlpha)
-            self.changeBackgroundViewIntensity = { fullExpandPercent in
+            self.changeBackgroundViewIntensity = { [unowned self] fullExpandPercent in
                 dimmedView.updateIntensity(percent: fullExpandPercent * (maxDimAlpha - minDimAlpha) + minDimAlpha)
             }
             view = dimmedView
         case .blurred(effectStyle: let effectStyle, maxAlpha: let maxAlpha, minAlpha: let minAlpha):
             var blurredView = BluredView(effectStyle: effectStyle, maxAlpha: maxAlpha, minAlpha: minAlpha)
-            self.changeBackgroundViewIntensity = { fullExpandPercent in
+            self.changeBackgroundViewIntensity = { [unowned self] fullExpandPercent in
                 blurredView.updateIntensity(percent: fullExpandPercent * (maxAlpha - minAlpha) + minAlpha)
             }
             view = blurredView
